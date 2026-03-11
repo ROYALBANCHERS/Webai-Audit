@@ -7,647 +7,854 @@
     <meta name="description" content="Analyze websites for SEO, performance, tech stack, and more. Free website auditor tool.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Google AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Custom white theme styles */
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-        .pricing-card { transition: all 0.3s ease; }
-        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
-        .pricing-card.popular { border: 2px solid #8b5cf6; position: relative; }
-        .blog-card { transition: all 0.3s ease; }
-        .blog-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
-        .nav-link { position: relative; }
-        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #8b5cf6; transition: width 0.3s; }
-        .nav-link:hover::after { width: 100%; }
+        * { font-family: 'Inter', sans-serif; }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .gradient-border {
+            position: relative;
+            background: white;
+            border-radius: 16px;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 18px;
+            z-index: -1;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark .glass {
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .pricing-popular {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            transform: scale(1.05);
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: particleFloat 15s infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+        }
+
+        .typing-cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 200% 100%;
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .dark .nav-blur {
+            background: rgba(17, 24, 39, 0.9);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .blog-card-gradient {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+        }
+
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen">
+<body class="bg-gray-50 text-gray-800 overflow-x-hidden">
     <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+    <nav class="nav-blur fixed w-full z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center space-x-3">
-                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
-                            <i class="fas fa-globe text-white text-lg"></i>
-                        </div>
-                        <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
-                    </a>
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center shadow-lg pulse-glow">
+                        <i class="fas fa-globe text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">WebAI Auditor</span>
                 </div>
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900 transition">Home</a>
-                    <a href="#features" class="nav-link text-gray-600 hover:text-gray-900 transition">Features</a>
-                    <a href="tools.html" class="nav-link text-gray-600 hover:text-gray-900 transition">Tools</a>
-                    <a href="blog.html" class="nav-link text-gray-600 hover:text-gray-900 transition">Blog</a>
-                    <a href="dashboard.html" class="nav-link text-gray-600 hover:text-gray-900 transition">Dashboard</a>
-                    <a href="create-tool.html" class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg font-medium text-sm hover:bg-blue-50 transition">
-                        <i class="fas fa-plus mr-1"></i> Create Tool
-                    </a>
+
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-gray-900 font-medium transition">Home</a>
+                    <a href="#features" class="text-gray-600 hover:text-gray-900 font-medium transition">Features</a>
+                    <a href="#tools" class="text-gray-600 hover:text-gray-900 font-medium transition">Tools</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-gray-900 font-medium transition">Pricing</a>
+                    <a href="blog.html" class="text-gray-600 hover:text-gray-900 font-medium transition">Blog</a>
                 </div>
-                <button id="mobileMenuBtn" class="md:hidden p-2">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-moon text-gray-600"></i>
+                    </button>
+                    <a href="#analyze" class="hidden sm:block gradient-bg text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition btn-shine">
+                        Start Free Audit
+                    </a>
+                    <button id="mobileMenuBtn" class="lg:hidden p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
+
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200 py-4">
-            <div class="px-4 space-y-3">
-                <a href="index.html" class="block py-2 text-gray-600 hover:text-gray-900">Home</a>
-                <a href="#features" class="block py-2 text-gray-600 hover:text-gray-900">Features</a>
-                <a href="#pricing" class="block py-2 text-gray-600 hover:text-gray-900">Pricing</a>
-                <a href="blog.html" class="block py-2 text-gray-600 hover:text-gray-900">Blog</a>
-                <a href="pricing.html" class="block py-2 text-blue-600 font-medium">Get Started</a>
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#home" class="block py-3 text-gray-700 font-medium">Home</a>
+                <a href="#features" class="block py-3 text-gray-700 font-medium">Features</a>
+                <a href="#tools" class="block py-3 text-gray-700 font-medium">Tools</a>
+                <a href="#pricing" class="block py-3 text-gray-700 font-medium">Pricing</a>
+                <a href="blog.html" class="block py-3 text-gray-700 font-medium">Blog</a>
+                <a href="#analyze" class="block py-3 gradient-bg text-white text-center rounded-xl font-semibold">Start Free Audit</a>
             </div>
         </div>
     </nav>
 
-    <!-- Google AdSense Header Ad Space -->
-    <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="bg-gray-100 rounded-lg flex items-center justify-center min-h-[90px]">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-        </div>
-    </div>
-
     <!-- Hero Section -->
-    <section class="relative overflow-hidden py-20 lg:py-32">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50"></div>
-        <div class="absolute top-20 right-20 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div class="absolute top-40 left-20 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 hero-gradient"></div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Particles -->
+        <div class="particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+            <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+            <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 4.5s;"></div>
+        </div>
+
+        <!-- Floating Shapes -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl float-animation"></div>
+        <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl float-animation" style="animation-delay: 2s;"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                    <span class="gradient-text">Analyze Any Website</span>
+                <!-- Badge -->
+                <div class="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full mb-8">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                    <span class="text-white text-sm font-medium">Trusted by 50,000+ websites worldwide</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
+                    Analyze Any Website<br>
+                    <span class="relative">
+                        In Seconds
+                        <svg class="absolute -bottom-2 left-0 w-full" height="12" viewBox="0 0 300 12" fill="none">
+                            <path d="M2 10C50 2 150 2 298 10" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </span>
                 </h1>
-                <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                    Get comprehensive insights about SEO, performance, tech stack, competitors, and more.
-                    <span class="text-green-600 font-semibold">100% Free - No Limits!</span>
+
+                <p class="text-xl md:text-2xl text-white/80 mb-10 max-w-3xl mx-auto">
+                    Get comprehensive insights about SEO, performance, tech stack, security, competitors and more.
+                    <span class="font-semibold text-yellow-300">100% Free - No Sign-up Required!</span>
                 </p>
 
                 <!-- URL Input Form -->
-                <div class="max-w-2xl mx-auto">
-                    <form id="auditForm" class="flex flex-col sm:flex-row gap-4">
-                        <div class="flex-1 relative">
-                            <i class="fas fa-link absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                type="url"
-                                id="urlInput"
-                                placeholder="Enter website URL (e.g., https://example.com)"
-                                class="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-400 shadow-lg"
-                                required
-                            >
-                        </div>
-                        <button
-                            type="submit"
-                            id="submitBtn"
-                            class="px-8 py-4 gradient-bg text-white rounded-xl font-semibold hover:opacity-90 transition flex items-center justify-center space-x-2 shadow-lg"
-                        >
-                            <i class="fas fa-search"></i>
-                            <span>Analyze Website</span>
-                        </button>
-                    </form>
+                <div class="max-w-3xl mx-auto">
+                    <div class="gradient-border p-2 rounded-2xl">
+                        <form id="auditForm" class="flex flex-col sm:flex-row gap-3">
+                            <div class="flex-1 relative">
+                                <i class="fas fa-link absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                                <input
+                                    type="url"
+                                    id="urlInput"
+                                    placeholder="Enter your website URL..."
+                                    class="w-full pl-14 pr-6 py-5 bg-gray-50 rounded-xl text-lg focus:outline-none input-glow transition"
+                                    required
+                                >
+                            </div>
+                            <button type="submit" class="gradient-bg text-white px-10 py-5 rounded-xl font-bold text-lg shadow-2xl hover:shadow-3xl transition btn-shine flex items-center justify-center">
+                                <i class="fas fa-search mr-3"></i>
+                                Analyze Now
+                            </button>
+                        </form>
+                    </div>
 
-                    <!-- Options Toggle -->
-                    <div class="mt-4 text-left">
-                        <button id="optionsToggle" class="text-gray-500 hover:text-gray-700 text-sm flex items-center space-x-2">
-                            <i class="fas fa-cog"></i>
-                            <span>Options</span>
-                            <i class="fas fa-chevron-down transition" id="optionsChevron"></i>
-                        </button>
-                        <div id="optionsPanel" class="hidden mt-4 p-4 bg-white rounded-xl border border-gray-200 shadow-lg">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" id="optSeo" checked class="w-4 h-4 rounded text-blue-500 focus:ring-blue-500">
-                                    <span class="text-gray-700">SEO Analysis</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" id="optTechStack" checked class="w-4 h-4 rounded text-blue-500 focus:ring-blue-500">
-                                    <span class="text-gray-700">Tech Stack Detection</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" id="optCompetitors" checked class="w-4 h-4 rounded text-blue-500 focus:ring-blue-500">
-                                    <span class="text-gray-700">Competitor Analysis</span>
-                                </label>
-                                <div class="flex items-center space-x-3">
-                                    <label class="text-gray-700">Max Pages:</label>
-                                    <select id="optMaxPages" class="bg-gray-50 border border-gray-300 rounded px-3 py-1 text-gray-800">
-                                        <option value="10">10 pages</option>
-                                        <option value="20" selected>20 pages</option>
-                                        <option value="50">50 pages</option>
-                                        <option value="100">100 pages</option>
-                                        <option value="unlimited">Unlimited</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                <p class="text-sm text-blue-700">
-                                    <i class="fas fa-info-circle mr-2"></i>
-                                    <span id="creditsInfo">Loading subscription info...</span>
-                                </p>
-                            </div>
-                        </div>
+                    <!-- Quick URL Examples -->
+                    <div class="mt-6 flex flex-wrap items-center justify-center gap-3 text-white/70 text-sm">
+                        <span>Try:</span>
+                        <a href="#" class="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">google.com</a>
+                        <a href="#" class="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">amazon.com</a>
+                        <a href="#" class="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">apple.com</a>
+                        <a href="#" class="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">microsoft.com</a>
                     </div>
                 </div>
 
-                <!-- Quick Stats -->
-                <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Stats -->
+                <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div class="text-center">
-                        <div class="text-4xl font-bold gradient-text">10+</div>
-                        <div class="text-gray-500 mt-1">Free Pages</div>
+                        <div class="text-4xl md:text-5xl font-black text-white counter" data-target="1000000">0</div>
+                        <div class="text-white/70 text-sm mt-1">Websites Analyzed</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-4xl font-bold gradient-text">50+</div>
-                        <div class="text-gray-500 mt-1">Tech Detected</div>
+                        <div class="text-4xl md:text-5xl font-black text-white counter" data-target="150">0</div>
+                        <div class="text-white/70 text-sm mt-1">Countries</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-4xl font-bold gradient-text">100%</div>
-                        <div class="text-gray-500 mt-1">SEO Checks</div>
+                        <div class="text-4xl md:text-5xl font-black text-white counter" data-target="98">0</div>
+                        <div class="text-white/70 text-sm mt-1">% Accuracy</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-4xl font-bold gradient-text">3s</div>
-                        <div class="text-gray-500 mt-1">Avg Analysis</div>
+                        <div class="text-4xl md:text-5xl font-black text-white counter" data-target="50000">0</div>
+                        <div class="text-white/70 text-sm mt-1">Happy Users</div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Progress Section -->
-    <section id="progressSection" class="hidden py-12">
-        <div class="max-w-3xl mx-auto px-4">
-            <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-xl">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Analyzing Website...</h3>
-                    <span id="progressPercent" class="text-blue-600 font-bold">0%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
-                    <div id="progressBar" class="gradient-bg h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
-                </div>
-                <p id="progressStatus" class="text-gray-500">Initializing crawler...</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results Section -->
-    <section id="resultsSection" class="hidden py-12">
-        <div class="max-w-7xl mx-auto px-4">
-            <!-- Overall Score -->
-            <div class="bg-white rounded-2xl p-8 mb-8 border border-gray-200 shadow-xl">
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-2 text-gray-800">Analysis Complete</h2>
-                        <p class="text-gray-500" id="analyzedUrl">URL</p>
-                    </div>
-                    <div class="mt-4 md:mt-0 flex items-center space-x-8">
-                        <div class="text-center">
-                            <div id="overallScore" class="text-5xl font-bold gradient-text">0</div>
-                            <div class="text-gray-500 text-sm">Overall Score</div>
-                        </div>
-                        <div class="text-center">
-                            <div id="seoScore" class="text-3xl font-bold text-blue-600">0</div>
-                            <div class="text-gray-500 text-sm">SEO Score</div>
-                        </div>
-                        <div class="text-center">
-                            <div id="pagesCount" class="text-3xl font-bold text-purple-600">0</div>
-                            <div class="text-gray-500 text-sm">Pages</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tabs -->
-            <div class="flex flex-wrap gap-2 mb-8 bg-white rounded-xl p-2 border border-gray-200">
-                <button class="tab-btn active px-6 py-3 rounded-lg font-medium transition" data-tab="overview">
-                    <i class="fas fa-chart-line mr-2"></i>Overview
-                </button>
-                <button class="tab-btn px-6 py-3 rounded-lg font-medium transition" data-tab="techstack">
-                    <i class="fas fa-code mr-2"></i>Tech Stack
-                </button>
-                <button class="tab-btn px-6 py-3 rounded-lg font-medium transition" data-tab="issues">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>Issues
-                </button>
-                <button class="tab-btn px-6 py-3 rounded-lg font-medium transition" data-tab="seo">
-                    <i class="fas fa-search-dollar mr-2"></i>SEO
-                </button>
-            </div>
-
-            <!-- Tab Content -->
-            <div id="tabContent">
-                <div id="tab-overview" class="tab-panel">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow">
-                            <h3 class="text-lg font-semibold mb-4"><i class="fas fa-tachometer-alt mr-2 text-blue-500"></i>Performance</h3>
-                            <div class="space-y-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">Load Time</span>
-                                    <span id="loadTime" class="font-semibold">-</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">Page Size</span>
-                                    <span id="pageSize" class="font-semibold">-</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow">
-                            <h3 class="text-lg font-semibold mb-4"><i class="fas fa-chart-bar mr-2 text-purple-500"></i>Quick Stats</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="text-center p-3 bg-gray-50 rounded-lg">
-                                    <div id="techCount" class="text-2xl font-bold text-blue-600">0</div>
-                                    <div class="text-xs text-gray-500">Technologies</div>
-                                </div>
-                                <div class="text-center p-3 bg-gray-50 rounded-lg">
-                                    <div id="issuesCount" class="text-2xl font-bold text-red-500">0</div>
-                                    <div class="text-xs text-gray-500">Issues</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tech Stack Preview -->
-                    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow mt-6">
-                        <h3 class="text-lg font-semibold mb-4"><i class="fas fa-layer-group mr-2 text-green-500"></i>Detected Technologies</h3>
-                        <div id="techStackPreview" class="flex flex-wrap gap-2">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-techstack" class="tab-panel hidden">
-                    <div id="techStackGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <div id="tab-issues" class="tab-panel hidden">
-                    <div id="issuesList" class="space-y-4">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <div id="tab-seo" class="tab-panel hidden">
-                    <div id="seoChecks" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 scroll-indicator">
+            <a href="#features" class="text-white/70 hover:text-white">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
+    <section id="features" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">Powerful Features</span>
+                <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold mb-4">POWERFUL FEATURES</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    Everything You Need to<br><span class="gradient-text">Optimize Your Website</span>
                 </h2>
-                <p class="text-gray-500 max-w-2xl mx-auto">
-                    Everything you need to analyze and optimize websites
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Comprehensive analysis tools to improve your website's performance, SEO, and user experience.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gray-50 rounded-2xl p-8 text-center">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="feature-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                         <i class="fas fa-search text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">SEO Analysis</h3>
-                    <p class="text-gray-500">Comprehensive SEO checks including meta tags, headings, images, and more.</p>
+                    <h3 class="text-xl font-bold mb-3">SEO Analysis</h3>
+                    <p class="text-gray-600">Complete on-page SEO audit including meta tags, headings, content analysis, and keyword optimization recommendations.</p>
                 </div>
 
-                <div class="bg-gray-50 rounded-2xl p-8 text-center">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <!-- Feature 2 -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="feature-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-tachometer-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Performance Check</h3>
+                    <p class="text-gray-600">Page speed analysis with Core Web Vitals, load time, and actionable optimization suggestions.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="feature-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                         <i class="fas fa-code text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Tech Stack Detection</h3>
-                    <p class="text-gray-500">Identify frameworks, libraries, CMS, analytics tools, and more.</p>
+                    <h3 class="text-xl font-bold mb-3">Tech Stack Detection</h3>
+                    <p class="text-gray-600">Identify frameworks, libraries, analytics tools, and server technologies used by any website.</p>
                 </div>
 
-                <div class="bg-gray-50 rounded-2xl p-8 text-center">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <!-- Feature 4 -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="feature-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Security Audit</h3>
+                    <p class="text-gray-600">SSL certificate check, HTTPS verification, security headers analysis, and vulnerability scanning.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="feature-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                         <i class="fas fa-users text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Competitor Analysis</h3>
-                    <p class="text-gray-500">Find and analyze competitor websites (Pro plan and above).</p>
+                    <h3 class="text-xl font-bold mb-3">Competitor Analysis</h3>
+                    <p class="text-gray-600">Discover competitor strategies, backlinks, top keywords, and opportunities to outperform them.</p>
                 </div>
 
-                <div class="bg-gray-50 rounded-2xl p-8 text-center">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-file-alt text-white text-2xl"></i>
+                <!-- Feature 6 -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="feature-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-alt text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Multi-Page Crawling</h3>
-                    <p class="text-gray-500">Analyze entire websites with unlimited page depth.</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-2xl p-8 text-center">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Issue Detection</h3>
-                    <p class="text-gray-500">Find broken links, missing alt tags, and other issues.</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-2xl p-8 text-center">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-download text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Export Reports</h3>
-                    <p class="text-gray-500">Download detailed reports in PDF, CSV, or JSON format.</p>
+                    <h3 class="text-xl font-bold mb-3">Mobile Optimization</h3>
+                    <p class="text-gray-600">Mobile-friendliness test, responsive design analysis, and mobile user experience evaluation.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Tool Marketplace CTA Section -->
-    <section id="tools" class="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div class="max-w-7xl mx-auto px-4">
+    <!-- Tools Section -->
+    <section id="tools" class="py-24 bg-gradient-to-br from-gray-50 to-indigo-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <span class="px-4 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">NEW</span>
-                <h2 class="text-3xl md:text-4xl font-bold mt-4 mb-4">
-                    <span class="gradient-text">Create & Share Your Own Tools</span>
+                <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4">FREE TOOLS</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    Professional SEO Tools<br><span class="gradient-text">Completely Free</span>
                 </h2>
-                <p class="text-gray-500 max-w-2xl mx-auto">
-                    Build custom analysis tools with our visual builder or JavaScript. Share with the community!
-                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="text-center p-8">
-                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-wrench text-white text-3xl"></i>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <a href="tools/seo-analyzer.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-chart-line text-white text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Visual Tool Builder</h3>
-                    <p class="text-gray-600">Create tools without coding using our drag-and-drop builder.</p>
-                </div>
-                <div class="text-center p-8">
-                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-code text-white text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">JavaScript Support</h3>
-                    <p class="text-gray-600">Write custom code for advanced tool functionality.</p>
-                </div>
-                <div class="text-center p-8">
-                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-store text-white text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Community Marketplace</h3>
-                    <p class="text-gray-600">Browse and use tools created by other users.</p>
-                </div>
-            </div>
-
-            <div class="text-center">
-                <a href="create-tool.html" class="inline-flex items-center px-8 py-4 gradient-bg text-white rounded-lg font-semibold hover:opacity-90 transition">
-                    <i class="fas fa-plus mr-2"></i> Create Your Tool
+                    <h3 class="font-bold mb-2">SEO Analyzer</h3>
+                    <p class="text-sm text-gray-600">Complete SEO audit</p>
                 </a>
-                <a href="tools.html" class="inline-flex items-center px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition ml-4">
-                    Browse Tools
+
+                <a href="tools/speed-test.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-bolt text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Speed Test</h3>
+                    <p class="text-sm text-gray-600">Page speed analysis</p>
+                </a>
+
+                <a href="tools/backlink-checker.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-link text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Backlink Checker</h3>
+                    <p class="text-sm text-gray-600">Analyze backlinks</p>
+                </a>
+
+                <a href="tools/keyword-research.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-key text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Keyword Research</h3>
+                    <p class="text-sm text-gray-600">Find profitable keywords</p>
+                </a>
+
+                <a href="tools/tech-stack.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-layer-group text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Tech Stack</h3>
+                    <p class="text-sm text-gray-600">Detect technologies</p>
+                </a>
+
+                <a href="tools/competitor-spy.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-binoculars text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Competitor Spy</h3>
+                    <p class="text-sm text-gray-600">Spy on competitors</p>
+                </a>
+
+                <a href="tools/ssl-checker.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-teal-500 to-green-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-lock text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">SSL Checker</h3>
+                    <p class="text-sm text-gray-600">Verify SSL certificate</p>
+                </a>
+
+                <a href="tools/meta-tag-analyzer.html" class="card-hover bg-white p-6 rounded-2xl shadow-lg text-center group">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fas fa-tags text-white text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Meta Tag Analyzer</h3>
+                    <p class="text-sm text-gray-600">Analyze meta tags</p>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Google AdSense In-Article Ad Space -->
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="bg-gray-100 rounded-lg flex items-center justify-center min-h-[250px] my-8">
-            <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins>
-        </div>
-    </div>
-
-    <!-- Blog Preview Section -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">Latest from Our Blog</span>
+                <span class="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4">PRICING</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    Choose Your Perfect Plan
                 </h2>
-                <p class="text-gray-500">Tips, tutorials, and industry insights</p>
+                <p class="text-xl text-gray-600">All plans include a 14-day free trial. No credit card required.</p>
             </div>
 
-            <div id="blogPreview" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Blog cards will be loaded dynamically -->
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Free Plan -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
+                    <div class="text-center mb-8">
+                        <h3 class="text-xl font-bold mb-2">Free</h3>
+                        <div class="text-4xl font-black">$0</div>
+                        <div class="text-gray-500">forever</div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>5 audits per day</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Basic SEO analysis</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Page speed check</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Tech stack detection</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-times mr-3"></i>Competitor analysis</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-times mr-3"></i>API access</li>
+                    </ul>
+                    <a href="#" class="block text-center py-3 border-2 border-indigo-600 text-indigo-600 rounded-xl font-semibold hover:bg-indigo-50 transition">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="card-hover pricing-popular p-8 rounded-2xl shadow-2xl relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-yellow-400 text-yellow-900 rounded-full text-sm font-bold">
+                        MOST POPULAR
+                    </div>
+                    <div class="text-center mb-8 text-white">
+                        <h3 class="text-xl font-bold mb-2">Pro</h3>
+                        <div class="text-4xl font-black">$29</div>
+                        <div class="text-white/70">per month</div>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-white">
+                        <li class="flex items-center"><i class="fas fa-check mr-3"></i>Unlimited audits</li>
+                        <li class="flex items-center"><i class="fas fa-check mr-3"></i>Advanced SEO analysis</li>
+                        <li class="flex items-center"><i class="fas fa-check mr-3"></i>Competitor analysis</li>
+                        <li class="flex items-center"><i class="fas fa-check mr-3"></i>Backlink monitoring</li>
+                        <li class="flex items-center"><i class="fas fa-check mr-3"></i>Keyword tracking</li>
+                        <li class="flex items-center"><i class="fas fa-check mr-3"></i>Priority support</li>
+                    </ul>
+                    <a href="#" class="block text-center py-3 bg-white text-indigo-600 rounded-xl font-bold hover:bg-gray-100 transition">
+                        Start Free Trial
+                    </a>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
+                    <div class="text-center mb-8">
+                        <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                        <div class="text-4xl font-black">$99</div>
+                        <div class="text-gray-500">per month</div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Everything in Pro</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>White-label reports</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>API access</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Custom integrations</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Dedicated support</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>SLA guarantee</li>
+                    </ul>
+                    <a href="#" class="block text-center py-3 border-2 border-indigo-600 text-indigo-600 rounded-xl font-semibold hover:bg-indigo-50 transition">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-gradient-to-br from-indigo-50 to-purple-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold mb-4">TESTIMONIALS</span>
+                <h2 class="text-4xl md:text-5xl font-bold">
+                    Loved by <span class="gradient-text">50,000+</span> Users
+                </h2>
             </div>
 
-            <div class="text-center mt-12">
-                <a href="blog.html" class="inline-flex items-center px-8 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90 transition">
-                    View All Articles
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="testimonial-card p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"This tool helped me identify critical SEO issues that were holding my site back. My organic traffic increased by 300% in just 3 months!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-4">JD</div>
+                        <div>
+                            <p class="font-semibold">John Doe</p>
+                            <p class="text-sm text-gray-500">CEO, TechStartup</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"The competitor analysis feature is incredible. I discovered backlink opportunities I never knew existed. Highly recommended!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold mr-4">SM</div>
+                        <div>
+                            <p class="font-semibold">Sarah Miller</p>
+                            <p class="text-sm text-gray-500">Marketing Director</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"Best free SEO tool I've ever used. The tech stack detection alone is worth it. Saved me hours of manual research!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white font-bold mr-4">MK</div>
+                        <div>
+                            <p class="font-semibold">Mike Kim</p>
+                            <p class="text-sm text-gray-500">Freelance Developer</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 gradient-bg">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-                Ready to Analyze Your Website?
+    <section class="py-24 gradient-bg">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                Ready to Optimize Your Website?
             </h2>
-            <p class="text-white/80 text-lg mb-8">
-                100% FREE - Unlimited analyses. No credit card required.
+            <p class="text-xl text-white/80 mb-10">
+                Join 50,000+ users who trust WebAI Auditor for their SEO needs.
             </p>
-            <button onclick="document.getElementById('urlInput').focus(); window.scrollTo({top:0,behavior:'smooth'})" class="inline-flex items-center px-8 py-4 bg-white text-gray-800 rounded-lg font-semibold hover:bg-gray-100 transition">
-                Analyze Now - Free
-                <i class="fas fa-arrow-right ml-2"></i>
-            </button>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#analyze" class="px-10 py-4 bg-white text-indigo-600 rounded-xl font-bold shadow-xl hover:shadow-2xl transition btn-shine">
+                    Start Free Audit
+                </a>
+                <a href="pricing.html" class="px-10 py-4 border-2 border-white text-white rounded-xl font-bold hover:bg-white/10 transition">
+                    View Pricing
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- Google AdSense Footer Ad Space -->
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="bg-gray-100 rounded-lg flex items-center justify-center min-h-[90px] my-8">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        </div>
-    </div>
-
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-16">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                <!-- Brand -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <div>
                     <div class="flex items-center space-x-3 mb-6">
                         <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
                             <i class="fas fa-globe text-white"></i>
                         </div>
-                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                        <span class="text-xl font-bold">WebAI Auditor</span>
                     </div>
-                    <p class="text-gray-400 mb-6">
-                        Professional website analysis tool for SEO, performance, and tech stack detection.
-                    </p>
+                    <p class="text-gray-400 mb-6">Professional website analysis tool for SEO, performance, and security auditing.</p>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-github text-xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Product -->
                 <div>
-                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <h4 class="font-semibold mb-6">Product</h4>
                     <ul class="space-y-4">
-                        <li><a href="features.html" class="text-gray-400 hover:text-white transition">Features</a></li>
-                        <li><a href="tools.html" class="text-gray-400 hover:text-white transition">Tool Marketplace</a></li>
-                        <li><a href="create-tool.html" class="text-gray-400 hover:text-white transition">Create Tool</a></li>
-                        <li><a href="audit-results.html" class="text-gray-400 hover:text-white transition">Sample Results</a></li>
-                    </ul>
-                </div>
-
-                <!-- Resources -->
-                <div>
-                    <h4 class="text-white font-semibold mb-6">Resources</h4>
-                    <ul class="space-y-4">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="#tools" class="text-gray-400 hover:text-white transition">Tools</a></li>
                         <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
-                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
-                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white transition">Tech Detection</a></li>
-                        <li><a href="blog/competitor-analysis.html" class="text-gray-400 hover:text-white transition">Competitor Analysis</a></li>
                     </ul>
                 </div>
 
-                <!-- Company -->
                 <div>
-                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <h4 class="font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
+                        <li><a href="blog/technical-seo.html" class="text-gray-400 hover:text-white transition">Technical SEO</a></li>
+                        <li><a href="blog/link-building-strategies.html" class="text-gray-400 hover:text-white transition">Link Building</a></li>
+                        <li><a href="blog/keyword-research-guide.html" class="text-gray-400 hover:text-white transition">Keyword Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6">Company</h4>
                     <ul class="space-y-4">
                         <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
                 <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition">Privacy</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">Terms</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">Cookies</a>
-                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
-        const API_BASE = 'http://localhost:8000/api';
-
         // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-            document.getElementById('mobileMenu').classList.toggle('hidden');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
 
-        // Options toggle
-        document.getElementById('optionsToggle').addEventListener('click', () => {
-            document.getElementById('optionsPanel').classList.toggle('hidden');
-            document.getElementById('optionsChevron').classList.toggle('rotate-180');
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        let isDark = false;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            document.body.classList.toggle('dark');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun text-yellow-500"></i>' : '<i class="fas fa-moon text-gray-600"></i>';
         });
 
-        // Tab switching
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'gradient-bg', 'text-white'));
-                btn.classList.add('active', 'gradient-bg', 'text-white');
-
-                document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
-                document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    mobileMenu.classList.add('hidden');
+                }
             });
         });
 
-        // Form submission - NO AUTHENTICATION REQUIRED
-        document.getElementById('auditForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const url = document.getElementById('urlInput').value.trim();
-            if (!url) return alert('Please enter a URL');
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
 
-            // Get options
-            const options = {
-                seo: document.getElementById('optSeo').checked,
-                techStack: document.getElementById('optTechStack').checked,
-                competitors: document.getElementById('optCompetitors').checked,
-                maxPages: document.getElementById('optMaxPages').value
+            const updateCounter = () => {
+                current += step;
+                if (current < target) {
+                    counter.textContent = Math.floor(current).toLocaleString();
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target.toLocaleString();
+                }
             };
 
-            // Show progress
-            document.getElementById('progressSection').classList.remove('hidden');
-            document.querySelector('section:nth-of-type(1)').classList.add('hidden');
+            updateCounter();
+        };
 
-            // Simulate progress
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 10;
-                document.getElementById('progressBar').style.width = progress + '%';
-                document.getElementById('progressPercent').textContent = progress + '%';
-                if (progress >= 90) clearInterval(interval);
-            }, 300);
+        // Intersection Observer for counters
+        const observerOptions = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-            try {
-                // Make API calls without authentication
-                const seoResult = await fetch(`${API_BASE}/analyze/seo`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url, options })
-                }).then(r => r.json());
+        counters.forEach(counter => observer.observe(counter));
 
-                const techResult = await fetch(`${API_BASE}/analyze/tech-stack`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url, options })
-                }).then(r => r.json());
+        // Form submission
+        const auditForm = document.getElementById('auditForm');
+        const urlInput = document.getElementById('urlInput');
 
-                clearInterval(interval);
-                document.getElementById('progressBar').style.width = '100%';
-                document.getElementById('progressPercent').textContent = '100%';
-
-                setTimeout(() => {
-                    document.getElementById('progressSection').classList.add('hidden');
-                    document.getElementById('resultsSection').classList.remove('hidden');
-                    displayResults({ seo: seoResult.data || seoResult, tech_stack: techResult.data || techResult });
-                }, 500);
-            } catch (error) {
-                alert('Analysis failed: ' + error.message);
-                document.getElementById('progressSection').classList.add('hidden');
-                document.querySelector('section:nth-of-type(1)').classList.remove('hidden');
+        auditForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const url = urlInput.value.trim();
+            if (url) {
+                // Redirect to results page with URL parameter
+                window.location.href = `dashboard.html?url=${encodeURIComponent(url)}`;
             }
         });
 
-        function displayResults(data) {
-            document.getElementById('analyzedUrl').textContent = document.getElementById('urlInput').value;
-            document.getElementById('overallScore').textContent = data.seo?.score || 75;
-            document.getElementById('seoScore').textContent = data.seo?.score || 0;
-            document.getElementById('pagesCount').textContent = 1;
-            document.getElementById('techCount').textContent = data.tech_stack?.all?.length || 0;
-
-            const techPreview = document.getElementById('techStackPreview');
-            if (data.tech_stack?.all) {
-                techPreview.innerHTML = data.tech_stack.all.slice(0, 6).map(t =>
-                    `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">${t.name}</span>`
-                ).join('');
+        // Navbar scroll effect
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
             }
-        }
-
-        // Initialize - load blog preview
-        const blogPosts = [
-            { title: 'Complete SEO Guide for 2024', excerpt: 'Learn all the essential SEO techniques to rank higher in search results.', date: 'Dec 15, 2024', url: 'blog/seo-guide.html' },
-            { title: 'How to Detect Technology Stacks', excerpt: 'Discover what tools and frameworks websites are using.', date: 'Dec 10, 2024', url: 'blog/tech-stack.html' },
-            { title: 'Competitor Analysis Made Easy', excerpt: 'Find and analyze your competitors to stay ahead.', date: 'Dec 5, 2024', url: 'blog/competitor-analysis.html' },
-        ];
-
-        const blogContainer = document.getElementById('blogPreview');
-        if (blogContainer) {
-            blogContainer.innerHTML = blogPosts.map(post => `
-                <div class="blog-card bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
-                    <div class="h-40 gradient-bg"></div>
-                    <div class="p-6">
-                        <span class="text-sm text-blue-600">${post.date}</span>
-                        <h3 class="text-lg font-semibold mt-2 mb-3">${post.title}</h3>
-                        <p class="text-gray-500 text-sm mb-4">${post.excerpt}</p>
-                        <a href="${post.url}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">Read More →</a>
-                    </div>
-                </div>
-            `).join('');
-        }
+        });
     </script>
 </body>
 </html>
