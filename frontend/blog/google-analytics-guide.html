@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Analytics Complete Guide 2024 | WebAI Auditor</title>
+    <meta name="description" content="Master Google Analytics 4 (GA4). Complete guide to setup, tracking, reports, and analysis for better insights.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { transition: all 0.2s; }
+        .toc-link:hover { color: #3b82f6; padding-left: 8px; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-blue-50 to-indigo-50 py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">Analytics</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-6 mb-4">
+                <span class="gradient-text">Google Analytics Complete Guide</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">Master GA4 setup, tracking, and analysis</p>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <span><i class="far fa-clock mr-2"></i>50 min read</span>
+                <span><i class="far fa-calendar mr-2"></i>Updated Jan 18, 2025</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Introduction -->
+        <section class="mb-12">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Google Analytics 4 (GA4) is the latest version of Google's web analytics platform, designed to provide deeper insights into user behavior across websites and apps. This comprehensive guide covers everything from initial setup to advanced analysis techniques, helping you make data-driven decisions that improve your marketing performance.
+            </p>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6"><i class="fas fa-list text-blue-600 mr-3"></i>Table of Contents</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="#what-is-ga4" class="toc-link text-gray-700 block py-1">What is GA4?</a>
+                <a href="#setting-up-ga4" class="toc-link text-gray-700 block py-1">Setting Up GA4</a>
+                <a href="#data-streams" class="toc-link text-gray-700 block py-1">Data Streams & Properties</a>
+                <a href="#events-tracking" class="toc-link text-gray-700 block py-1">Event Tracking</a>
+                <a href="#custom-dimensions" class="toc-link text-gray-700 block py-1">Custom Dimensions</a>
+                <a href="#conversions" class="toc-link text-gray-700 block py-1">Conversions & Goals</a>
+                <a href="#audience-reports" class="toc-link text-gray-700 block py-1">Audience Reports</a>
+                <a href="#acquisition-reports" class="toc-link text-gray-700 block py-1">Acquisition Reports</a>
+                <a href="#engagement-reports" class="toc-link text-gray-700 block py-1">Engagement Reports</a>
+                <a href="#monetization-reports" class="toc-link text-gray-700 block py-1">Monetization Reports</a>
+                <a href="#explore-section" class="toc-link text-gray-700 block py-1">Explore Section</a>
+                <a href="#linking-gsc" class="toc-link text-gray-700 block py-1">Linking Search Console</a>
+            </div>
+        </section>
+
+        <!-- What is GA4 -->
+        <section id="what-is-ga4" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">What is Google Analytics 4?</h2>
+
+            <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                <h4 class="font-bold text-blue-800 mb-4">GA4 vs Universal Analytics</h4>
+                <p class="text-gray-700 mb-4">GA4 represents a fundamental shift in how Google Analytics collects and processes data. Key differences include:</p>
+                <ul class="text-gray-700 space-y-2">
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i>Event-based data model instead of session-based</li>
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i>Enhanced cross-platform tracking (web + app)</li>
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i>Privacy-focused with IP anonymization by default</li>
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i>Predictive metrics using machine learning</li>
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i>BigQuery export for free</li>
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i>Custom funnel exploration</li>
+                </ul>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-chart-line text-blue-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Event-Based</h4>
+                    <p class="text-gray-600 text-sm">Everything is an event, giving you more flexibility in tracking</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-robot text-purple-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">AI-Powered</h4>
+                    <p class="text-gray-600 text-sm">Predictive metrics like purchase probability</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-shield-alt text-green-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Privacy-First</h4>
+                    <p class="text-gray-600 text-sm">Designed for a cookieless future</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Setting Up GA4 -->
+        <section id="setting-up-ga4" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Setting Up Google Analytics 4</h2>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">Step-by-Step Setup Process</h4>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">1</div>
+                        <div>
+                            <p class="font-medium">Create a Google Analytics Account</p>
+                            <p class="text-sm text-gray-600">Go to analytics.google.com and sign in with your Google account</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">2</div>
+                        <div>
+                            <p class="font-medium">Create a GA4 Property</p>
+                            <p class="text-sm text-gray-600">Click "Create Property" and select "GA4" (not "UA")</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">3</div>
+                        <div>
+                            <p class="font-medium">Set Up Data Streams</p>
+                            <p class="text-sm text-gray-600">Add your website URL and stream name (Web, iOS, or Android)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">4</div>
+                        <div>
+                            <p class="font-medium">Install Tracking Code</p>
+                            <p class="text-sm text-gray-600">Copy the measurement ID (G-XXXXXXXXXX) and add to your site</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">5</div>
+                        <div>
+                            <p class="font-medium">Verify Installation</p>
+                            <p class="text-sm text-gray-600">Use Realtime report to confirm data is flowing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Installation Methods</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Global Site Tag (gtag.js)</p>
+                        <p class="text-xs text-gray-600">Direct code snippet installation</p>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Google Tag Manager</p>
+                        <p class="text-xs text-gray-600">Recommended for flexibility</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">CMS Plugins</p>
+                        <p class="text-xs text-gray-600">WordPress, Shopify, etc.</p>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Google Analytics for Firebase</p>
+                        <p class="text-xs text-gray-600">For mobile apps</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Streams -->
+        <section id="data-streams" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Data Streams & Properties</h2>
+            <p class="text-gray-700 mb-8">Understanding how GA4 organizes your data is crucial for proper setup.</p>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4">Account Structure Hierarchy</h4>
+                    <div class="flex items-center justify-center flex-wrap gap-4 text-sm">
+                        <div class="bg-blue-100 rounded-lg p-4 text-center">
+                            <p class="font-bold">Account</p>
+                            <p class="text-xs text-gray-600">Top-level container</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-gray-400"></i>
+                        <div class="bg-green-100 rounded-lg p-4 text-center">
+                            <p class="font-bold">Property</p>
+                            <p class="text-xs text-gray-600">GA4 tracking setup</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-gray-400"></i>
+                        <div class="bg-purple-100 rounded-lg p-4 text-center">
+                            <p class="font-bold">Data Stream</p>
+                            <p class="text-xs text-gray-600">Website, iOS, or Android</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Data Stream Settings</h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="font-medium text-sm mb-2">Enhanced Measurement</p>
+                            <p class="text-xs text-gray-600">Automatically tracks page views, scrolls, outbound clicks, site search, and video engagement</p>
+                        </div>
+                        <div>
+                            <p class="font-medium text-sm mb-2">Google Signals</p>
+                            <p class="text-xs text-gray-600">Enables cross-device and cross-platform reporting for signed-in users</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Tracking -->
+        <section id="events-tracking" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Event Tracking</h2>
+            <p class="text-gray-700 mb-8">Events are the foundation of GA4 tracking. Here's how to use them effectively.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-green-50 rounded-xl p-5 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-3">Automatically Collected Events</h4>
+                    <p class="text-sm text-gray-700 mb-2">GA4 automatically tracks:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• page_view (with Enhanced Measurement)</li>
+                        <li>• session_start</li>
+                        <li>• first_visit</li>
+                        <li>• user_engagement</li>
+                        <li>• scroll</li>
+                        <li>• click</li>
+                        <li>• file_download</li>
+                        <li>• video_start, video_complete</li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500">
+                    <h4 class="font-bold text-blue-800 mb-3">Recommended Events</h4>
+                    <p class="text-sm text-gray-700 mb-2">Standard events you should implement:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• search (site searches)</li>
+                        <li>• generate_lead</li>
+                        <li>• login / sign_up</li>
+                        <li>• purchase / begin_checkout</li>
+                        <li>• add_to_cart / remove_from_cart</li>
+                        <li>• view_item / select_item</li>
+                        <li>• share</li>
+                        <li>• ad_click / ad_view</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Custom Event Example</h4>
+                <p class="text-sm text-gray-600 mb-4">Using gtag.js to track a custom event:</p>
+                <div class="bg-gray-800 rounded-lg p-4 text-sm">
+                    <code class="text-green-400">gtag('event', 'custom_button_click', {</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;'button_location': 'homepage_hero',</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;'button_text': 'Get Started',</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;'page_category': 'marketing'</code><br>
+                    <code class="text-green-400">});</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Dimensions -->
+        <section id="custom-dimensions" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Custom Dimensions & Metrics</h2>
+            <p class="text-gray-700 mb-8">Extend your tracking beyond the default parameters with custom dimensions.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Event-Scoped Dimensions</h4>
+                    <p class="text-sm text-gray-600 mb-3">Values specific to each event:</p>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• Page category</li>
+                        <li>• Author name</li>
+                        <li>• Content type</li>
+                        <li>• Button label</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">User-Scoped Dimensions</h4>
+                    <p class="text-sm text-gray-600 mb-3">Values tied to individual users:</p>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• Customer tier</li>
+                        <li>• Subscription status</li>
+                        <li>• Lead quality score</li>
+                        <li>• Account type</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Creating Custom Dimensions</h4>
+                    <ol class="text-sm text-gray-700 space-y-2">
+                        <li>1. Go to Configure > Custom definitions</li>
+                        <li>2. Click "Create custom dimension"</li>
+                        <li>3. Choose scope (event or user)</li>
+                        <li>4. Set up event parameter or user property</li>
+                    </ol>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Custom Metrics Examples</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• Scroll depth percentage</li>
+                        <li>• Time on page (seconds)</li>
+                        <li>• Video completion rate</li>
+                        <li>• Cart value</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conversions -->
+        <section id="conversions" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Setting Up Conversions</h2>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">Marking Events as Conversions</h4>
+                <p class="text-sm text-gray-600 mb-4">Any event can be marked as a conversion. Follow these steps:</p>
+                <ol class="text-sm text-gray-700 space-y-2">
+                    <li>1. Go to Configure > Events</li>
+                    <li>2. Find the event you want to track as a conversion</li>
+                    <li>3. Toggle the "Mark as conversion" switch</li>
+                    <li>4. The event will now appear in conversion reports</li>
+                </ol>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-green-50 rounded-lg p-4 text-center">
+                    <i class="fas fa-mouse-pointer text-green-500 text-2xl mb-2"></i>
+                    <p class="font-medium text-sm">Lead Generation</p>
+                    <p class="text-xs text-gray-600">form_submit, click_to_call</p>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-4 text-center">
+                    <i class="fas fa-shopping-cart text-blue-500 text-2xl mb-2"></i>
+                    <p class="font-medium text-sm">E-commerce</p>
+                    <p class="text-xs text-gray-600">purchase, add_to_cart</p>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-4 text-center">
+                    <i class="fas fa-download text-purple-500 text-2xl mb-2"></i>
+                    <p class="font-medium text-sm">Content Engagement</p>
+                    <p class="text-xs text-gray-600">file_download, scroll_90</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audience Reports -->
+        <section id="audience-reports" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Audience Reports</h2>
+            <p class="text-gray-700 mb-8">Understand who your users are and how they behave.</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <i class="fas fa-users text-blue-500 text-xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Demographics</h4>
+                    <p class="text-xs text-gray-600">Age, gender, location, language</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <i class="fas fa-laptop text-green-500 text-xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Tech</h4>
+                    <p class="text-xs text-gray-600">Browser, OS, device model</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <i class="fas fa-redo text-purple-500 text-xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Behavior</h4>
+                    <p class="text-xs text-gray-600">New vs returning, engagement</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <i class="fas fa-clock text-orange-500 text-xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Cohorts</h4>
+                    <p class="text-xs text-gray-600">User retention over time</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <i class="fas fa-life-ring text-pink-500 text-xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Lifetime Value</h4>
+                    <p class="text-xs text-gray-600">Revenue per user over time</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <i class="fas fa-tv text-teal-500 text-xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Predictive Audiences</h4>
+                    <p class="text-xs text-gray-600">Purchase probability predictions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Acquisition Reports -->
+        <section id="acquisition-reports" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Acquisition Reports</h2>
+            <p class="text-gray-700 mb-8">Learn where your users come from and which channels perform best.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Traffic Acquisition</h4>
+                    <p class="text-sm text-gray-600 mb-3">Shows how users arrived at your site:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Organic Search</li>
+                        <li>• Direct</li>
+                        <li>• Referral</li>
+                        <li>• Organic Social</li>
+                        <li>• Paid Social</li>
+                        <li>• Paid Search</li>
+                        <li>• Email</li>
+                        <li>• Display</li>
+                        <li>• Affiliate</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Key Metrics to Track</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-chart-bar text-blue-500 mr-2"></i>Users by channel</li>
+                        <li><i class="fas fa-chart-bar text-blue-500 mr-2"></i>Sessions per channel</li>
+                        <li><i class="fas fa-chart-bar text-blue-500 mr-2"></i>Engagement rate</li>
+                        <li><i class="fas fa-chart-bar text-blue-500 mr-2"></i>Conversions by channel</li>
+                        <li><i class="fas fa-chart-bar text-blue-500 mr-2"></i>Revenue by channel</li>
+                        <li><i class="fas fa-chart-bar text-blue-500 mr-2"></i>Cost per acquisition (when linked)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engagement Reports -->
+        <section id="engagement-reports" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Engagement Reports</h2>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Pages and Screens</h4>
+                    <p class="text-sm text-gray-600 mb-3">Analyze content performance:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Page views and unique views</li>
+                        <li>• Average engagement time</li>
+                        <li>• Event count per page</li>
+                        <li>• Revenue per page</li>
+                        <li>• Entrance and exit pages</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Events</h4>
+                    <p class="text-sm text-gray-600 mb-3">Track all user interactions:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Event count</li>
+                        <li>• Users per event</li>
+                        <li>• Event parameters</li>
+                        <li>• Custom event analysis</li>
+                        <li>• Event value (if configured)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Conversions</h4>
+                    <p class="text-sm text-gray-600 mb-3">Review goal performance:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Total conversions</li>
+                        <li>• Conversion rate</li>
+                        <li>• Revenue from conversions</li>
+                        <li>• Conversion paths</li>
+                        <li>• Time to conversion</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Pages and Screens</h4>
+                    <p class="text-sm text-gray-600 mb-3">Landing page analysis:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Entry pages</li>
+                        <li>• Bounce rate by page</li>
+                        <li>• Engagement by landing page</li>
+                        <li>• Conversions by landing page</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monetization Reports -->
+        <section id="monetization-reports" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Monetization Reports</h2>
+
+            <div class="bg-green-50 rounded-xl p-6 mb-6 border border-green-200">
+                <h4 class="font-bold text-green-800 mb-4">E-commerce Setup Requirements</h4>
+                <p class="text-gray-700 mb-3">To see monetization reports, you need to:</p>
+                <ol class="text-sm text-gray-700 space-y-1">
+                    <li>1. Enable e-commerce in your data stream settings</li>
+                    <li>2. Send e-commerce events (purchase, refund, etc.)</li>
+                    <li>3. Include required parameters (items, transaction_id, value)</li>
+                </ol>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-shopping-bag text-blue-500 text-2xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Overview</h4>
+                    <p class="text-xs text-gray-600">Total revenue, orders, average order value</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-box text-green-500 text-2xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Items</h4>
+                    <p class="text-xs text-gray-600">Product revenue, quantity, refunds</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-user-friends text-purple-500 text-2xl mb-2"></i>
+                    <h4 class="font-bold text-sm mb-2">Purchasers</h4>
+                    <p class="text-xs text-gray-600">Customer LTV, repeat purchase rate</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explore Section -->
+        <section id="explore-section" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Explore Section</h2>
+            <p class="text-gray-700 mb-8">The Explore section offers advanced analysis tools for custom investigations.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <i class="fas fa-project-diagram text-blue-500 mr-2"></i>Explore Templates
+                    </h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• <strong>Path Exploration:</strong> User journeys through your site</li>
+                        <li>• <strong>Funnel Exploration:</strong> Steps to conversion</li>
+                        <li>• <strong>Segment Overlap:</strong> Audience intersections</li>
+                        <li>• <strong>Cohort Exploration:</strong> Retention analysis</li>
+                        <li>• <strong>User Lifetime:</strong> LTV over time</li>
+                        <li>• <strong>Segment Match:</strong> Audience characteristics</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <i class="fas fa-filter text-green-500 mr-2"></i>Custom Explorations
+                    </h4>
+                    <p class="text-sm text-gray-600 mb-3">Build your own analysis with:</p>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>• Techniques: Explore, Funnel, Path</li>
+                        <li>• Dimensions: Segment by any attribute</li>
+                        <li>• Metrics: Choose what to measure</li>
+                        <li>• Filters: Narrow your data</li>
+                        <li>• Comparisons: A/B test segments</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Linking GSC -->
+        <section id="linking-gsc" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Linking Google Search Console</h2>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">Benefits of Linking</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>See search query data</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>View organic landing pages</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Access country/region data</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>See search result position data</li>
+                    </ul>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Compare organic vs paid</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Access impression data</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>View click-through rates</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Improve SEO analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                <h4 class="font-bold text-blue-800 mb-4"><i class="fas fa-link mr-2"></i>How to Link Search Console</h4>
+                <ol class="text-sm text-gray-700 space-y-2">
+                    <li>1. In GA4, go to Admin > Property settings</li>
+                    <li>2. Scroll to "Search Console" section</li>
+                    <li>3. Click "Link Search Console"</li>
+                    <li>4. Select your property from the list</li>
+                    <li>5. Submit and confirm the linking</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-white text-center">
+            <h3 class="text-2xl font-bold mb-4">Analyze Your Website Performance</h3>
+            <p class="mb-6 opacity-90">Get comprehensive insights with WebAI Auditor</p>
+            <a href="../index.html" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                Free Analysis <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="google-analytics-guide.html" class="text-gray-400 hover:text-white transition">Analytics Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
