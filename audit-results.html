@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Results - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <style>
+        .tab-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        .severity-high { background: #ef4444; }
+        .severity-medium { background: #f59e0b; }
+        .severity-low { background: #10b981; }
+        .page-card {
+            transition: all 0.3s ease;
+        }
+        .page-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .tech-badge {
+            transition: transform 0.2s;
+        }
+        .tech-badge:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">WebAI Auditor</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition">New Audit</a>
+                    <a href="audits.html" class="text-gray-300 hover:text-white transition">My Audits</a>
+                    <a href="pricing.html" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium hover:from-blue-600 hover:to-purple-700 transition">Upgrade</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="max-w-7xl mx-auto px-4 py-20 text-center">
+        <i class="fas fa-spinner fa-spin text-6xl text-purple-500 mb-6"></i>
+        <h2 class="text-2xl font-bold mb-2">Analyzing Your Website...</h2>
+        <p class="text-gray-400" id="loadingStatus">Crawling pages and gathering data</p>
+    </div>
+
+    <!-- Results Container -->
+    <main id="resultsContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="audits.html" class="inline-flex items-center text-gray-400 hover:text-white transition">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Audits
+            </a>
+        </div>
+
+        <!-- Overall Score -->
+        <div id="overallScore" class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8">
+            <!-- Will be populated dynamically -->
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex flex-wrap gap-2 mb-8">
+            <button class="tab-btn active px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="overview">
+                <i class="fas fa-chart-pie mr-2"></i>Overview
+            </button>
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="pages">
+                <i class="fas fa-file-alt mr-2"></i>Pages (<span id="pageCount">0</span>)
+            </button>
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="seo">
+                <i class="fas fa-search mr-2"></i>SEO Analysis
+            </button>
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="tech">
+                <i class="fas fa-code mr-2"></i>Tech Stack
+            </button>
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="issues">
+                <i class="fas fa-exclamation-triangle mr-2"></i>Issues (<span id="issueCount">0</span>)
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tabContent">
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="tab-panel">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="text-gray-400 text-sm mb-1">Pages Crawled</div>
+                        <div class="text-3xl font-bold" id="pagesCrawled">0</div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="text-gray-400 text-sm mb-1">SEO Score</div>
+                        <div class="text-3xl font-bold" id="seoScoreDisplay">0</div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="text-gray-400 text-sm mb-1">Technologies</div>
+                        <div class="text-3xl font-bold" id="techCount">0</div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="text-gray-400 text-sm mb-1">Issues Found</div>
+                        <div class="text-3xl font-bold text-red-400" id="issuesFound">0</div>
+                    </div>
+                </div>
+
+                <!-- Issues Summary -->
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Issues by Severity</h3>
+                    <div id="issuesSummary" class="grid grid-cols-3 gap-4">
+                        <!-- Will be populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pages Tab -->
+            <div id="tab-pages" class="tab-panel hidden">
+                <div class="mb-4">
+                    <input type="text" id="pageSearch" placeholder="Search pages..." class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 w-full md:w-64">
+                </div>
+                <div id="pagesList" class="grid grid-cols-1 gap-4">
+                    <!-- Will be populated -->
+                </div>
+            </div>
+
+            <!-- SEO Tab -->
+            <div id="tab-seo" class="tab-panel hidden">
+                <div id="seoAnalysis" class="space-y-6">
+                    <!-- Will be populated -->
+                </div>
+            </div>
+
+            <!-- Tech Stack Tab -->
+            <div id="tab-tech" class="tab-panel hidden">
+                <div id="techStack" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Will be populated -->
+                </div>
+            </div>
+
+            <!-- Issues Tab -->
+            <div id="tab-issues" class="tab-panel hidden">
+                <div class="mb-4 flex gap-2">
+                    <button class="filter-btn active px-4 py-2 rounded-lg bg-gray-700" data-severity="all">All</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800" data-severity="high">High</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800" data-severity="medium">Medium</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800" data-severity="low">Low</button>
+                </div>
+                <div id="issuesList" class="space-y-4">
+                    <!-- Will be populated -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./assets/js/api.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let auditData = null;
+        let currentFilter = 'all';
+
+        // Get audit ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const auditId = urlParams.get('id');
+
+        // Load audit results
+        async function loadAudit() {
+            if (!auditId) {
+                showError('No audit ID provided');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/audits/${auditId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    auditData = data.data;
+                    displayResults();
+                } else {
+                    showError(data.error || 'Failed to load audit');
+                }
+            } catch (error) {
+                showError('Failed to connect to server');
+            }
+        }
+
+        // Display results
+        function displayResults() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            const audit = auditData;
+            const pages = audit.pages || [];
+
+            // Overall Score
+            const score = audit.overall_score || 0;
+            const scoreColor = score >= 80 ? 'text-green-400' : score >= 60 ? 'text-yellow-400' : 'text-red-400';
+            document.getElementById('overallScore').innerHTML = `
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">${audit.url}</h1>
+                        <p class="text-white/70">Completed ${new Date(audit.created_at).toLocaleString()}</p>
+                    </div>
+                    <div class="text-center mt-6 md:mt-0">
+                        <div class="text-6xl font-bold ${scoreColor}">${score}</div>
+                        <div class="text-white/70">Overall Score</div>
+                    </div>
+                </div>
+            `;
+
+            // Overview stats
+            document.getElementById('pagesCrawled').textContent = audit.pages_count || pages.length;
+            document.getElementById('seoScoreDisplay').textContent = audit.seo_score || 0;
+            document.getElementById('techCount').textContent = audit.tech_stack?.length || 0;
+            document.getElementById('issuesFound').textContent = audit.issues?.length || 0;
+            document.getElementById('pageCount').textContent = pages.length;
+            document.getElementById('issueCount').textContent = audit.issues?.length || 0;
+
+            // Render pages
+            renderPages(pages);
+
+            // Render SEO
+            renderSEO(audit);
+
+            // Render tech stack
+            renderTechStack(audit.tech_stack || []);
+
+            // Render issues
+            renderIssues(audit.issues || []);
+
+            // Issues summary
+            renderIssuesSummary(audit.issues || []);
+        }
+
+        // Render pages list
+        function renderPages(pages) {
+            const container = document.getElementById('pagesList');
+
+            if (!pages || pages.length === 0) {
+                container.innerHTML = '<div class="text-gray-400 text-center py-8">No pages found</div>';
+                return;
+            }
+
+            container.innerHTML = pages.map((page, index) => `
+                <div class="page-card bg-gray-800 rounded-xl p-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-gray-500">#${index + 1}</span>
+                                <h4 class="font-semibold text-lg truncate">${page.title || page.url}</h4>
+                                ${page.status_code ? `<span class="px-2 py-1 rounded text-xs ${page.status_code === 200 ? 'bg-green-600' : 'bg-red-600'}">${page.status_code}</span>` : ''}
+                            </div>
+                            <a href="${page.url}" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm">${page.url}</a>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                ${page.seo_score ? `<span class="px-2 py-1 bg-blue-600 rounded text-xs">SEO: ${page.seo_score}</span>` : ''}
+                                ${page.load_time ? `<span class="px-2 py-1 bg-purple-600 rounded text-xs">${page.load_time.toFixed(2)}s</span>` : ''}
+                                ${page.size ? `<span class="px-2 py-1 bg-gray-600 rounded text-xs">${(page.size / 1024).toFixed(1)}KB</span>` : ''}
+                            </div>
+                        </div>
+                        <button onclick="analyzePage('${page.url}')" class="ml-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm">
+                            <i class="fas fa-search mr-2"></i>Analyze
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render SEO analysis
+        function renderSEO(audit) {
+            const container = document.getElementById('seoAnalysis');
+            const seoData = audit.seo_analysis || {};
+
+            const checks = [
+                { name: 'Title Tag', status: seoData.title?.exists, value: seoData.title?.content, message: seoData.title?.message },
+                { name: 'Meta Description', status: seoData.meta_description?.exists, value: seoData.meta_description?.content, message: seoData.meta_description?.message },
+                { name: 'H1 Headings', status: seoData.headings?.h1_count > 0, value: seoData.headings?.h1_count + ' found', message: seoData.headings?.message },
+                { name: 'Image Alt Text', status: seoData.images_alt?.without_alt === 0, value: seoData.images_alt?.total_images + ' images', message: seoData.images_alt?.message },
+            ];
+
+            container.innerHTML = checks.map(check => `
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-semibold text-lg">${check.name}</h4>
+                            <p class="text-gray-400 text-sm">${check.value || check.message || 'N/A'}</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center ${check.status ? 'bg-green-600' : 'bg-red-600'}">
+                            <i class="fas ${check.status ? 'fa-check' : 'fa-times'}"></i>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render tech stack
+        function renderTechStack(techStack) {
+            const container = document.getElementById('techStack');
+
+            if (!techStack || techStack.length === 0) {
+                container.innerHTML = '<div class="col-span-3 text-gray-400 text-center py-8">No technologies detected</div>';
+                return;
+            }
+
+            // Group by category
+            const grouped = {};
+            techStack.forEach(tech => {
+                if (!grouped[tech.category]) {
+                    grouped[tech.category] = [];
+                }
+                grouped[tech.category].push(tech);
+            });
+
+            container.innerHTML = Object.entries(grouped).map(([category, items]) => `
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h4 class="font-semibold text-lg mb-4 capitalize">${category}</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${items.map(item => `
+                            <span class="tech-badge px-3 py-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-sm">
+                                ${item.name} ${item.version ? `<span class="text-white/60">${item.version}</span>` : ''}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render issues
+        function renderIssues(issues) {
+            const container = document.getElementById('issuesList');
+            const filtered = currentFilter === 'all' ? issues : issues.filter(i => i.severity === currentFilter);
+
+            if (!filtered || filtered.length === 0) {
+                container.innerHTML = '<div class="text-gray-400 text-center py-8">No issues found</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(issue => `
+                <div class="bg-gray-800 rounded-xl p-6 border-l-4 severity-${issue.severity}">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-2 py-1 rounded text-xs font-bold uppercase severity-${issue.severity}">${issue.severity}</span>
+                                <h4 class="font-semibold">${issue.type || 'Issue'}</h4>
+                            </div>
+                            <p class="text-gray-300 mb-2">${issue.message}</p>
+                            ${issue.location ? `<p class="text-gray-500 text-sm"><i class="fas fa-map-marker-alt mr-2"></i>${issue.location}</p>` : ''}
+                            ${issue.recommendation ? `<p class="text-blue-400 text-sm mt-2"><i class="fas fa-lightbulb mr-2"></i>${issue.recommendation}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render issues summary
+        function renderIssuesSummary(issues) {
+            const container = document.getElementById('issuesSummary');
+            const high = issues.filter(i => i.severity === 'high').length;
+            const medium = issues.filter(i => i.severity === 'medium').length;
+            const low = issues.filter(i => i.severity === 'low').length;
+
+            container.innerHTML = `
+                <div class="bg-red-900/30 rounded-lg p-4">
+                    <div class="text-3xl font-bold text-red-400">${high}</div>
+                    <div class="text-gray-400 text-sm">High Priority</div>
+                </div>
+                <div class="bg-yellow-900/30 rounded-lg p-4">
+                    <div class="text-3xl font-bold text-yellow-400">${medium}</div>
+                    <div class="text-gray-400 text-sm">Medium Priority</div>
+                </div>
+                <div class="bg-green-900/30 rounded-lg p-4">
+                    <div class="text-3xl font-bold text-green-400">${low}</div>
+                    <div class="text-gray-400 text-sm">Low Priority</div>
+                </div>
+            `;
+        }
+
+        // Analyze individual page
+        function analyzePage(url) {
+            window.location.href = `index.html?url=${encodeURIComponent(url)}`;
+        }
+
+        // Show error
+        function showError(message) {
+            document.getElementById('loadingState').innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
+                    <h2 class="text-2xl font-bold mb-2">Error</h2>
+                    <p class="text-gray-400">${message}</p>
+                </div>
+            `;
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+                document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
+            });
+        });
+
+        // Filter issues
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-gray-700');
+                    b.classList.add('bg-gray-800');
+                });
+                btn.classList.add('active', 'bg-gray-700');
+                btn.classList.remove('bg-gray-800');
+
+                currentFilter = btn.dataset.severity;
+                renderIssues(auditData?.issues || []);
+            });
+        });
+
+        // Search pages
+        document.getElementById('pageSearch')?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const pages = auditData?.pages || [];
+            const filtered = pages.filter(p =>
+                p.url?.toLowerCase().includes(query) ||
+                p.title?.toLowerCase().includes(query)
+            );
+            renderPages(filtered);
+        });
+
+        // Initialize
+        loadAudit();
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center"><i class="fas fa-globe text-white"></i></div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4"><li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li><li><a href="pricing.html" class="text-gray-400 hover:text-white">Pricing</a></li><li><a href="pricing.html" class="text-gray-400 hover:text-white">Get Started</a></li><li><a href="audit-results.html" class="text-gray-400 hover:text-white">Sample Results</a></li></ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4"><li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li><li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li><li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white">Tech Detection</a></li></ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4"><li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li><li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li><li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li></ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500"><p>&copy; 2024 WebAI Auditor</p></div>
+        </div>
+    </footer>
+</body>
+</html>

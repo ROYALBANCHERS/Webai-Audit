@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Us - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}.pricing-card{transition:all .3s ease}.pricing-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.3)}.phonepe-btn{background:#5f259f;color:#fff;padding:14px 28px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:all .3s}.phonepe-btn:hover{background:#4a1d7d;transform:scale(1.02)}</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="features.html" class="text-gray-600 hover:text-gray-900">Features</a>
+                    <a href="tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="pricing.html" class="text-gray-900 font-semibold">Support Us</a>
+                    <a href="blog.html" class="text-gray-600 hover:text-gray-900">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="gradient-text">Support Our Work</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Help us keep this tool free for everyone. Your support helps us maintain and improve the service.
+            </p>
+        </div>
+    </section>
+
+    <!-- Donation Options -->
+    <section class="py-20">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                <h2 class="text-2xl font-bold text-center mb-8">Choose Your Support Amount</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <!-- Small Support -->
+                    <div class="border-2 border-gray-200 rounded-xl p-6 text-center hover:border-blue-500 transition cursor-pointer pricing-card" onclick="selectAmount(50)">
+                        <div class="text-4xl font-bold text-gray-800 mb-2">₹50</div>
+                        <p class="text-gray-500">Small Support</p>
+                        <p class="text-sm text-gray-400">One-time contribution</p>
+                    </div>
+
+                    <!-- Medium Support -->
+                    <div class="border-2 border-blue-500 rounded-xl p-6 text-center pricing-card" onclick="selectAmount(100)">
+                        <div class="text-4xl font-bold text-blue-600 mb-2">₹100</div>
+                        <p class="text-gray-700 font-semibold">Popular Choice</p>
+                        <p class="text-sm text-gray-500">Help us grow</p>
+                    </div>
+
+                    <!-- Large Support -->
+                    <div class="border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 transition cursor-pointer pricing-card" onclick="selectAmount(500)">
+                        <div class="text-4xl font-bold text-gray-800 mb-2">₹500</div>
+                        <p class="text-gray-500">Major Support</p>
+                        <p class="text-sm text-gray-400">Power our development</p>
+                    </div>
+                </div>
+
+                <!-- Custom Amount -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                    <label class="block text-gray-700 font-medium mb-3">Or enter custom amount (₹10 minimum)</label>
+                    <div class="flex gap-4">
+                        <input type="number" id="customAmount" min="10" placeholder="Enter amount" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <button onclick="payCustomAmount()" class="gradient-bg text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90">
+                            Pay Custom Amount
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PhonePe Payment Info -->
+                <div class="bg-blue-50 rounded-xl p-6">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-blue-900 mb-2">Secure Payment via PhonePe</h3>
+                            <p class="text-blue-700 text-sm">You will be redirected to PhonePe's secure payment gateway. We support UPI, cards, wallets, and Netbanking.</p>
+                            <div class="flex items-center gap-4 mt-4">
+                                <img src="https://webui.phonepe.com/assets/v1/images/merchant-logos/phonepe-color.svg" alt="PhonePe" class="h-8">
+                                <div class="text-xs text-gray-500">
+                                    <p>Protected by 256-bit SSL encryption</p>
+                                    <p>All payments are processed securely</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You Get Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Your Support Helps Us Provide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-search text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Free Analysis</h3>
+                    <p class="text-gray-500 text-sm">Keep website analysis free for everyone</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tools text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">New Features</h3>
+                    <p class="text-gray-500 text-sm">Continuous development of new tools</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-server text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Fast Servers</h3>
+                    <p class="text-gray-500 text-sm">Reliable infrastructure</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">24/7 Support</h3>
+                    <p class="text-gray-500 text-sm">Help whenever you need it</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thank You Section -->
+    <section class="py-20 gradient-bg text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Thank You for Your Support!</h2>
+            <p class="text-blue-100 text-lg mb-8">Every contribution helps us serve you better.</p>
+            <a href="index.html" class="inline-flex items-center px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="tools.html" class="text-gray-400 hover:text-white">Tool Marketplace</a></li>
+                        <li><a href="create-tool.html" class="text-gray-400 hover:text-white">Create Tool</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li>
+                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white">Tech Detection</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // PhonePe Payment Gateway Integration
+        const PHONEPE_CONFIG = {
+            merchantId: 'YOUR_MERCHANT_ID', // Replace with your PhonePe Merchant ID
+            saltKey: 'YOUR_SALT_KEY',       // Replace with your PhonePe Salt Key
+            redirectUrl: window.location.origin + '/payment-success.html',
+            failureUrl: window.location.origin + '/payment-failure.html',
+            callbackUrl: window.location.origin + '/api/payment/callback',
+            apiBaseUrl: window.location.origin + '/api/payment'
+        };
+
+        let selectedAmount = 100; // Default amount
+
+        function selectAmount(amount) {
+            selectedAmount = amount;
+            initiatePayment(amount);
+        }
+
+        function payCustomAmount() {
+            const amount = document.getElementById('customAmount').value;
+            if (amount && amount >= 10) {
+                selectedAmount = parseInt(amount);
+                initiatePayment(selectedAmount);
+            } else {
+                alert('Minimum amount is ₹10');
+            }
+        }
+
+        function initiatePayment(amount) {
+            // Generate transaction ID
+            const transactionId = 'TXN' + Date.now();
+
+            // Create payment payload
+            const payload = {
+                merchantId: PHONEPE_CONFIG.merchantId,
+                transactionId: transactionId,
+                amount: amount * 100, // Amount in paise
+                paymentInstrument: {
+                    type: 'PAY_PAGE'
+                },
+                merchantTransactionId: transactionId,
+                redirectUrl: PHONEPE_CONFIG.redirectUrl + '?txnId=' + transactionId + '&amount=' + amount,
+                redirectMode: 'REDIRECT',
+                callbackUrl: PHONEPE_CONFIG.callbackUrl
+            };
+
+            // Show loading state
+            const btn = event.target.closest('.pricing-card') || event.target.closest('button');
+            if (btn) {
+                btn.style.opacity = '0.7';
+                btn.style.pointerEvents = 'none';
+            }
+
+            // First, save transaction to backend
+            fetch(PHONEPE_CONFIG.apiBaseUrl + '/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: amount,
+                    transaction_id: transactionId,
+                    payload: payload,
+                    redirect_url: PHONEPE_CONFIG.redirectUrl + '?txnId=' + transactionId + '&amount=' + amount,
+                    callback_url: PHONEPE_CONFIG.callbackUrl
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.encoded_payload) {
+                    // Redirect to PhonePe with proper payload
+                    const phonepeUrl = data.payment_url || 'https://phonepe-rtu-webPg.kntl009lf.adc-razorpay-in.com/pay?payload=' + encodeURIComponent(data.encoded_payload);
+                    window.location.href = phonepeUrl;
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            })
+            .catch(error => {
+                console.error('Payment error:', error);
+                // Reset button state
+                if (btn) {
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto';
+                }
+                // Show error message
+                alert('Payment initialization failed. Please try again or contact support.');
+            });
+        }
+    </script>
+</body>
+</html>

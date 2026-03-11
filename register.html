@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}</style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4">
+    <div class="max-w-md w-full">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="flex items-center justify-center space-x-3">
+                <div class="w-12 h-12 gradient-bg rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold gradient-text">WebAI Auditor</span>
+            </a>
+        </div>
+
+        <!-- Register Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h1 class="text-2xl font-bold text-center mb-2">Create Account</h1>
+            <p class="text-gray-500 text-center mb-8">Start analyzing websites with powerful tools</p>
+
+            <form id="registerForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                        <input type="text" id="firstName" required placeholder="John" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                        <input type="text" id="lastName" required placeholder="Doe" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <div class="relative">
+                        <input type="email" id="email" required placeholder="you@example.com" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" required placeholder="••••••••" class="w-full px-4 py-3 pl-12 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <button type="button" onclick="togglePassword('password')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="mt-2">
+                        <div class="flex space-x-1">
+                            <div class="h-1 flex-1 bg-gray-200 rounded" id="strength1"></div>
+                            <div class="h-1 flex-1 bg-gray-200 rounded" id="strength2"></div>
+                            <div class="h-1 flex-1 bg-gray-200 rounded" id="strength3"></div>
+                            <div class="h-1 flex-1 bg-gray-200 rounded" id="strength4"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1" id="strengthText">Use 8+ characters with a mix of letters, numbers & symbols</p>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" id="confirmPassword" required placeholder="••••••••" class="w-full px-4 py-3 pl-12 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <button type="button" onclick="togglePassword('confirmPassword')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <input type="checkbox" id="terms" required class="w-4 h-4 mt-1 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="terms" class="ml-2 text-sm text-gray-600">
+                        I agree to the <a href="terms.html" class="text-blue-600 hover:text-blue-700">Terms of Service</a> and <a href="privacy.html" class="text-blue-600 hover:text-blue-700">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="w-full py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative my-8">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-200"></div>
+                </div>
+                <div class="relative flex justify-center">
+                    <span class="px-4 bg-white text-gray-500 text-sm">Or sign up with</span>
+                </div>
+            </div>
+
+            <!-- Social Login -->
+            <div class="grid grid-cols-3 gap-4">
+                <button class="flex items-center justify-center py-3 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <i class="fab fa-google text-red-500"></i>
+                </button>
+                <button class="flex items-center justify-center py-3 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <i class="fab fa-github text-gray-800"></i>
+                </button>
+                <button class="flex items-center justify-center py-3 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <i class="fab fa-linkedin text-blue-600"></i>
+                </button>
+            </div>
+
+            <!-- Sign In Link -->
+            <p class="text-center mt-8 text-gray-600">
+                Already have an account? <a href="login.html" class="text-blue-600 font-semibold hover:text-blue-700">Sign in</a>
+            </p>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="text-center mt-8 text-sm text-gray-500">
+            <a href="privacy.html" class="hover:text-gray-700">Privacy Policy</a>
+            <span class="mx-2">•</span>
+            <a href="terms.html" class="hover:text-gray-700">Terms of Service</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling.nextElementSibling;
+            const icon = button.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+
+            const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500'];
+            const texts = ['Weak', 'Fair', 'Good', 'Strong'];
+
+            for (let i = 1; i <= 4; i++) {
+                const bar = document.getElementById('strength' + i);
+                bar.className = 'h-1 flex-1 rounded' + (i <= strength ? ' ' + colors[strength - 1] : ' bg-gray-200');
+            }
+            document.getElementById('strengthText').textContent = strength > 0 ? texts[strength - 1] : 'Use 8+ characters with a mix of letters, numbers & symbols';
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            const data = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                password: password
+            };
+
+            try {
+                const response = await fetch('http://localhost:8000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Account created successfully! Please log in.');
+                    window.location.href = 'login.html';
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
