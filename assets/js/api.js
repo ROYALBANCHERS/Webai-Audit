@@ -3,7 +3,7 @@
  */
 
 const API = (() => {
-    const API_BASE = 'http://localhost:8000/api';
+    const API_BASE = 'https://webai-auditor-backend.abhishek88694.workers.dev/api';
 
     /**
      * Make API request

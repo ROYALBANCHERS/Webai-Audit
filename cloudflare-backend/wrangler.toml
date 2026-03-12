@@ -2,10 +2,5 @@ name = "webai-auditor-backend"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-[env.production]
-routes = [
-  { pattern = "https://webai-audor-backend.yoursubdomain.workers.dev/*", zone_name = "your-domain.com" }
-]
-
 [vars]
 ENVIRONMENT = "production"
