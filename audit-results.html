@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audit Results - WebAI Auditor</title>
+    <title>Analysis Report - WebAI Auditor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
     <style>
         .tab-btn.active {
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
         }
-        .severity-high { background: #ef4444; }
+        .severity-high { background: #dc2626; }
         .severity-medium { background: #f59e0b; }
         .severity-low { background: #10b981; }
         .page-card {
             transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
         .page-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         .tech-badge {
             transition: transform 0.2s;
@@ -28,11 +28,37 @@
         .tech-badge:hover {
             transform: scale(1.05);
         }
+        .score-excellent { color: #10b981; }
+        .score-good { color: #22c55e; }
+        .score-warning { color: #f59e0b; }
+        .score-critical { color: #ef4444; }
+        .issue-card {
+            border-left: 4px solid;
+        }
+        .analysis-complete {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen">
+<body class="bg-white text-gray-800 min-h-screen">
     <!-- Navigation -->
-    <nav class="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">
+    <nav class="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
@@ -40,11 +66,11 @@
                         <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                             <i class="fas fa-globe text-white"></i>
                         </div>
-                        <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">WebAI Auditor</span>
+                        <span class="text-xl font-bold text-gray-800">WebAI Auditor</span>
                     </a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="index.html" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium hover:from-blue-600 hover:to-purple-700 transition">
+                    <a href="index.html" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition">
                         <i class="fas fa-plus mr-2"></i>New Analysis
                     </a>
                 </div>
@@ -54,41 +80,60 @@
 
     <!-- Loading State -->
     <div id="loadingState" class="max-w-7xl mx-auto px-4 py-20 text-center">
-        <i class="fas fa-spinner fa-spin text-6xl text-purple-500 mb-6"></i>
-        <h2 class="text-2xl font-bold mb-2">Analyzing Your Website...</h2>
-        <p class="text-gray-400" id="loadingStatus">Crawling pages and gathering data</p>
+        <div class="flex justify-center mb-6">
+            <div class="spinner"></div>
+        </div>
+        <h2 class="text-2xl font-bold mb-2 text-gray-800">Analyzing Your Website...</h2>
+        <p class="text-gray-600" id="loadingStatus">Crawling pages and gathering data</p>
+        <p class="text-gray-500 text-sm mt-4" id="loadingDetail">Please wait while we analyze your website</p>
     </div>
 
     <!-- Results Container -->
-    <main id="resultsContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Back Button -->
-        <div class="mb-6">
-            <a href="index.html" class="inline-flex items-center text-gray-400 hover:text-white transition">
-                <i class="fas fa-arrow-left mr-2"></i> New Analysis
-            </a>
-        </div>
-
+    <main id="resultsContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg-px-8 py-8">
         <!-- Overall Score -->
-        <div id="overallScore" class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8">
+        <div id="overallScore" class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8 text-white shadow-lg">
             <!-- Will be populated dynamically -->
         </div>
 
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm">
+                <div class="text-gray-500 text-sm mb-1">Load Time</div>
+                <div class="text-2xl font-bold text-gray-800" id="quickLoadTime">-</div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm">
+                <div class="text-gray-500 text-sm mb-1">Content Size</div>
+                <div class="text-2xl font-bold text-gray-800" id="quickContentSize">-</div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm">
+                <div class="text-gray-500 text-sm mb-1">Tech Stack</div>
+                <div class="text-2xl font-bold text-gray-800" id="quickTechCount">-</div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm">
+                <div class="text-gray-500 text-sm mb-1">Issues</div>
+                <div class="text-2xl font-bold text-gray-800" id="quickIssueCount">-</div>
+            </div>
+        </div>
+
         <!-- Tabs -->
-        <div class="flex flex-wrap gap-2 mb-8">
-            <button class="tab-btn active px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="overview">
+        <div class="flex flex-wrap gap-2 mb-6 bg-gray-100 p-2 rounded-xl">
+            <button class="tab-btn active px-4 py-2 rounded-lg font-medium transition" data-tab="overview">
                 <i class="fas fa-chart-pie mr-2"></i>Overview
             </button>
-            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="performance">
+            <button class="tab-btn px-4 py-2 rounded-lg font-medium transition" data-tab="performance">
                 <i class="fas fa-tachometer-alt mr-2"></i>Performance
             </button>
-            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="seo">
+            <button class="tab-btn px-4 py-2 rounded-lg font-medium transition" data-tab="seo">
                 <i class="fas fa-search mr-2"></i>SEO Analysis
             </button>
-            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="tech">
+            <button class="tab-btn px-4 py-2 rounded-lg font-medium transition" data-tab="tech">
                 <i class="fas fa-code mr-2"></i>Tech Stack
             </button>
-            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="issues">
+            <button class="tab-btn px-4 py-2 rounded-lg font-medium transition" data-tab="issues">
                 <i class="fas fa-exclamation-triangle mr-2"></i>Issues (<span id="issueCount">0</span>)
+            </button>
+            <button class="tab-btn px-4 py-2 rounded-lg font-medium transition" data-tab="pages">
+                <i class="fas fa-file-alt mr-2"></i>Pages (<span id="pageCount">0</span>)
             </button>
         </div>
 
@@ -96,29 +141,10 @@
         <div id="tabContent">
             <!-- Overview Tab -->
             <div id="tab-overview" class="tab-panel">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-gray-800 rounded-xl p-6">
-                        <div class="text-gray-400 text-sm mb-1">Pages Crawled</div>
-                        <div class="text-3xl font-bold" id="pagesCrawled">0</div>
-                    </div>
-                    <div class="bg-gray-800 rounded-xl p-6">
-                        <div class="text-gray-400 text-sm mb-1">SEO Score</div>
-                        <div class="text-3xl font-bold" id="seoScoreDisplay">0</div>
-                    </div>
-                    <div class="bg-gray-800 rounded-xl p-6">
-                        <div class="text-gray-400 text-sm mb-1">Technologies</div>
-                        <div class="text-3xl font-bold" id="techCount">0</div>
-                    </div>
-                    <div class="bg-gray-800 rounded-xl p-6">
-                        <div class="text-gray-400 text-sm mb-1">Issues Found</div>
-                        <div class="text-3xl font-bold text-red-400" id="issuesFound">0</div>
-                    </div>
-                </div>
-
-                <!-- Issues Summary -->
-                <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-4">Issues by Severity</h3>
-                    <div id="issuesSummary" class="grid grid-cols-3 gap-4">
+                <!-- Score Breakdown -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Analysis Summary</h3>
+                    <div id="analysisSummary" class="grid md:grid-cols-2 gap-6">
                         <!-- Will be populated -->
                     </div>
                 </div>
@@ -126,37 +152,37 @@
 
             <!-- Performance Tab -->
             <div id="tab-performance" class="tab-panel hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-gray-800 rounded-xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <h4 class="font-semibold text-gray-400">Load Time</h4>
+                                <h4 class="font-semibold text-gray-600">Load Time</h4>
                                 <div class="text-3xl font-bold" id="loadTime">-</div>
                             </div>
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-blue-600">
-                                <i class="fas fa-clock text-white"></i>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-blue-100">
+                                <i class="fas fa-clock text-blue-600"></i>
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm">Time to load the page</p>
                     </div>
 
-                    <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <h4 class="font-semibold text-gray-400">Content Size</h4>
+                                <h4 class="font-semibold text-gray-600">Content Size</h4>
                                 <div class="text-3xl font-bold" id="contentSize">-</div>
                             </div>
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-green-600">
-                                <i class="fas fa-database text-white"></i>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-green-100">
+                                <i class="fas fa-database text-green-600"></i>
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm">Total page size</p>
                     </div>
 
-                    <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <h4 class="font-semibold text-gray-400">Status Code</h4>
+                                <h4 class="font-semibold text-gray-600">Status Code</h4>
                                 <div class="text-3xl font-bold" id="statusCode">-</div>
                             </div>
                             <div class="w-12 h-12 rounded-full flex items-center justify-center" id="statusIcon">
@@ -168,28 +194,28 @@
                 </div>
 
                 <!-- Performance Details -->
-                <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-4">Performance Details</h3>
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Page Details</h3>
                     <div class="space-y-4" id="performanceDetails">
-                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
-                            <span class="text-gray-400">URL Analyzed</span>
-                            <span class="font-semibold" id="analyzedUrl">-</span>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-500">URL Analyzed</span>
+                            <span class="font-semibold text-gray-800" id="analyzedUrl">-</span>
                         </div>
-                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
-                            <span class="text-gray-400">Title</span>
-                            <span class="font-semibold" id="pageTitle">-</span>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-500">Page Title</span>
+                            <span class="font-semibold text-gray-800" id="pageTitle">-</span>
                         </div>
-                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
-                            <span class="text-gray-400">Meta Description</span>
-                            <span class="font-semibold" id="pageMetaDesc">-</span>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-500">Meta Description</span>
+                            <span class="font-semibold text-gray-800 text-sm max-w-md truncate" id="pageMetaDesc">-</span>
                         </div>
-                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
-                            <span class="text-gray-400">H1 Headings</span>
-                            <span class="font-semibold" id="pageH1">-</span>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span class="text-gray-500">H1 Headings</span>
+                            <span class="font-semibold text-gray-800" id="pageH1">-</span>
                         </div>
                         <div class="flex items-center justify-between py-3">
-                            <span class="text-gray-400">Audit ID</span>
-                            <span class="font-mono text-sm" id="auditId">-</span>
+                            <span class="text-gray-500">Audit ID</span>
+                            <span class="font-mono text-sm text-gray-600" id="auditId">-</span>
                         </div>
                     </div>
                 </div>
@@ -198,7 +224,7 @@
             <!-- Pages Tab -->
             <div id="tab-pages" class="tab-panel hidden">
                 <div class="mb-4">
-                    <input type="text" id="pageSearch" placeholder="Search pages..." class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 w-full md:w-64">
+                    <input type="text" id="pageSearch" placeholder="Search pages..." class="border border-gray-300 rounded-lg px-4 py-2 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div id="pagesList" class="grid grid-cols-1 gap-4">
                     <!-- Will be populated -->
@@ -207,7 +233,7 @@
 
             <!-- SEO Tab -->
             <div id="tab-seo" class="tab-panel hidden">
-                <div id="seoAnalysis" class="space-y-6">
+                <div id="seoAnalysis" class="space-y-4">
                     <!-- Will be populated -->
                 </div>
             </div>
@@ -222,10 +248,10 @@
             <!-- Issues Tab -->
             <div id="tab-issues" class="tab-panel hidden">
                 <div class="mb-4 flex gap-2">
-                    <button class="filter-btn active px-4 py-2 rounded-lg bg-gray-700" data-severity="all">All</button>
-                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800" data-severity="high">High</button>
-                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800" data-severity="medium">Medium</button>
-                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800" data-severity="low">Low</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-white" data-severity="all">All</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700" data-severity="high">High</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700" data-severity="medium">Medium</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700" data-severity="low">Low</button>
                 </div>
                 <div id="issuesList" class="space-y-4">
                     <!-- Will be populated -->
@@ -330,6 +356,7 @@
         function displayResults() {
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('resultsContainer').classList.remove('hidden');
+            document.getElementById('resultsContainer').classList.add('analysis-complete');
 
             const audit = auditData;
             const results = audit.results || audit;
@@ -362,55 +389,52 @@
             // Overall score (weighted: 60% SEO, 40% Tech)
             const overallScore = Math.round((seoScore * 0.6) + (techCount > 0 ? 80 * 0.4 : 50 * 0.4));
 
-            // Score color
-            const scoreColor = overallScore >= 80 ? 'text-green-400' : overallScore >= 60 ? 'text-yellow-400' : 'text-red-400';
+            // Score color for white theme
+            const scoreClass = overallScore >= 80 ? 'score-excellent' : overallScore >= 60 ? 'score-good' : overallScore >= 40 ? 'score-warning' : 'score-critical';
 
             // Overall Score Header
             document.getElementById('overallScore').innerHTML = `
                 <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold mb-2">${results.url || audit.url}</h1>
-                        <p class="text-white/70">Analysis completed ${new Date(audit.timestamp || Date.now()).toLocaleString()}</p>
-                        ${results.title ? `<p class="text-white/50 text-sm mt-1"><i class="fas fa-file-alt mr-2"></i>${results.title}</p>` : ''}
+                    <div class="text-white">
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">${results.url || audit.url}</h1>
+                        <p class="text-white/80">Analysis completed at ${new Date(audit.timestamp || Date.now()).toLocaleString()}</p>
+                        ${results.title ? `<p class="text-white/60 text-sm mt-2"><i class="fas fa-file-alt mr-2"></i>${results.title}</p>` : ''}
                     </div>
-                    <div class="text-center mt-6 md:mt-0">
-                        <div class="text-6xl font-bold ${scoreColor}">${overallScore}</div>
-                        <div class="text-white/70">Overall Score</div>
+                    <div class="text-center mt-6 md:mt-0 bg-white/20 rounded-2xl p-6">
+                        <div class="text-6xl font-bold text-white ${scoreClass}">${overallScore}</div>
+                        <div class="text-white/80 text-sm">Overall Health Score</div>
                     </div>
                 </div>
             `;
 
-            // Overview stats
-            document.getElementById('pagesCrawled').textContent = '1';
-            document.getElementById('seoScoreDisplay').textContent = seoScore + '%';
-            document.getElementById('techCount').textContent = techCount;
-
-            // Count issues (SEO warnings/fails)
-            const issuesCount = Object.values(seoChecks).filter(check =>
-                check && typeof check === 'object' && (check.status === 'warning' || check.status === 'fail')
-            ).length;
-            document.getElementById('issuesFound').textContent = issuesCount;
-            document.getElementById('issueCount').textContent = issuesCount;
-
             // ===== PERFORMANCE METRICS =====
             // Load Time
             const loadTimeEl = document.getElementById('loadTime');
+            const quickLoadTimeEl = document.getElementById('quickLoadTime');
             if (results.load_time !== undefined) {
-                const loadTime = results.load_time.toFixed(3);
+                const loadTime = results.load_time.toFixed(2);
+                const loadTimeClass = results.load_time < 1 ? 'text-green-600' : results.load_time < 2 ? 'text-yellow-600' : 'text-red-600';
                 loadTimeEl.textContent = loadTime + 's';
-                loadTimeEl.className = `text-3xl font-bold ${results.load_time < 1 ? 'text-green-400' : results.load_time < 3 ? 'text-yellow-400' : 'text-red-400'}`;
+                loadTimeEl.className = `text-3xl font-bold ${loadTimeClass}`;
+                quickLoadTimeEl.textContent = loadTime + 's';
+                quickLoadTimeEl.className = `text-2xl font-bold ${loadTimeClass}`;
             } else {
                 loadTimeEl.textContent = '-';
+                quickLoadTimeEl.textContent = '-';
             }
 
             // Content Size
             const contentSizeEl = document.getElementById('contentSize');
+            const quickContentSizeEl = document.getElementById('quickContentSize');
             if (results.content_length) {
                 const sizeKB = (results.content_length / 1024).toFixed(1);
                 const sizeMB = (results.content_length / 1024 / 1024).toFixed(2);
-                contentSizeEl.textContent = results.content_length > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+                const sizeText = results.content_length > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+                contentSizeEl.textContent = sizeText;
+                quickContentSizeEl.textContent = sizeText;
             } else {
                 contentSizeEl.textContent = '-';
+                quickContentSizeEl.textContent = '-';
             }
 
             // Status Code
@@ -419,13 +443,102 @@
             if (results.status_code) {
                 statusCodeEl.textContent = results.status_code;
                 if (results.status_code === 200) {
-                    statusCodeEl.className = 'text-3xl font-bold text-green-400';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-green-600';
-                    statusIconEl.innerHTML = '<i class="fas fa-check text-white"></i>';
+                    statusCodeEl.className = 'text-3xl font-bold text-green-600';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-green-100';
+                    statusIconEl.innerHTML = '<i class="fas fa-check text-green-600"></i>';
                 } else if (results.status_code === 404) {
-                    statusCodeEl.className = 'text-3xl font-bold text-red-400';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-600';
-                    statusIconEl.innerHTML = '<i class="fas fa-times text-white"></i>';
+                    statusCodeEl.className = 'text-3xl font-bold text-red-600';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-100';
+                    statusIconEl.innerHTML = '<i class="fas fa-times text-red-600"></i>';
+                    // Show not found message
+                    const overallScoreEl = document.getElementById('overallScore');
+                    overallScoreEl.innerHTML = `
+                        <div class="text-center text-white">
+                            <h1 class="text-3xl font-bold mb-2">❌ Website Not Found</h1>
+                            <p class="text-white/80">The URL "${results.url}" returned 404 Not Found</p>
+                            <p class="text-yellow-300 mt-4">Please check the URL and try again.</p>
+                        </div>
+                    `;
+                } else if (results.status_code >= 400 && results.status_code < 500) {
+                    statusCodeEl.className = 'text-3xl font-bold text-red-600';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-100';
+                    statusIconEl.innerHTML = '<i class="fas fa-exclamation-triangle text-red-600"></i>';
+                } else if (results.status_code >= 300 && results.status_code < 400) {
+                    statusCodeEl.className = 'text-3xl font-bold text-yellow-600';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-yellow-100';
+                    statusIconEl.innerHTML = '<i class="fas fa-redirect text-yellow-600"></i>';
+                } else {
+                    statusCodeEl.className = 'text-3xl font-bold text-orange-600';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-orange-100';
+                    statusIconEl.innerHTML = '<i class="fas fa-question text-orange-600"></i>';
+                }
+            } else {
+                statusCodeEl.textContent = '-';
+            }
+
+            // Tech Count
+            const quickTechCountEl = document.getElementById('quickTechCount');
+            quickTechCountEl.textContent = techCount;
+
+            // Count issues (SEO warnings/fails)
+            const issuesCount = Object.values(seoChecks).filter(check =>
+                check && typeof check === 'object' && (check.status === 'warning' || check.status === 'fail')
+            ).length;
+            const quickIssueCountEl = document.getElementById('quickIssueCount');
+            quickIssueCountEl.textContent = issuesCount;
+            document.getElementById('issueCount').textContent = issuesCount;
+
+            // Performance Details
+            document.getElementById('analyzedUrl').textContent = results.url || audit.url || '-';
+            document.getElementById('pageTitle').textContent = results.title || 'No title found';
+            document.getElementById('pageMetaDesc').textContent = results.meta_description || 'No meta description';
+            document.getElementById('pageH1').textContent = (seoChecks.h1?.count || 0) + ' found';
+            document.getElementById('auditId').textContent = audit.audit_id || '-';
+
+            // Page count
+            document.getElementById('pageCount').textContent = '1';
+
+            // Render SEO Analysis
+            renderSEOFrontend(results);
+
+            // Render tech stack
+            renderTechStackFrontend(techStack);
+
+            // Render issues
+            const issues = generateIssuesFromSEO(seoChecks);
+            renderIssues(issues);
+
+            // Render Overview Summary
+            renderAnalysisSummary(seoScore, techCount, issuesCount, results);
+        }
+
+        function renderAnalysisSummary(seoScore, techCount, issuesCount, results) {
+            const summaryEl = document.getElementById('analysisSummary');
+            const getScoreClass = (score) => score >= 80 ? 'text-green-600 bg-green-50' : score >= 60 ? 'text-yellow-600 bg-yellow-50' : 'text-red-600 bg-red-50';
+
+            summaryEl.innerHTML = `
+                <div class="p-4 rounded-lg ${getScoreClass(seoScore)}">
+                    <div class="text-sm text-gray-600 mb-1">SEO Score</div>
+                    <div class="text-3xl font-bold">${seoScore}%</div>
+                    <div class="text-xs mt-1">${seoScore >= 80 ? 'Excellent' : seoScore >= 60 ? 'Good' : 'Needs Improvement'}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-gray-50">
+                    <div class="text-sm text-gray-600 mb-1">Tech Stack</div>
+                    <div class="text-3xl font-bold text-gray-800">${techCount}</div>
+                    <div class="text-xs mt-1 text-gray-500">technologies detected</div>
+                </div>
+                <div class="p-4 rounded-lg ${issuesCount === 0 ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'}">
+                    <div class="text-sm text-gray-600 mb-1">Issues Found</div>
+                    <div class="text-3xl font-bold">${issuesCount}</div>
+                    <div class="text-xs mt-1">${issuesCount === 0 ? 'No issues!' : 'needs attention'}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-blue-50">
+                    <div class="text-sm text-gray-600 mb-1">Analysis Type</div>
+                    <div class="text-lg font-bold text-blue-600">Page Analysis</div>
+                    <div class="text-xs mt-1 text-gray-500">Single page audit</div>
+                </div>
+            `;
+        }
                     // Show not found message
                     const overallScoreEl = document.getElementById('overallScore');
                     overallScoreEl.innerHTML = `
@@ -597,10 +710,10 @@
                     key: 'title',
                     icon: 'fa-heading',
                     getValue: (c) => {
-                        if (!c || !c.exists) return 'Missing - Add a title tag (30-60 chars)';
-                        if (c.length < 30) return `Too short (${c.length}/60 chars)`;
-                        if (c.length > 60) return `Too long (${c.length}/60 chars)`;
-                        return `Optimal (${c.length} chars)`;
+                        if (!c || !c.exists) return '❌ Missing - Add a title tag (30-60 chars)';
+                        if (c.length < 30) return `⚠️ Too short (${c.length}/60 chars)`;
+                        if (c.length > 60) return `⚠️ Too long (${c.length}/60 chars)`;
+                        return `✅ Optimal (${c.length} chars)`;
                     }
                 },
                 {
@@ -608,10 +721,10 @@
                     key: 'meta_description',
                     icon: 'fa-align-left',
                     getValue: (c) => {
-                        if (!c || !c.exists) return 'Missing - Add meta description (120-160 chars)';
-                        if (c.length < 120) return `Too short (${c.length}/160 chars)`;
-                        if (c.length > 160) return `Too long (${c.length}/160 chars)`;
-                        return `Optimal (${c.length} chars)`;
+                        if (!c || !c.exists) return '❌ Missing - Add meta description (120-160 chars)';
+                        if (c.length < 120) return `⚠️ Too short (${c.length}/160 chars)`;
+                        if (c.length > 160) return `⚠️ Too long (${c.length}/160 chars)`;
+                        return `✅ Optimal (${c.length} chars)`;
                     }
                 },
                 {
@@ -619,11 +732,11 @@
                     key: 'h1',
                     icon: 'fa-h1',
                     getValue: (c) => {
-                        if (!c) return 'Not detected';
+                        if (!c) return '❌ Not detected';
                         const count = c.count || 0;
-                        if (count === 0) return 'No H1 tag found';
-                        if (count === 1) return 'Optimal - 1 H1 tag';
-                        return `${count} H1 tags (recommended: 1)`;
+                        if (count === 0) return '❌ No H1 tag found';
+                        if (count === 1) return '✅ Optimal - 1 H1 tag';
+                        return `⚠️ ${count} H1 tags (recommended: 1)`;
                     }
                 },
                 {
@@ -631,8 +744,8 @@
                     key: 'ssl',
                     icon: 'fa-lock',
                     getValue: (c) => {
-                        if (!c) return 'Unknown';
-                        return c.has_ssl ? 'Secure - HTTPS enabled' : 'Not Secure - Enable HTTPS';
+                        if (!c) return '❓ Unknown';
+                        return c.has_ssl ? '✅ Secure - HTTPS enabled' : '❌ Not Secure - Enable HTTPS';
                     }
                 },
                 {
@@ -640,8 +753,8 @@
                     key: 'viewport',
                     icon: 'fa-mobile',
                     getValue: (c) => {
-                        if (!c) return 'Unknown';
-                        return c.has_viewport ? 'Present - Mobile friendly' : 'Missing - Add viewport tag';
+                        if (!c) return '❓ Unknown';
+                        return c.has_viewport ? '✅ Present - Mobile friendly' : '❌ Missing - Add viewport tag';
                     }
                 }
             ];
@@ -650,23 +763,22 @@
                 const c = checks[check.key];
                 const status = c?.status === 'pass' || c?.has_ssl || c?.has_viewport;
                 const value = check.getValue(c);
-                const statusColor = status ? 'bg-green-600' : (c?.status === 'warning' ? 'bg-yellow-600' : 'bg-red-600');
+                const statusBg = status ? 'bg-green-50 border-green-200' : (c?.status === 'warning' ? 'bg-yellow-50 border-yellow-200' : 'bg-red-50 border-red-200');
+                const statusBorder = status ? 'border-green-300' : (c?.status === 'warning' ? 'border-yellow-300' : 'border-red-300');
+                const iconColor = status ? 'text-green-600' : (c?.status === 'warning' ? 'text-yellow-600' : 'text-red-600');
 
                 return `
-                    <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="bg-white border ${statusBorder} rounded-xl p-6 shadow-sm">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center gap-3 mb-2">
-                                    <i class="fas ${check.icon} text-gray-400"></i>
-                                    <h4 class="font-semibold text-lg">${check.name}</h4>
-                                    <span class="px-2 py-1 rounded text-xs ${status ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'}">
+                                    <i class="fas ${check.icon} ${iconColor}"></i>
+                                    <h4 class="font-semibold text-lg text-gray-800">${check.name}</h4>
+                                    <span class="px-2 py-1 rounded text-xs font-medium ${statusBg} ${iconColor}">
                                         ${status ? 'PASS' : (c?.status === 'warning' ? 'WARNING' : 'FAIL')}
                                     </span>
                                 </div>
-                                <p class="text-gray-400 text-sm">${value}</p>
-                            </div>
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center ${statusColor} ml-4">
-                                <i class="fas ${status ? 'fa-check' : 'fa-times'}"></i>
+                                <p class="text-gray-600 text-sm">${value}</p>
                             </div>
                         </div>
                     </div>
@@ -711,17 +823,17 @@
             const container = document.getElementById('techStack');
 
             const categories = [
-                { key: 'frameworks', label: 'Frameworks', icon: 'fa-cubes' },
-                { key: 'libraries', label: 'Libraries', icon: 'fa-book' },
-                { key: 'cms', label: 'CMS', icon: 'fa-cms' },
-                { key: 'analytics', label: 'Analytics & Tracking', icon: 'fa-chart-line' },
-                { key: 'fonts', label: 'Fonts', icon: 'fa-font' },
+                { key: 'frameworks', label: 'Frameworks', icon: 'fa-cubes', color: 'blue' },
+                { key: 'libraries', label: 'Libraries', icon: 'fa-book', color: 'purple' },
+                { key: 'cms', label: 'CMS', icon: 'fa-cms', color: 'green' },
+                { key: 'analytics', label: 'Analytics & Tracking', icon: 'fa-chart-line', color: 'orange' },
+                { key: 'fonts', label: 'Fonts', icon: 'fa-font', color: 'pink' },
             ];
 
             const hasTech = categories.some(cat => techStack[cat.key] && techStack[cat.key].length > 0);
 
             if (!hasTech) {
-                container.innerHTML = '<div class="col-span-3 text-gray-400 text-center py-8">No technologies detected</div>';
+                container.innerHTML = '<div class="col-span-3 bg-white border border-gray-200 rounded-xl p-8 text-center text-gray-500">No technologies detected</div>';
                 return;
             }
 
@@ -729,16 +841,24 @@
                 const items = techStack[cat.key] || [];
                 if (items.length === 0) return '';
 
+                const colorClasses = {
+                    blue: 'bg-blue-50 text-blue-600 border-blue-200',
+                    purple: 'bg-purple-50 text-purple-600 border-purple-200',
+                    green: 'bg-green-50 text-green-600 border-green-200',
+                    orange: 'bg-orange-50 text-orange-600 border-orange-200',
+                    pink: 'bg-pink-50 text-pink-600 border-pink-200',
+                };
+
                 return `
-                    <div class="bg-gray-800 rounded-xl p-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                         <div class="flex items-center gap-3 mb-4">
-                            <i class="fas ${cat.icon} text-blue-400"></i>
-                            <h4 class="font-semibold text-lg">${cat.label}</h4>
-                            <span class="ml-auto text-gray-500 text-sm">${items.length} detected</span>
+                            <i class="fas ${cat.icon} text-${cat.color}-600"></i>
+                            <h4 class="font-semibold text-lg text-gray-800">${cat.label}</h4>
+                            <span class="ml-auto text-gray-400 text-sm">${items.length} detected</span>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             ${items.map(item => `
-                                <span class="tech-badge px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-sm font-medium">
+                                <span class="px-3 py-2 ${colorClasses[cat.color]} border rounded-lg text-sm font-medium">
                                     ${item}
                                 </span>
                             `).join('')}
@@ -754,25 +874,40 @@
             const filtered = currentFilter === 'all' ? issues : issues.filter(i => i.severity === currentFilter);
 
             if (!filtered || filtered.length === 0) {
-                container.innerHTML = '<div class="text-gray-400 text-center py-8">No issues found</div>';
+                container.innerHTML = '<div class="bg-white border border-gray-200 rounded-xl p-8 text-center text-gray-500"><i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i><p>No issues found - Great job!</p></div>';
                 return;
             }
 
-            container.innerHTML = filtered.map(issue => `
-                <div class="bg-gray-800 rounded-xl p-6 border-l-4 severity-${issue.severity}">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="px-2 py-1 rounded text-xs font-bold uppercase severity-${issue.severity}">${issue.severity}</span>
-                                <h4 class="font-semibold">${issue.type || 'Issue'}</h4>
+            const severityConfig = {
+                high: { bg: 'bg-red-50', border: 'border-red-300', icon: 'fa-exclamation-circle', color: 'text-red-600' },
+                medium: { bg: 'bg-yellow-50', border: 'border-yellow-300', icon: 'fa-exclamation-triangle', color: 'text-yellow-600' },
+                low: { bg: 'bg-blue-50', border: 'border-blue-300', icon: 'fa-info-circle', color: 'text-blue-600' },
+            };
+
+            container.innerHTML = filtered.map(issue => {
+                const config = severityConfig[issue.severity] || severityConfig.low;
+                return `
+                    <div class="issue-card bg-white border ${config.border} rounded-xl p-6 shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center ${config.bg} flex-shrink-0">
+                                <i class="fas ${config.icon} ${config.color} text-xl"></i>
                             </div>
-                            <p class="text-gray-300 mb-2">${issue.message}</p>
-                            ${issue.location ? `<p class="text-gray-500 text-sm"><i class="fas fa-map-marker-alt mr-2"></i>${issue.location}</p>` : ''}
-                            ${issue.recommendation ? `<p class="text-blue-400 text-sm mt-2"><i class="fas fa-lightbulb mr-2"></i>${issue.recommendation}</p>` : ''}
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-1 rounded text-xs font-bold uppercase ${config.bg} ${config.color}">${issue.severity}</span>
+                                    <h4 class="font-semibold text-gray-800">${issue.type || 'Issue'}</h4>
+                                </div>
+                                <p class="text-gray-600 mb-3">${issue.message}</p>
+                                ${issue.recommendation ? `
+                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                        <p class="text-sm text-blue-800"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i><strong>Recommendation:</strong> ${issue.recommendation}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // Render issues summary
@@ -832,14 +967,14 @@
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('active', 'bg-gray-700');
-                    b.classList.add('bg-gray-800');
+                    b.classList.remove('bg-gray-800', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-700');
                 });
-                btn.classList.add('active', 'bg-gray-700');
-                btn.classList.remove('bg-gray-800');
+                btn.classList.remove('bg-gray-200', 'text-gray-700');
+                btn.classList.add('bg-gray-800', 'text-white');
 
                 currentFilter = btn.dataset.severity;
-                renderIssues(auditData?.issues || []);
+                renderIssues(generateIssuesFromSEO((auditData?.results || auditData).seo || {}));
             });
         });
 
