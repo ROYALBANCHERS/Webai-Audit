@@ -163,18 +163,30 @@
         </div>
     </main>
 
-    <script src="./assets/js/api.js"></script>
     <script>
-        const API_BASE = 'http://localhost:8000/api';
+        const API_BASE = 'https://webai-auditor-backend.abhishek88694.workers.dev/api';
         let auditData = null;
         let currentFilter = 'all';
 
-        // Get audit ID from URL
+        // Get audit ID or data from URL
         const urlParams = new URLSearchParams(window.location.search);
         const auditId = urlParams.get('id');
+        const dataParam = urlParams.get('data');
 
         // Load audit results
         async function loadAudit() {
+            // First check if data is passed directly
+            if (dataParam) {
+                try {
+                    auditData = JSON.parse(decodeURIComponent(dataParam));
+                    displayResults();
+                    return;
+                } catch (e) {
+                    console.error('Failed to parse passed data:', e);
+                }
+            }
+
+            // Otherwise, try to load by audit ID
             if (!auditId) {
                 showError('No audit ID provided');
                 return;
@@ -201,16 +213,30 @@
             document.getElementById('resultsContainer').classList.remove('hidden');
 
             const audit = auditData;
-            const pages = audit.pages || [];
+            const results = audit.results || audit;
+            const pages = audit.pages || [results];
+
+            // Calculate overall score from SEO checks
+            let seoScore = 75;
+            if (results.seo) {
+                const checks = results.seo.checks || results.seo;
+                let passCount = 0;
+                let totalCount = 0;
+                for (const key in checks) {
+                    totalCount++;
+                    if (checks[key].status === 'pass') passCount++;
+                }
+                seoScore = totalCount > 0 ? Math.round((passCount / totalCount) * 100) : 75;
+            }
 
             // Overall Score
-            const score = audit.overall_score || 0;
+            const score = audit.overall_score || seoScore || 75;
             const scoreColor = score >= 80 ? 'text-green-400' : score >= 60 ? 'text-yellow-400' : 'text-red-400';
             document.getElementById('overallScore').innerHTML = `
                 <div class="flex flex-col md:flex-row items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold mb-2">${audit.url}</h1>
-                        <p class="text-white/70">Completed ${new Date(audit.created_at).toLocaleString()}</p>
+                        <h1 class="text-3xl font-bold mb-2">${audit.url || results.url}</h1>
+                        <p class="text-white/70">Completed ${new Date(audit.timestamp || results.timestamp || Date.now()).toLocaleString()}</p>
                     </div>
                     <div class="text-center mt-6 md:mt-0">
                         <div class="text-6xl font-bold ${scoreColor}">${score}</div>
@@ -219,28 +245,40 @@
                 </div>
             `;
 
+            // Count technologies
+            const techStack = results.tech_stack || {};
+            const techCount = (techStack.frameworks?.length || 0) +
+                            (techStack.libraries?.length || 0) +
+                            (techStack.analytics?.length || 0) +
+                            (techStack.cms?.length || 0) +
+                            (techStack.fonts?.length || 0);
+
             // Overview stats
-            document.getElementById('pagesCrawled').textContent = audit.pages_count || pages.length;
-            document.getElementById('seoScoreDisplay').textContent = audit.seo_score || 0;
-            document.getElementById('techCount').textContent = audit.tech_stack?.length || 0;
-            document.getElementById('issuesFound').textContent = audit.issues?.length || 0;
-            document.getElementById('pageCount').textContent = pages.length;
-            document.getElementById('issueCount').textContent = audit.issues?.length || 0;
+            document.getElementById('pagesCrawled').textContent = audit.pages_count || 1;
+            document.getElementById('seoScoreDisplay').textContent = seoScore;
+            document.getElementById('techCount').textContent = techCount;
+            document.getElementById('issuesFound').textContent = 0;
+            document.getElementById('pageCount').textContent = 1;
+            document.getElementById('issueCount').textContent = 0;
 
             // Render pages
-            renderPages(pages);
+            renderPages([{
+                url: results.url,
+                title: results.title,
+                status_code: results.status_code
+            }]);
 
             // Render SEO
-            renderSEO(audit);
+            renderSEOFrontend(results);
 
             // Render tech stack
-            renderTechStack(audit.tech_stack || []);
+            renderTechStackFrontend(techStack);
 
-            // Render issues
-            renderIssues(audit.issues || []);
+            // Render issues (empty for now)
+            renderIssues([]);
 
             // Issues summary
-            renderIssuesSummary(audit.issues || []);
+            renderIssuesSummary([]);
         }
 
         // Render pages list
@@ -303,6 +341,40 @@
             `).join('');
         }
 
+        // Render SEO analysis from frontend API format
+        function renderSEOFrontend(results) {
+            const container = document.getElementById('seoAnalysis');
+            const checks = results.seo?.checks || results.seo || {};
+
+            const checkList = [
+                { name: 'Title Tag', key: 'title', getValue: (c) => c.exists ? `${c.length} chars` : 'Missing' },
+                { name: 'Meta Description', key: 'meta_description', getValue: (c) => c.exists ? `${c.length} chars` : 'Missing' },
+                { name: 'H1 Headings', key: 'h1', getValue: (c) => `${c.count || 1} found` },
+                { name: 'SSL Certificate', key: 'ssl', getValue: (c) => c.has_ssl ? 'Secure' : 'Not Secure' },
+                { name: 'Viewport Meta', key: 'viewport', getValue: (c) => c.has_viewport ? 'Present' : 'Missing' },
+            ];
+
+            container.innerHTML = checkList.map(check => {
+                const c = checks[check.key];
+                const status = c?.status === 'pass' || c?.has_ssl || c?.has_viewport || (check.key === 'h1' && c?.count === 1);
+                const value = c ? check.getValue(c) : 'N/A';
+
+                return `
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-semibold text-lg">${check.name}</h4>
+                                <p class="text-gray-400 text-sm">${value}</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center ${status ? 'bg-green-600' : 'bg-red-600'}">
+                                <i class="fas ${status ? 'fa-check' : 'fa-times'}"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         // Render tech stack
         function renderTechStack(techStack) {
             const container = document.getElementById('techStack');
@@ -333,6 +405,44 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        // Render tech stack from frontend API format
+        function renderTechStackFrontend(techStack) {
+            const container = document.getElementById('techStack');
+
+            const categories = [
+                { key: 'frameworks', label: 'Frameworks' },
+                { key: 'libraries', label: 'Libraries' },
+                { key: 'cms', label: 'CMS' },
+                { key: 'analytics', label: 'Analytics' },
+                { key: 'fonts', label: 'Fonts' },
+            ];
+
+            const hasTech = categories.some(cat => techStack[cat.key] && techStack[cat.key].length > 0);
+
+            if (!hasTech) {
+                container.innerHTML = '<div class="col-span-3 text-gray-400 text-center py-8">No technologies detected</div>';
+                return;
+            }
+
+            container.innerHTML = categories.map(cat => {
+                const items = techStack[cat.key] || [];
+                if (items.length === 0) return '';
+
+                return `
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h4 class="font-semibold text-lg mb-4">${cat.label}</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${items.map(item => `
+                                <span class="tech-badge px-3 py-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-sm">
+                                    ${item}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Render issues

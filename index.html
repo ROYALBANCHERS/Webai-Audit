@@ -409,6 +409,11 @@
         </div>
     </section>
 
+    <!-- JavaScript Modules -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/analyzer.js"></script>
+
     <!-- Google AdSense - Large Rectangle After Hero -->
     <section class="py-8 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4">
@@ -891,17 +896,59 @@
 
         counters.forEach(counter => observer.observe(counter));
 
-        // Form submission
+        // Form submission - Run actual audit using API
         const auditForm = document.getElementById('auditForm');
         const urlInput = document.getElementById('urlInput');
+        const submitBtn = document.getElementById('submitBtn');
 
-        auditForm.addEventListener('submit', (e) => {
+        auditForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const url = urlInput.value.trim();
-            if (url) {
-                // Redirect to results page with URL parameter
-                window.location.href = `dashboard.html?url=${encodeURIComponent(url)}`;
+            if (!url) {
+                alert('Please enter a valid URL');
+                return;
             }
+
+            // Show loading state
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Analyzing...';
+
+            try {
+                // Call the API to run audit
+                const response = await fetch('https://webai-auditor-backend.abhishek88694.workers.dev/api/audit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Redirect to audit-results.html with results
+                    const resultsParam = encodeURIComponent(JSON.stringify(data));
+                    window.location.href = `audit-results.html?data=${resultsParam}`;
+                } else {
+                    alert('Analysis failed: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+
+        // URL suggestion buttons
+        document.querySelectorAll('[href="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const suggestedUrl = this.textContent.trim();
+                // Add https:// if not present
+                const fullUrl = suggestedUrl.startsWith('http') ? suggestedUrl : `https://${suggestedUrl}`;
+                urlInput.value = fullUrl;
+                urlInput.focus();
+            });
         });
 
         // Navbar scroll effect

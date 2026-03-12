@@ -143,19 +143,19 @@
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-4">Tool Type</label>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="border-2 border-blue-500 rounded-lg p-4 cursor-pointer bg-blue-50">
+                        <div class="tool-type-option border-2 border-blue-500 rounded-lg p-4 cursor-pointer bg-blue-50" data-type="api">
                             <input type="radio" name="toolType" value="api" checked class="hidden">
                             <i class="fas fa-plug text-blue-600 text-2xl mb-2"></i>
                             <h3 class="font-semibold">API Integration</h3>
                             <p class="text-sm text-gray-500">Connect to external API</p>
                         </div>
-                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-300">
+                        <div class="tool-type-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-300" data-type="code">
                             <input type="radio" name="toolType" value="code" class="hidden">
                             <i class="fas fa-code text-gray-600 text-2xl mb-2"></i>
                             <h3 class="font-semibold">Custom Code</h3>
                             <p class="text-sm text-gray-500">Write JavaScript code</p>
                         </div>
-                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-300">
+                        <div class="tool-type-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-300" data-type="form">
                             <input type="radio" name="toolType" value="form" class="hidden">
                             <i class="fas fa-wpforms text-gray-600 text-2xl mb-2"></i>
                             <h3 class="font-semibold">Form Builder</h3>
@@ -469,24 +469,46 @@ async function analyze(url) {
                 publish: document.getElementById('publishToggle').checked
             };
 
-            // Send to backend
-            fetch('http://localhost:8000/api/tools/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(toolData)
-            }).then(response => {
-                if (response.ok) {
-                    alert('Tool published successfully!');
-                    window.location.href = 'my-tools.html';
-                }
-            });
+            // Validate inputs
+            if (!toolData.name || !toolData.description || !toolData.category) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Show success message (demo mode)
+            alert('Tool published successfully! (Demo Mode - Backend integration coming soon)');
+            console.log('Tool Data:', toolData);
+
+            // For now, just redirect
+            setTimeout(() => {
+                window.location.href = 'my-tools.html';
+            }, 1000);
         }
 
-        // Tool type selection
-        document.querySelectorAll('[name="toolType"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.getElementById('apiConfig').classList.toggle('hidden', this.value !== 'api');
-                document.getElementById('codeConfig').classList.toggle('hidden', this.value !== 'code');
+        // Tool type selection - Fix for clickable divs
+        document.querySelectorAll('.tool-type-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const type = this.dataset.type;
+
+                // Update visual selection
+                document.querySelectorAll('.tool-type-option').forEach(opt => {
+                    opt.classList.remove('border-blue-500', 'bg-blue-50');
+                    opt.classList.add('border-gray-200');
+                });
+                this.classList.remove('border-gray-200');
+                this.classList.add('border-blue-500', 'bg-blue-50');
+
+                // Update radio button
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                    // Trigger change event
+                    radio.dispatchEvent(new Event('change'));
+                }
+
+                // Show/hide config sections
+                document.getElementById('apiConfig').classList.toggle('hidden', type !== 'api');
+                document.getElementById('codeConfig').classList.toggle('hidden', type !== 'code');
             });
         });
     </script>
