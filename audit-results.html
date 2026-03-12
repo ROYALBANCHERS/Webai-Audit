@@ -264,6 +264,7 @@
         const API_BASE = 'https://webai-auditor-backend.abhishek88694.workers.dev/api';
         let auditData = null;
         let currentFilter = 'all';
+        let analysisMode = sessionStorage.getItem('analysisMode') || 'page';
 
         // Get audit ID or data from URL or sessionStorage
         const urlParams = new URLSearchParams(window.location.search);
@@ -360,16 +361,117 @@
 
             const audit = auditData;
             const results = audit.results || audit;
+            const mode = audit.mode || sessionStorage.getItem('analysisMode') || 'page';
 
             console.log('Audit Data:', audit);
             console.log('Results:', results);
+            console.log('Mode:', mode);
 
-            // Calculate SEO score from checks
+            // Check if it's a website crawl result with multiple pages
+            if (mode === 'website' && audit.pages) {
+                displayWebsiteResults(audit);
+                return;
+            }
+
+            // Single page analysis (existing code)
+            displayPageResults(audit, results);
+        }
+
+        // Display website crawl results (multiple pages)
+        function displayWebsiteResults(audit) {
+            const summary = audit.summary || {};
+            const pages = audit.pages || [];
+            const totalIssues = audit.issues || [];
+            const techStack = audit.tech_stack || {};
+
+            // Calculate overall score from summary
+            const overallScore = summary.seo_score || 75;
+
+            // Score color
+            const scoreClass = overallScore >= 80 ? 'score-excellent' : overallScore >= 60 ? 'score-good' : overallScore >= 40 ? 'score-warning' : 'score-critical';
+
+            // Overall Score Header with summary info
+            document.getElementById('overallScore').innerHTML = `
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="text-white">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Full Website Analysis</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${pages.length} Pages Crawled</span>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">${audit.url}</h1>
+                        <p class="text-white/80">Domain: ${summary.domain || 'N/A'}</p>
+                        <p class="text-white/60 text-sm">Completed ${new Date(audit.timestamp || Date.now()).toLocaleString()}</p>
+                    </div>
+                    <div class="text-center mt-6 md:mt-0 bg-white/20 rounded-2xl p-6">
+                        <div class="text-6xl font-bold text-white ${scoreClass}">${overallScore}</div>
+                        <div class="text-white/80 text-sm">Overall SEO Score</div>
+                    </div>
+                </div>
+            `;
+
+            // Quick stats
+            document.getElementById('quickLoadTime').textContent = summary.avg_load_time || '-';
+            document.getElementById('quickContentSize').textContent = summary.total_content_size || '-';
+            document.getElementById('quickTechCount').textContent = (techStack.frameworks?.length || 0) +
+                (techStack.libraries?.length || 0) +
+                (techStack.analytics?.length || 0) +
+                (techStack.cms?.length || 0) +
+                (techStack.fonts?.length || 0);
+            document.getElementById('quickIssueCount').textContent = summary.total_issues || totalIssues.length || 0;
+
+            // Page count
+            document.getElementById('pageCount').textContent = pages.length;
+
+            // Render Overview Summary
+            renderWebsiteSummary(summary, pages.length, totalIssues.length);
+
+            // Render pages list
+            renderPagesList(pages);
+
+            // Render SEO analysis for all pages
+            renderWebsitePagesSeo(pages);
+
+            // Render tech stack
+            renderTechStackFrontend(techStack);
+
+            // Render all issues
+            renderWebsiteIssues(totalIssues);
+
+            // Render links
+            renderWebsiteLinks(audit);
+        }
+
+        function renderWebsiteSummary(summary, pageCount, issueCount) {
+            const summaryEl = document.getElementById('analysisSummary');
+            if (!summaryEl) return;
+
+            summaryEl.innerHTML = `
+                <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                    <div class="text-sm text-gray-600 mb-1">Total Pages Crawled</div>
+                    <div class="text-3xl font-bold text-blue-600">${pageCount}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-green-50 border border-green-200">
+                    <div class="text-sm text-gray-600 mb-1">Internal Links Found</div>
+                    <div class="text-3xl font-bold text-green-600">${summary.internal_links || 0}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-purple-50 border border-purple-200">
+                    <div class="text-sm text-gray-600 mb-1">External Links Found</div>
+                    <div class="text-3xl font-bold text-purple-600">${summary.external_links || 0}</div>
+                </div>
+                <div class="p-4 rounded-lg ${issueCount === 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}">
+                    <div class="text-sm text-gray-600 mb-1">Issues Found</div>
+                    <div class="text-3xl font-bold ${issueCount === 0 ? 'text-green-600' : 'text-red-600'}">${issueCount}</div>
+                </div>
+            `;
+        }
+
+        function displayPageResults(audit, results) {
+            // Single page analysis (existing code)
+            const seoChecks = results.seo || {};
             let seoScore = 75;
             let passCount = 0;
             let totalCount = 0;
 
-            const seoChecks = results.seo || {};
             for (const key in seoChecks) {
                 if (typeof seoChecks[key] === 'object' && seoChecks[key] !== null) {
                     totalCount++;
@@ -378,7 +480,6 @@
             }
             seoScore = totalCount > 0 ? Math.round((passCount / totalCount) * 100) : 75;
 
-            // Calculate tech score
             const techStack = results.tech_stack || {};
             const techCount = (techStack.frameworks?.length || 0) +
                             (techStack.libraries?.length || 0) +
@@ -386,19 +487,16 @@
                             (techStack.cms?.length || 0) +
                             (techStack.fonts?.length || 0);
 
-            // Overall score (weighted: 60% SEO, 40% Tech)
             const overallScore = Math.round((seoScore * 0.6) + (techCount > 0 ? 80 * 0.4 : 50 * 0.4));
-
-            // Score color for white theme
             const scoreClass = overallScore >= 80 ? 'score-excellent' : overallScore >= 60 ? 'score-good' : overallScore >= 40 ? 'score-warning' : 'score-critical';
 
-            // Overall Score Header
             document.getElementById('overallScore').innerHTML = `
                 <div class="flex flex-col md:flex-row items-center justify-between">
                     <div class="text-white">
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium mb-2">Single Page Analysis</span>
                         <h1 class="text-2xl md:text-3xl font-bold mb-2">${results.url || audit.url}</h1>
                         <p class="text-white/80">Analysis completed at ${new Date(audit.timestamp || Date.now()).toLocaleString()}</p>
-                        ${results.title ? `<p class="text-white/60 text-sm mt-2"><i class="fas fa-file-alt mr-2"></i>${results.title}</p>` : ''}
+                        ${results.title ? `<p class="text-white/60 text-sm mt-1"><i class="fas fa-file-alt mr-2"></i>${results.title}</p>` : ''}
                     </div>
                     <div class="text-center mt-6 md:mt-0 bg-white/20 rounded-2xl p-6">
                         <div class="text-6xl font-bold text-white ${scoreClass}">${overallScore}</div>
@@ -407,98 +505,52 @@
                 </div>
             `;
 
-            // ===== PERFORMANCE METRICS =====
-            // Load Time
-            const loadTimeEl = document.getElementById('loadTime');
-            const quickLoadTimeEl = document.getElementById('quickLoadTime');
+            // Performance metrics
             if (results.load_time !== undefined) {
                 const loadTime = results.load_time.toFixed(2);
                 const loadTimeClass = results.load_time < 1 ? 'text-green-600' : results.load_time < 2 ? 'text-yellow-600' : 'text-red-600';
-                loadTimeEl.textContent = loadTime + 's';
-                loadTimeEl.className = `text-3xl font-bold ${loadTimeClass}`;
-                quickLoadTimeEl.textContent = loadTime + 's';
-                quickLoadTimeEl.className = `text-2xl font-bold ${loadTimeClass}`;
-            } else {
-                loadTimeEl.textContent = '-';
-                quickLoadTimeEl.textContent = '-';
+                document.getElementById('loadTime').textContent = loadTime + 's';
+                document.getElementById('loadTime').className = `text-3xl font-bold ${loadTimeClass}`;
+                document.getElementById('quickLoadTime').textContent = loadTime + 's';
+                document.getElementById('quickLoadTime').className = `text-2xl font-bold ${loadTimeClass}`;
             }
 
-            // Content Size
-            const contentSizeEl = document.getElementById('contentSize');
-            const quickContentSizeEl = document.getElementById('quickContentSize');
             if (results.content_length) {
                 const sizeKB = (results.content_length / 1024).toFixed(1);
                 const sizeMB = (results.content_length / 1024 / 1024).toFixed(2);
                 const sizeText = results.content_length > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
-                contentSizeEl.textContent = sizeText;
-                quickContentSizeEl.textContent = sizeText;
-            } else {
-                contentSizeEl.textContent = '-';
-                quickContentSizeEl.textContent = '-';
+                document.getElementById('contentSize').textContent = sizeText;
+                document.getElementById('quickContentSize').textContent = sizeText;
             }
 
-            // Status Code
-            const statusCodeEl = document.getElementById('statusCode');
-            const statusIconEl = document.getElementById('statusIcon');
+            // Status code
             if (results.status_code) {
-                statusCodeEl.textContent = results.status_code;
+                document.getElementById('statusCode').textContent = results.status_code;
                 if (results.status_code === 200) {
-                    statusCodeEl.className = 'text-3xl font-bold text-green-600';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-green-100';
-                    statusIconEl.innerHTML = '<i class="fas fa-check text-green-600"></i>';
-                } else if (results.status_code === 404) {
-                    statusCodeEl.className = 'text-3xl font-bold text-red-600';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-100';
-                    statusIconEl.innerHTML = '<i class="fas fa-times text-red-600"></i>';
-                    // Show not found message
-                    const overallScoreEl = document.getElementById('overallScore');
-                    overallScoreEl.innerHTML = `
-                        <div class="text-center text-white">
-                            <h1 class="text-3xl font-bold mb-2">❌ Website Not Found</h1>
-                            <p class="text-white/80">The URL "${results.url}" returned 404 Not Found</p>
-                            <p class="text-yellow-300 mt-4">Please check the URL and try again.</p>
-                        </div>
-                    `;
-                } else if (results.status_code >= 400 && results.status_code < 500) {
-                    statusCodeEl.className = 'text-3xl font-bold text-red-600';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-100';
-                    statusIconEl.innerHTML = '<i class="fas fa-exclamation-triangle text-red-600"></i>';
-                } else if (results.status_code >= 300 && results.status_code < 400) {
-                    statusCodeEl.className = 'text-3xl font-bold text-yellow-600';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-yellow-100';
-                    statusIconEl.innerHTML = '<i class="fas fa-redirect text-yellow-600"></i>';
-                } else {
-                    statusCodeEl.className = 'text-3xl font-bold text-orange-600';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-orange-100';
-                    statusIconEl.innerHTML = '<i class="fas fa-question text-orange-600"></i>';
+                    document.getElementById('statusCode').className = 'text-3xl font-bold text-green-600';
+                    document.getElementById('statusIcon').className = 'w-12 h-12 rounded-full flex items-center justify-center bg-green-100';
+                    document.getElementById('statusIcon').innerHTML = '<i class="fas fa-check text-green-600"></i>';
                 }
-            } else {
-                statusCodeEl.textContent = '-';
             }
 
-            // Tech Count
-            const quickTechCountEl = document.getElementById('quickTechCount');
-            quickTechCountEl.textContent = techCount;
+            document.getElementById('quickTechCount').textContent = techCount;
 
-            // Count issues (SEO warnings/fails)
+            // Issues count
             const issuesCount = Object.values(seoChecks).filter(check =>
                 check && typeof check === 'object' && (check.status === 'warning' || check.status === 'fail')
             ).length;
-            const quickIssueCountEl = document.getElementById('quickIssueCount');
-            quickIssueCountEl.textContent = issuesCount;
+            document.getElementById('quickIssueCount').textContent = issuesCount;
             document.getElementById('issueCount').textContent = issuesCount;
 
-            // Performance Details
+            // Page details
             document.getElementById('analyzedUrl').textContent = results.url || audit.url || '-';
             document.getElementById('pageTitle').textContent = results.title || 'No title found';
             document.getElementById('pageMetaDesc').textContent = results.meta_description || 'No meta description';
             document.getElementById('pageH1').textContent = (seoChecks.h1?.count || 0) + ' found';
             document.getElementById('auditId').textContent = audit.audit_id || '-';
-
-            // Page count
             document.getElementById('pageCount').textContent = '1';
 
-            // Render SEO Analysis
+            // Render SEO
             renderSEOFrontend(results);
 
             // Render tech stack
@@ -508,8 +560,184 @@
             const issues = generateIssuesFromSEO(seoChecks);
             renderIssues(issues);
 
-            // Render Overview Summary
+            // Render summary
             renderAnalysisSummary(seoScore, techCount, issuesCount, results);
+        }
+
+        function renderPagesList(pages) {
+            const container = document.getElementById('pagesList');
+
+            if (!pages || pages.length === 0) {
+                container.innerHTML = '<div class="bg-white border border-gray-200 rounded-xl p-8 text-center text-gray-500">No pages found</div>';
+                return;
+            }
+
+            container.innerHTML = pages.map((page, index) => {
+                const seoScore = page.seo_score || calculatePageSeoScore(page.seo);
+                const scoreClass = seoScore >= 80 ? 'text-green-600' : seoScore >= 60 ? 'text-yellow-600' : 'text-red-600';
+                const statusCodeClass = page.status_code === 200 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
+
+                return `
+                    <div class="page-card bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="text-gray-400 text-sm">#${index + 1}</span>
+                                    <h4 class="font-semibold text-lg text-gray-800 truncate">${page.title || page.url}</h4>
+                                    <span class="px-2 py-1 rounded text-xs ${statusCodeClass}">${page.status_code}</span>
+                                </div>
+                                <a href="${page.url}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">${page.url}</a>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold ${scoreClass}">${seoScore}%</div>
+                                <div class="text-xs text-gray-500">SEO Score</div>
+                            </div>
+                        </div>
+                        ${page.load_time ? `<div class="text-sm text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i> ${page.load_time.toFixed(2)}s</div>` : ''}
+                        ${page.content_length ? `<div class="text-sm text-gray-500"><i class="fas fa-database mr-1"></i> ${(page.content_length / 1024).toFixed(1)} KB</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderWebsitePagesSeo(pages) {
+            const container = document.getElementById('seoAnalysis');
+
+            // Aggregate SEO data across all pages
+            const allSeoData = {
+                pagesWithTitles: pages.filter(p => p.title).length,
+                pagesWithMetaDesc: pages.filter(p => p.meta_description && p.meta_description.length > 0).length,
+                pagesWithH1: pages.filter(p => p.seo?.h1?.count > 0).length,
+                pagesWithSSL: pages.filter(p => p.seo?.ssl?.has_ssl).length,
+                pagesWithViewport: pages.filter(p => p.seo?.viewport?.has_viewport).length,
+            };
+
+            container.innerHTML = `
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">SEO Summary Across ${pages.length} Pages</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        ${renderSeoStat('Pages with Title', allSeoData.pagesWithTitles, pages.length)}
+                        ${renderSeoStat('Pages with Meta Description', allSeoData.pagesWithMetaDesc, pages.length)}
+                        ${renderSeoStat('Pages with H1', allSeoData.pagesWithH1, pages.length)}
+                        ${renderSeoStat('HTTPS Enabled', allSeoData.pagesWithSSL, pages.length)}
+                        ${renderSeoStat('Mobile Friendly', allSeoData.pagesWithViewport, pages.length)}
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Individual Page SEO Scores</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    ${pages.map((page, index) => {
+                        const seoScore = page.seo_score || calculatePageSeoScore(page.seo);
+                        const scoreClass = seoScore >= 80 ? 'bg-green-50 text-green-700 border-green-200' : seoScore >= 60 ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 'bg-red-50 text-red-700 border-red-200';
+
+                        return `
+                            <div class="border border-gray-200 rounded-xl p-4 shadow-sm">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-gray-400 text-xs">#${index + 1}</span>
+                                    <span class="font-semibold text-gray-800 truncate">${page.title || page.url.slice(0, 30)}...</span>
+                                </div>
+                                <div class="text-2xl font-bold ${scoreClass}">${seoScore}%</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderSeoStat(label, count, total) {
+            const percentage = Math.round((count / total) * 100);
+            const scoreClass = percentage >= 80 ? 'text-green-600' : percentage >= 50 ? 'text-yellow-600' : 'text-red-600';
+
+            return `
+                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold ${scoreClass}">${count}/${total}</div>
+                    <div class="text-xs text-gray-500">${label}</div>
+                    <div class="text-xs text-gray-400 mt-1">${percentage}%</div>
+                </div>
+            `;
+        }
+
+        function renderWebsiteIssues(issues) {
+            const container = document.getElementById('issuesList');
+            const filtered = currentFilter === 'all' ? issues : issues.filter(i => i.severity === currentFilter);
+
+            if (!filtered || filtered.length === 0) {
+                container.innerHTML = '<div class="bg-white border border-gray-200 rounded-xl p-8 text-center"><i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i><p class="text-gray-600">No issues found - Great job!</p></div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(issue => {
+                const config = {
+                    high: { bg: 'bg-red-50', border: 'border-red-300', icon: 'fa-exclamation-circle', color: 'text-red-600' },
+                    medium: { bg: 'bg-yellow-50', border: 'border-yellow-300', icon: 'fa-exclamation-triangle', color: 'text-yellow-600' },
+                    low: { bg: 'bg-blue-50', border: 'border-blue-300', icon: 'fa-info-circle', color: 'text-blue-600' },
+                };
+                const cfg = config[issue.severity] || config.low;
+
+                return `
+                    <div class="bg-white border ${cfg.border} rounded-xl p-6 shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center ${cfg.bg} flex-shrink-0">
+                                <i class="fas ${cfg.icon} ${cfg.color} text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-1 rounded text-xs font-bold uppercase ${cfg.bg} ${cfg.color}">${issue.severity}</span>
+                                    <h4 class="font-semibold text-gray-800">${issue.type}</h4>
+                                </div>
+                                <p class="text-gray-600 mb-3">${issue.message}</p>
+                                <div class="text-sm text-gray-500 mb-2">
+                                    <span class="font-medium">Affected:</span> ${issue.affected_pages}/${issue.total_pages} pages
+                                </div>
+                                ${issue.recommendation ? `
+                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                        <p class="text-sm text-blue-800"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i><strong>Recommendation:</strong> ${issue.recommendation}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderWebsiteLinks(audit) {
+            const container = document.getElementById('pagesList');
+            if (!container) return;
+
+            const internalLinks = audit.internal_links || [];
+            const externalLinks = audit.external_links || [];
+
+            container.innerHTML = `
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                    <h3 class="font-semibold text-gray-800 mb-4">Links Found During Crawling</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Internal Links (${internalLinks.length})</h4>
+                            <div class="space-y-2 max-h-64 overflow-y-auto">
+                                ${internalLinks.slice(0, 20).map(link => `
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <i class="fas fa-link text-blue-500"></i>
+                                        <a href="${link}" target="_blank" class="text-blue-600 hover:text-blue-800 truncate">${link}</a>
+                                    </div>
+                                `).join('')}
+                                ${internalLinks.length > 20 ? `<p class="text-xs text-gray-500">... and ${internalLinks.length - 20} more</p>` : ''}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">External Links (${externalLinks.length})</h4>
+                            <div class="space-y-2 max-h-64 overflow-y-auto">
+                                ${externalLinks.slice(0, 20).map(link => `
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <i class="fas fa-external-link-alt text-purple-500"></i>
+                                        <a href="${link}" target="_blank" class="text-purple-600 hover:text-purple-800 truncate">${link}</a>
+                                    </div>
+                                `).join('')}
+                                ${externalLinks.length > 20 ? `<p class="text-xs text-gray-500">... and ${externalLinks.length - 20} more</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function renderAnalysisSummary(seoScore, techCount, issuesCount, results) {
@@ -539,58 +767,43 @@
                 </div>
             `;
         }
-                    // Show not found message
-                    const overallScoreEl = document.getElementById('overallScore');
-                    overallScoreEl.innerHTML = `
-                        <div class="text-center">
-                            <h1 class="text-3xl font-bold mb-2">Website Not Found</h1>
-                            <p class="text-white/70">The URL "${results.url}" returned 404 Not Found</p>
-                            <p class="text-yellow-300 mt-4">Please check the URL and try again.</p>
-                        </div>
-                    `;
-                } else if (results.status_code >= 400 && results.status_code < 500) {
-                    statusCodeEl.className = 'text-3xl font-bold text-red-400';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-600';
-                    statusIconEl.innerHTML = '<i class="fas fa-exclamation-triangle text-white"></i>';
-                } else if (results.status_code >= 300 && results.status_code < 400) {
-                    statusCodeEl.className = 'text-3xl font-bold text-yellow-400';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-yellow-600';
-                    statusIconEl.innerHTML = '<i class="fas fa-redirect text-white"></i>';
-                } else {
-                    statusCodeEl.className = 'text-3xl font-bold text-orange-400';
-                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-orange-600';
-                    statusIconEl.innerHTML = '<i class="fas fa-question text-white"></i>';
-                }
-            } else {
-                statusCodeEl.textContent = '-';
+
+        // Calculate page SEO score from seo checks
+        function calculatePageSeoScore(seo) {
+            if (!seo) return 0;
+
+            let score = 0;
+            let maxScore = 0;
+
+            if (seo.title) {
+                maxScore += 20;
+                if (seo.title.exists && seo.title.length >= 30 && seo.title.length <= 60) score += 20;
+                else if (seo.title.exists) score += 10;
             }
 
-            // Performance Details
-            document.getElementById('analyzedUrl').textContent = results.url || audit.url || '-';
-            document.getElementById('pageTitle').textContent = results.title || 'No title';
-            document.getElementById('pageMetaDesc').textContent = results.meta_description || 'No meta description';
-            document.getElementById('pageH1').textContent = seoChecks.h1?.count + ' found' || '-';
-            document.getElementById('auditId').textContent = audit.audit_id || '-';
+            if (seo.meta_description) {
+                maxScore += 20;
+                if (seo.meta_description.exists && seo.meta_description.length >= 120 && seo.meta_description.length <= 160) score += 20;
+                else if (seo.meta_description.exists) score += 10;
+            }
 
-            // Render pages
-            renderPages([{
-                url: results.url,
-                title: results.title,
-                status_code: results.status_code,
-                load_time: results.load_time,
-                size: results.content_length
-            }]);
+            if (seo.h1) {
+                maxScore += 20;
+                if (seo.h1.count === 1) score += 20;
+                else if (seo.h1.count > 1) score += 10;
+            }
 
-            // Render SEO with all checks
-            renderSEOFrontend(results);
+            if (seo.ssl) {
+                maxScore += 20;
+                if (seo.ssl.has_ssl) score += 20;
+            }
 
-            // Render tech stack with all technologies
-            renderTechStackFrontend(techStack);
+            if (seo.viewport) {
+                maxScore += 20;
+                if (seo.viewport.has_viewport) score += 20;
+            }
 
-            // Render issues based on SEO checks
-            const issues = generateIssuesFromSEO(seoChecks);
-            renderIssues(issues);
-            renderIssuesSummary(issues);
+            return Math.round((score / maxScore) * 100) || 0;
         }
 
         // Generate issues array from SEO checks
