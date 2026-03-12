@@ -818,10 +818,10 @@
                 <div>
                     <h4 class="font-semibold mb-6">Company</h4>
                     <ul class="space-y-4">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="careers.html" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -851,22 +851,25 @@
             themeToggle.innerHTML = isDark ? '<i class="fas fa-sun text-yellow-500"></i>' : '<i class="fas fa-moon text-gray-600"></i>';
         });
 
-        // Smooth scroll - only for internal anchor links
+        // Smooth scroll - ONLY for internal section anchors (not for footer links)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                // Don't prevent default for all # links - check if it's a valid section
                 const href = this.getAttribute('href');
+
+                // Skip if it's just "#" (no target)
                 if (href === '#' || href === '#!') {
                     e.preventDefault();
                     return;
                 }
 
+                // Only scroll if target exists on page
                 const target = document.querySelector(href);
                 if (target) {
                     e.preventDefault();
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     if (mobileMenu) mobileMenu.classList.add('hidden');
                 }
+                // If target doesn't exist, let the browser handle it naturally
             });
         });
 

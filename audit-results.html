@@ -63,8 +63,8 @@
     <main id="resultsContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Back Button -->
         <div class="mb-6">
-            <a href="audits.html" class="inline-flex items-center text-gray-400 hover:text-white transition">
-                <i class="fas fa-arrow-left mr-2"></i> Back to Audits
+            <a href="index.html" class="inline-flex items-center text-gray-400 hover:text-white transition">
+                <i class="fas fa-arrow-left mr-2"></i> New Analysis
             </a>
         </div>
 
@@ -78,8 +78,8 @@
             <button class="tab-btn active px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="overview">
                 <i class="fas fa-chart-pie mr-2"></i>Overview
             </button>
-            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="pages">
-                <i class="fas fa-file-alt mr-2"></i>Pages (<span id="pageCount">0</span>)
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="performance">
+                <i class="fas fa-tachometer-alt mr-2"></i>Performance
             </button>
             <button class="tab-btn px-6 py-3 rounded-lg bg-gray-800 font-medium transition" data-tab="seo">
                 <i class="fas fa-search mr-2"></i>SEO Analysis
@@ -120,6 +120,77 @@
                     <h3 class="text-xl font-bold mb-4">Issues by Severity</h3>
                     <div id="issuesSummary" class="grid grid-cols-3 gap-4">
                         <!-- Will be populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Tab -->
+            <div id="tab-performance" class="tab-panel hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-400">Load Time</h4>
+                                <div class="text-3xl font-bold" id="loadTime">-</div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-blue-600">
+                                <i class="fas fa-clock text-white"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm">Time to load the page</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-400">Content Size</h4>
+                                <div class="text-3xl font-bold" id="contentSize">-</div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-green-600">
+                                <i class="fas fa-database text-white"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm">Total page size</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-400">Status Code</h4>
+                                <div class="text-3xl font-bold" id="statusCode">-</div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center" id="statusIcon">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm">HTTP response status</p>
+                    </div>
+                </div>
+
+                <!-- Performance Details -->
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Performance Details</h3>
+                    <div class="space-y-4" id="performanceDetails">
+                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
+                            <span class="text-gray-400">URL Analyzed</span>
+                            <span class="font-semibold" id="analyzedUrl">-</span>
+                        </div>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
+                            <span class="text-gray-400">Title</span>
+                            <span class="font-semibold" id="pageTitle">-</span>
+                        </div>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
+                            <span class="text-gray-400">Meta Description</span>
+                            <span class="font-semibold" id="pageMetaDesc">-</span>
+                        </div>
+                        <div class="flex items-center justify-between py-3 border-b border-gray-700">
+                            <span class="text-gray-400">H1 Headings</span>
+                            <span class="font-semibold" id="pageH1">-</span>
+                        </div>
+                        <div class="flex items-center justify-between py-3">
+                            <span class="text-gray-400">Audit ID</span>
+                            <span class="font-mono text-sm" id="auditId">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -310,7 +381,7 @@
             `;
 
             // Overview stats
-            document.getElementById('pagesCrawled').textContent = results.content_length ? Math.round(results.content_length / 1024) + ' KB' : '1';
+            document.getElementById('pagesCrawled').textContent = '1';
             document.getElementById('seoScoreDisplay').textContent = seoScore + '%';
             document.getElementById('techCount').textContent = techCount;
 
@@ -319,8 +390,54 @@
                 check && typeof check === 'object' && (check.status === 'warning' || check.status === 'fail')
             ).length;
             document.getElementById('issuesFound').textContent = issuesCount;
-            document.getElementById('pageCount').textContent = '1';
             document.getElementById('issueCount').textContent = issuesCount;
+
+            // ===== PERFORMANCE METRICS =====
+            // Load Time
+            const loadTimeEl = document.getElementById('loadTime');
+            if (results.load_time !== undefined) {
+                const loadTime = results.load_time.toFixed(3);
+                loadTimeEl.textContent = loadTime + 's';
+                loadTimeEl.className = `text-3xl font-bold ${results.load_time < 1 ? 'text-green-400' : results.load_time < 3 ? 'text-yellow-400' : 'text-red-400'}`;
+            } else {
+                loadTimeEl.textContent = '-';
+            }
+
+            // Content Size
+            const contentSizeEl = document.getElementById('contentSize');
+            if (results.content_length) {
+                const sizeKB = (results.content_length / 1024).toFixed(1);
+                const sizeMB = (results.content_length / 1024 / 1024).toFixed(2);
+                contentSizeEl.textContent = results.content_length > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+            } else {
+                contentSizeEl.textContent = '-';
+            }
+
+            // Status Code
+            const statusCodeEl = document.getElementById('statusCode');
+            const statusIconEl = document.getElementById('statusIcon');
+            if (results.status_code) {
+                statusCodeEl.textContent = results.status_code;
+                if (results.status_code === 200) {
+                    statusCodeEl.className = 'text-3xl font-bold text-green-400';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-green-600';
+                } else if (results.status_code >= 300 && results.status_code < 400) {
+                    statusCodeEl.className = 'text-3xl font-bold text-yellow-400';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-yellow-600';
+                } else {
+                    statusCodeEl.className = 'text-3xl font-bold text-red-400';
+                    statusIconEl.className = 'w-12 h-12 rounded-full flex items-center justify-center bg-red-600';
+                }
+            } else {
+                statusCodeEl.textContent = '-';
+            }
+
+            // Performance Details
+            document.getElementById('analyzedUrl').textContent = results.url || audit.url || '-';
+            document.getElementById('pageTitle').textContent = results.title || 'No title';
+            document.getElementById('pageMetaDesc').textContent = results.meta_description || 'No meta description';
+            document.getElementById('pageH1').textContent = seoChecks.h1?.count + ' found' || '-';
+            document.getElementById('auditId').textContent = audit.audit_id || '-';
 
             // Render pages
             renderPages([{
