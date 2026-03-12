@@ -329,12 +329,17 @@
 
         // Load audit results
         async function loadAudit() {
+            // Get the mode first before clearing anything
+            analysisMode = sessionStorage.getItem('analysisMode') || 'page';
+            console.log('Analysis Mode from storage:', analysisMode);
+
             // First check sessionStorage (from index.html)
             const storedData = sessionStorage.getItem('auditResults');
             if (storedData) {
                 try {
                     auditData = JSON.parse(storedData);
-                    sessionStorage.removeItem('auditResults'); // Clean up
+                    // Don't remove analysisMode yet
+                    sessionStorage.removeItem('auditResults'); // Clean up results only
                     displayResults();
                     return;
                 } catch (e) {
@@ -416,20 +421,61 @@
 
             const audit = auditData;
             const results = audit.results || audit;
-            const mode = audit.mode || sessionStorage.getItem('analysisMode') || 'page';
+
+            // Get mode from multiple sources - audit data, sessionStorage, or check for pages array
+            const mode = audit.mode || analysisMode || sessionStorage.getItem('analysisMode') || 'page';
+
+            // Also check if we have pages array to determine mode
+            const isWebsiteMode = (mode === 'website' || audit.pages || (audit.summary && audit.summary.total_pages > 1));
 
             console.log('Audit Data:', audit);
             console.log('Results:', results);
-            console.log('Mode:', mode);
+            console.log('Mode from storage:', analysisMode);
+            console.log('Final Mode:', mode);
+            console.log('Has pages array:', !!audit.pages);
+            console.log('Is Website Mode:', isWebsiteMode);
+
+            // Check for 404 or error status first
+            const statusCode = results.status_code || audit.status_code;
+            if (statusCode === 404) {
+                showNotFoundError(audit.url || results.url);
+                return;
+            }
+
+            if (statusCode >= 400) {
+                showError(`Website returned error ${statusCode}. Please check the URL and try again.`);
+                return;
+            }
 
             // Check if it's a website crawl result with multiple pages
-            if (mode === 'website' && audit.pages) {
+            if (isWebsiteMode) {
                 displayWebsiteResults(audit);
                 return;
             }
 
             // Single page analysis (existing code)
             displayPageResults(audit, results);
+        }
+
+        // Show not found error
+        function showNotFoundError(url) {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            document.getElementById('overallScore').innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-6xl mb-4 text-yellow-300"></i>
+                    <h1 class="text-3xl font-bold mb-2">Website Not Found</h1>
+                    <p class="text-white/80 text-lg mb-4">The URL "${url}" does not exist (404 Error)</p>
+                    <p class="text-white/60">Please check the URL and try again.</p>
+                    <a href="index.html" class="inline-block mt-6 px-6 py-3 bg-white text-blue-600 rounded-xl font-bold hover:bg-gray-100">
+                        <i class="fas fa-arrow-left mr-2"></i>Go Back
+                    </a>
+                </div>
+            `;
+            // Hide other sections
+            document.getElementById('quickLoadTime').parentElement.parentElement.style.display = 'none';
+            document.querySelector('.flex.flex-wrap.gap-2.mb-6').style.display = 'none';
+            document.getElementById('tabContent').style.display = 'none';
         }
 
         // Display website crawl results (multiple pages)

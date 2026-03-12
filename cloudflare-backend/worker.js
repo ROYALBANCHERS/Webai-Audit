@@ -147,6 +147,7 @@ async function runAudit(data) {
   return JSON.stringify({
     success: true,
     url: url,
+    mode: 'page',
     audit_id: `audit_${Date.now()}`,
     timestamp: new Date().toISOString(),
     results: {
