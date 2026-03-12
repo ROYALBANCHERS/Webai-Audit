@@ -44,9 +44,9 @@
                     </a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="index.html" class="text-gray-300 hover:text-white transition">New Audit</a>
-                    <a href="audits.html" class="text-gray-300 hover:text-white transition">My Audits</a>
-                    <a href="pricing.html" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium hover:from-blue-600 hover:to-purple-700 transition">Upgrade</a>
+                    <a href="index.html" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium hover:from-blue-600 hover:to-purple-700 transition">
+                        <i class="fas fa-plus mr-2"></i>New Analysis
+                    </a>
                 </div>
             </div>
         </div>
@@ -168,14 +168,28 @@
         let auditData = null;
         let currentFilter = 'all';
 
-        // Get audit ID or data from URL
+        // Get audit ID or data from URL or sessionStorage
         const urlParams = new URLSearchParams(window.location.search);
         const auditId = urlParams.get('id');
         const dataParam = urlParams.get('data');
+        const urlParam = urlParams.get('url');
 
         // Load audit results
         async function loadAudit() {
-            // First check if data is passed directly
+            // First check sessionStorage (from index.html)
+            const storedData = sessionStorage.getItem('auditResults');
+            if (storedData) {
+                try {
+                    auditData = JSON.parse(storedData);
+                    sessionStorage.removeItem('auditResults'); // Clean up
+                    displayResults();
+                    return;
+                } catch (e) {
+                    console.error('Failed to parse stored data:', e);
+                }
+            }
+
+            // Check if data is passed directly via URL parameter
             if (dataParam) {
                 try {
                     auditData = JSON.parse(decodeURIComponent(dataParam));
@@ -186,9 +200,15 @@
                 }
             }
 
+            // If URL is passed, run a new analysis
+            if (urlParam) {
+                await runNewAnalysis(urlParam);
+                return;
+            }
+
             // Otherwise, try to load by audit ID
             if (!auditId) {
-                showError('No audit ID provided');
+                showError('No audit data found. Please go back and analyze a website.');
                 return;
             }
 
@@ -207,6 +227,34 @@
             }
         }
 
+        // Run new analysis if URL is passed
+        async function runNewAnalysis(url) {
+            showLoading('Analyzing website...');
+            try {
+                const response = await fetch(`${API_BASE}/audit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    auditData = data;
+                    displayResults();
+                } else {
+                    showError(data.error || 'Analysis failed');
+                }
+            } catch (error) {
+                showError('Failed to analyze: ' + error.message);
+            }
+        }
+
+        function showLoading(message) {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('loadingStatus').textContent = message;
+        }
+
         // Display results
         function displayResults() {
             document.getElementById('loadingState').classList.add('hidden');
@@ -214,38 +262,25 @@
 
             const audit = auditData;
             const results = audit.results || audit;
-            const pages = audit.pages || [results];
 
-            // Calculate overall score from SEO checks
+            console.log('Audit Data:', audit);
+            console.log('Results:', results);
+
+            // Calculate SEO score from checks
             let seoScore = 75;
-            if (results.seo) {
-                const checks = results.seo.checks || results.seo;
-                let passCount = 0;
-                let totalCount = 0;
-                for (const key in checks) {
+            let passCount = 0;
+            let totalCount = 0;
+
+            const seoChecks = results.seo || {};
+            for (const key in seoChecks) {
+                if (typeof seoChecks[key] === 'object' && seoChecks[key] !== null) {
                     totalCount++;
-                    if (checks[key].status === 'pass') passCount++;
+                    if (seoChecks[key].status === 'pass') passCount++;
                 }
-                seoScore = totalCount > 0 ? Math.round((passCount / totalCount) * 100) : 75;
             }
+            seoScore = totalCount > 0 ? Math.round((passCount / totalCount) * 100) : 75;
 
-            // Overall Score
-            const score = audit.overall_score || seoScore || 75;
-            const scoreColor = score >= 80 ? 'text-green-400' : score >= 60 ? 'text-yellow-400' : 'text-red-400';
-            document.getElementById('overallScore').innerHTML = `
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold mb-2">${audit.url || results.url}</h1>
-                        <p class="text-white/70">Completed ${new Date(audit.timestamp || results.timestamp || Date.now()).toLocaleString()}</p>
-                    </div>
-                    <div class="text-center mt-6 md:mt-0">
-                        <div class="text-6xl font-bold ${scoreColor}">${score}</div>
-                        <div class="text-white/70">Overall Score</div>
-                    </div>
-                </div>
-            `;
-
-            // Count technologies
+            // Calculate tech score
             const techStack = results.tech_stack || {};
             const techCount = (techStack.frameworks?.length || 0) +
                             (techStack.libraries?.length || 0) +
@@ -253,32 +288,105 @@
                             (techStack.cms?.length || 0) +
                             (techStack.fonts?.length || 0);
 
+            // Overall score (weighted: 60% SEO, 40% Tech)
+            const overallScore = Math.round((seoScore * 0.6) + (techCount > 0 ? 80 * 0.4 : 50 * 0.4));
+
+            // Score color
+            const scoreColor = overallScore >= 80 ? 'text-green-400' : overallScore >= 60 ? 'text-yellow-400' : 'text-red-400';
+
+            // Overall Score Header
+            document.getElementById('overallScore').innerHTML = `
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">${results.url || audit.url}</h1>
+                        <p class="text-white/70">Analysis completed ${new Date(audit.timestamp || Date.now()).toLocaleString()}</p>
+                        ${results.title ? `<p class="text-white/50 text-sm mt-1"><i class="fas fa-file-alt mr-2"></i>${results.title}</p>` : ''}
+                    </div>
+                    <div class="text-center mt-6 md:mt-0">
+                        <div class="text-6xl font-bold ${scoreColor}">${overallScore}</div>
+                        <div class="text-white/70">Overall Score</div>
+                    </div>
+                </div>
+            `;
+
             // Overview stats
-            document.getElementById('pagesCrawled').textContent = audit.pages_count || 1;
-            document.getElementById('seoScoreDisplay').textContent = seoScore;
+            document.getElementById('pagesCrawled').textContent = results.content_length ? Math.round(results.content_length / 1024) + ' KB' : '1';
+            document.getElementById('seoScoreDisplay').textContent = seoScore + '%';
             document.getElementById('techCount').textContent = techCount;
-            document.getElementById('issuesFound').textContent = 0;
-            document.getElementById('pageCount').textContent = 1;
-            document.getElementById('issueCount').textContent = 0;
+
+            // Count issues (SEO warnings/fails)
+            const issuesCount = Object.values(seoChecks).filter(check =>
+                check && typeof check === 'object' && (check.status === 'warning' || check.status === 'fail')
+            ).length;
+            document.getElementById('issuesFound').textContent = issuesCount;
+            document.getElementById('pageCount').textContent = '1';
+            document.getElementById('issueCount').textContent = issuesCount;
 
             // Render pages
             renderPages([{
                 url: results.url,
                 title: results.title,
-                status_code: results.status_code
+                status_code: results.status_code,
+                load_time: results.load_time,
+                size: results.content_length
             }]);
 
-            // Render SEO
+            // Render SEO with all checks
             renderSEOFrontend(results);
 
-            // Render tech stack
+            // Render tech stack with all technologies
             renderTechStackFrontend(techStack);
 
-            // Render issues (empty for now)
-            renderIssues([]);
+            // Render issues based on SEO checks
+            const issues = generateIssuesFromSEO(seoChecks);
+            renderIssues(issues);
+            renderIssuesSummary(issues);
+        }
 
-            // Issues summary
-            renderIssuesSummary([]);
+        // Generate issues array from SEO checks
+        function generateIssuesFromSEO(seoChecks) {
+            const issues = [];
+            const issueLabels = {
+                title: 'Title Tag',
+                meta_description: 'Meta Description',
+                h1: 'H1 Heading',
+                ssl: 'SSL Certificate',
+                viewport: 'Viewport Meta Tag'
+            };
+
+            for (const [key, check] of Object.entries(seoChecks)) {
+                if (check && typeof check === 'object' && check.status !== 'pass') {
+                    issues.push({
+                        type: issueLabels[key] || key,
+                        message: check.message || getStatusMessage(key, check),
+                        severity: check.status === 'fail' ? 'high' : 'medium',
+                        recommendation: getRecommendation(key, check)
+                    });
+                }
+            }
+            return issues;
+        }
+
+        function getStatusMessage(key, check) {
+            const messages = {
+                title: check.exists ? `Length: ${check.length} chars (recommended: 30-60)` : 'Title tag is missing',
+                meta_description: check.exists ? `Length: ${check.length} chars (recommended: 120-160)` : 'Meta description is missing',
+                h1: check.count === 1 ? 'Optimal' : `${check.count} H1 tags found (recommended: 1)`,
+                ssl: check.has_ssl ? 'SSL enabled' : 'SSL not enabled',
+                viewport: check.has_viewport ? 'Viewport present' : 'Viewport meta tag missing'
+            };
+            return messages[key] || check.status;
+        }
+
+        function getRecommendation(key, check) {
+            const recommendations = {
+                title: 'Add a title tag between 30-60 characters that describes your page content.',
+                meta_description: 'Add a meta description between 120-160 characters to improve click-through rates.',
+                h1: 'Use exactly one H1 tag per page for better SEO structure.',
+                ssl: 'Install an SSL certificate to secure your website and improve rankings.',
+                viewport: 'Add a viewport meta tag for proper mobile display.'
+            };
+            return recommendations[key] || 'Fix this issue to improve your website.';
         }
 
         // Render pages list
@@ -344,29 +452,83 @@
         // Render SEO analysis from frontend API format
         function renderSEOFrontend(results) {
             const container = document.getElementById('seoAnalysis');
-            const checks = results.seo?.checks || results.seo || {};
+            const checks = results.seo || {};
 
             const checkList = [
-                { name: 'Title Tag', key: 'title', getValue: (c) => c.exists ? `${c.length} chars` : 'Missing' },
-                { name: 'Meta Description', key: 'meta_description', getValue: (c) => c.exists ? `${c.length} chars` : 'Missing' },
-                { name: 'H1 Headings', key: 'h1', getValue: (c) => `${c.count || 1} found` },
-                { name: 'SSL Certificate', key: 'ssl', getValue: (c) => c.has_ssl ? 'Secure' : 'Not Secure' },
-                { name: 'Viewport Meta', key: 'viewport', getValue: (c) => c.has_viewport ? 'Present' : 'Missing' },
+                {
+                    name: 'Title Tag',
+                    key: 'title',
+                    icon: 'fa-heading',
+                    getValue: (c) => {
+                        if (!c || !c.exists) return 'Missing - Add a title tag (30-60 chars)';
+                        if (c.length < 30) return `Too short (${c.length}/60 chars)`;
+                        if (c.length > 60) return `Too long (${c.length}/60 chars)`;
+                        return `Optimal (${c.length} chars)`;
+                    }
+                },
+                {
+                    name: 'Meta Description',
+                    key: 'meta_description',
+                    icon: 'fa-align-left',
+                    getValue: (c) => {
+                        if (!c || !c.exists) return 'Missing - Add meta description (120-160 chars)';
+                        if (c.length < 120) return `Too short (${c.length}/160 chars)`;
+                        if (c.length > 160) return `Too long (${c.length}/160 chars)`;
+                        return `Optimal (${c.length} chars)`;
+                    }
+                },
+                {
+                    name: 'H1 Heading',
+                    key: 'h1',
+                    icon: 'fa-h1',
+                    getValue: (c) => {
+                        if (!c) return 'Not detected';
+                        const count = c.count || 0;
+                        if (count === 0) return 'No H1 tag found';
+                        if (count === 1) return 'Optimal - 1 H1 tag';
+                        return `${count} H1 tags (recommended: 1)`;
+                    }
+                },
+                {
+                    name: 'SSL Certificate',
+                    key: 'ssl',
+                    icon: 'fa-lock',
+                    getValue: (c) => {
+                        if (!c) return 'Unknown';
+                        return c.has_ssl ? 'Secure - HTTPS enabled' : 'Not Secure - Enable HTTPS';
+                    }
+                },
+                {
+                    name: 'Viewport Meta Tag',
+                    key: 'viewport',
+                    icon: 'fa-mobile',
+                    getValue: (c) => {
+                        if (!c) return 'Unknown';
+                        return c.has_viewport ? 'Present - Mobile friendly' : 'Missing - Add viewport tag';
+                    }
+                }
             ];
 
             container.innerHTML = checkList.map(check => {
                 const c = checks[check.key];
-                const status = c?.status === 'pass' || c?.has_ssl || c?.has_viewport || (check.key === 'h1' && c?.count === 1);
-                const value = c ? check.getValue(c) : 'N/A';
+                const status = c?.status === 'pass' || c?.has_ssl || c?.has_viewport;
+                const value = check.getValue(c);
+                const statusColor = status ? 'bg-green-600' : (c?.status === 'warning' ? 'bg-yellow-600' : 'bg-red-600');
 
                 return `
                     <div class="bg-gray-800 rounded-xl p-6">
                         <div class="flex items-center justify-between">
-                            <div>
-                                <h4 class="font-semibold text-lg">${check.name}</h4>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fas ${check.icon} text-gray-400"></i>
+                                    <h4 class="font-semibold text-lg">${check.name}</h4>
+                                    <span class="px-2 py-1 rounded text-xs ${status ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'}">
+                                        ${status ? 'PASS' : (c?.status === 'warning' ? 'WARNING' : 'FAIL')}
+                                    </span>
+                                </div>
                                 <p class="text-gray-400 text-sm">${value}</p>
                             </div>
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center ${status ? 'bg-green-600' : 'bg-red-600'}">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center ${statusColor} ml-4">
                                 <i class="fas ${status ? 'fa-check' : 'fa-times'}"></i>
                             </div>
                         </div>
@@ -412,11 +574,11 @@
             const container = document.getElementById('techStack');
 
             const categories = [
-                { key: 'frameworks', label: 'Frameworks' },
-                { key: 'libraries', label: 'Libraries' },
-                { key: 'cms', label: 'CMS' },
-                { key: 'analytics', label: 'Analytics' },
-                { key: 'fonts', label: 'Fonts' },
+                { key: 'frameworks', label: 'Frameworks', icon: 'fa-cubes' },
+                { key: 'libraries', label: 'Libraries', icon: 'fa-book' },
+                { key: 'cms', label: 'CMS', icon: 'fa-cms' },
+                { key: 'analytics', label: 'Analytics & Tracking', icon: 'fa-chart-line' },
+                { key: 'fonts', label: 'Fonts', icon: 'fa-font' },
             ];
 
             const hasTech = categories.some(cat => techStack[cat.key] && techStack[cat.key].length > 0);
@@ -432,10 +594,14 @@
 
                 return `
                     <div class="bg-gray-800 rounded-xl p-6">
-                        <h4 class="font-semibold text-lg mb-4">${cat.label}</h4>
+                        <div class="flex items-center gap-3 mb-4">
+                            <i class="fas ${cat.icon} text-blue-400"></i>
+                            <h4 class="font-semibold text-lg">${cat.label}</h4>
+                            <span class="ml-auto text-gray-500 text-sm">${items.length} detected</span>
+                        </div>
                         <div class="flex flex-wrap gap-2">
                             ${items.map(item => `
-                                <span class="tech-badge px-3 py-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-sm">
+                                <span class="tech-badge px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-sm font-medium">
                                     ${item}
                                 </span>
                             `).join('')}
@@ -505,8 +671,11 @@
             document.getElementById('loadingState').innerHTML = `
                 <div class="text-center">
                     <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
-                    <h2 class="text-2xl font-bold mb-2">Error</h2>
-                    <p class="text-gray-400">${message}</p>
+                    <h2 class="text-2xl font-bold mb-2">Analysis Error</h2>
+                    <p class="text-gray-400 mb-6">${message}</p>
+                    <a href="index.html" class="inline-block px-6 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                        <i class="fas fa-redo mr-2"></i>Try Again
+                    </a>
                 </div>
             `;
         }

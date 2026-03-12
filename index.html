@@ -903,10 +903,15 @@
 
         auditForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const url = urlInput.value.trim();
+            let url = urlInput.value.trim();
             if (!url) {
                 alert('Please enter a valid URL');
                 return;
+            }
+
+            // Add https:// if not present
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
             }
 
             // Show loading state
@@ -915,7 +920,7 @@
             submitBtn.innerHTML = '<div class="spinner w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Analyzing...';
 
             try {
-                // Call the API to run audit
+                // Call the API to run full audit
                 const response = await fetch('https://webai-auditor-backend.abhishek88694.workers.dev/api/audit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -925,15 +930,19 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Redirect to audit-results.html with results
-                    const resultsParam = encodeURIComponent(JSON.stringify(data));
-                    window.location.href = `audit-results.html?data=${resultsParam}`;
+                    // Store data in sessionStorage for results page
+                    sessionStorage.setItem('auditResults', JSON.stringify(data));
+                    sessionStorage.setItem('analyzedUrl', url);
+                    // Redirect to audit-results.html
+                    window.location.href = `audit-results.html`;
                 } else {
                     alert('Analysis failed: ' + (data.error || 'Unknown error'));
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
                 }
             } catch (error) {
+                console.error('Analysis error:', error);
                 alert('Error: ' + error.message);
-            } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
