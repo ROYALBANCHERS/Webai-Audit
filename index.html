@@ -957,6 +957,23 @@
                 const data = await response.json();
 
                 if (data.success) {
+                    // Check if website exists (status_code should be 200)
+                    const statusCode = data.results?.status_code || data.status_code;
+
+                    if (statusCode === 404) {
+                        alert('❌ Website Not Found\n\nThe URL "' + url + '" does not exist (404 Error).\nPlease check the URL and try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                        return;
+                    }
+
+                    if (statusCode >= 400 && statusCode !== 530) {
+                        alert('❌ Website Error\n\nThe URL "' + url + '" returned error code: ' + statusCode + '.\nPlease check the URL and try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                        return;
+                    }
+
                     // Store data in sessionStorage for results page
                     sessionStorage.setItem('auditResults', JSON.stringify(data));
                     sessionStorage.setItem('analyzedUrl', url);
