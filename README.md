@@ -10,11 +10,12 @@
 7. [Backend Services](#backend-services)
 8. [API Documentation](#api-documentation)
 9. [PhonePe Payment Integration](#phonepe-payment-integration)
-10. [Tool Marketplace](#tool-marketplace)
-11. [Blog Content](#blog-content)
-12. [Deployment Guide](#deployment-guide)
-13. [Contributing](#contributing)
-14. [License](#license)
+10. [Government Jobs Monitoring](#government-jobs-monitoring-)
+11. [Tool Marketplace](#tool-marketplace)
+12. [Blog Content](#blog-content)
+13. [Deployment Guide](#deployment-guide)
+14. [Contributing](#contributing)
+15. [License](#license)
 
 ---
 
@@ -32,6 +33,7 @@
 - **Competitor Analysis**: Find and analyze competitor websites
 - **GitHub Integration**: Discover similar open-source projects
 - **Tool Marketplace**: Create and share custom analysis tools
+- **Government Jobs**: Real-time monitoring of government job postings 🆕
 - **Multi-language**: Available in English and Hindi
 
 ### Vision
@@ -131,6 +133,16 @@ Comprehensive SEO checks including:
 - Multiple donation tiers
 - Secure payment processing
 - Receipt generation
+
+#### Government Jobs Monitoring 🆕
+- **Automatic Crawling**: Hourly crawling of government job websites
+- **Real-time Alerts**: Email/Push/SMS notifications for matching jobs
+- **Smart Matching**: AI-powered job matching based on user preferences
+- **Categories**: SSC, Banking, Railway, UPSC, Teaching, Defense, Police, Engineering
+- **Search & Filter**: Advanced filtering by category, department, qualification
+- **Expiring Soon**: Highlight jobs closing within 7 days
+- **Statistics Dashboard**: Real-time job counts and analytics
+- **Pre-configured Sources**: Employment News, SSC, UPSC, Free Job Alert
 
 ---
 
