@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Jobs - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .category-badge {
+            transition: all 0.2s;
+        }
+        .category-badge:hover {
+            transform: scale(1.05);
+        }
+        .expiring-soon {
+            border-left: 4px solid #ef4444;
+        }
+        .new-job {
+            border-left: 4px solid #10b981;
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-search text-2xl text-purple-600 mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900">WebAI Auditor</span>
+                    </a>
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-600 hover:text-purple-600 px-3 py-2">Home</a>
+                        <a href="features.html" class="text-gray-600 hover:text-purple-600 px-3 py-2">Features</a>
+                        <a href="gov-jobs.html" class="bg-purple-600 text-white px-3 py-2 rounded-md">Gov Jobs</a>
+                        <a href="dashboard.html" class="text-gray-600 hover:text-purple-600 px-3 py-2">Dashboard</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="login.html" class="text-gray-600 hover:text-purple-600 px-3 py-2">Login</a>
+                    <a href="register.html" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    <i class="fas fa-briefcase mr-3"></i>Government Jobs
+                </h1>
+                <p class="text-xl mb-8">Real-time updates from SSC, UPSC, Banking, Railway & more</p>
+
+                <!-- Search Bar -->
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-2 flex items-center">
+                        <i class="fas fa-search text-gray-400 ml-3"></i>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search for SSC, Banking, Railway, UPSC jobs..."
+                            class="flex-1 px-4 py-3 text-gray-700 focus:outline-none"
+                            onkeypress="if(event.key === 'Enter') searchJobs()"
+                        >
+                        <button
+                            onclick="searchJobs()"
+                            class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Bar -->
+    <div class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="statsContainer">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-600" id="totalJobs">-</div>
+                    <div class="text-sm text-gray-600">Total Jobs</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600" id="jobsToday">-</div>
+                    <div class="text-sm text-gray-600">Today</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-red-600" id="expiringSoon">-</div>
+                    <div class="text-sm text-gray-600">Expiring Soon</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600" id="thisWeek">-</div>
+                    <div class="text-sm text-gray-600">This Week</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Filters Sidebar -->
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-lg shadow-sm p-6 sticky top-20">
+                    <h3 class="text-lg font-semibold mb-4">
+                        <i class="fas fa-filter mr-2 text-purple-600"></i>Filters
+                    </h3>
+
+                    <!-- Categories -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-2">Category</h4>
+                        <div id="categoriesContainer" class="space-y-2">
+                            <div class="loader mx-auto"></div>
+                        </div>
+                    </div>
+
+                    <!-- Departments -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-2">Department</h4>
+                        <select id="departmentFilter" onchange="applyFilters()" class="w-full border rounded-md px-3 py-2">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+
+                    <!-- Last Date -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-2">Last Date To Apply</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="lastDate" value="" checked onchange="applyFilters()" class="mr-2">
+                                <span class="text-sm">All</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="lastDate" value="7" onchange="applyFilters()" class="mr-2">
+                                <span class="text-sm">Next 7 days</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="lastDate" value="30" onchange="applyFilters()" class="mr-2">
+                                <span class="text-sm">Next 30 days</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="clearFilters()" class="w-full bg-gray-100 text-gray-700 py-2 rounded-md hover:bg-gray-200">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Jobs List -->
+            <div class="lg:w-3/4">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Latest Government Jobs
+                    </h2>
+                    <div class="flex items-center gap-4">
+                        <select id="sortSelect" onchange="applyFilters()" class="border rounded-md px-3 py-2">
+                            <option value="latest">Latest First</option>
+                            <option value="expiring">Expiring Soon</option>
+                            <option value="category">By Category</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loadingIndicator" class="flex justify-center items-center py-12">
+                    <div class="loader"></div>
+                </div>
+
+                <!-- Jobs Container -->
+                <div id="jobsContainer" class="space-y-4">
+                    <!-- Jobs will be loaded here -->
+                </div>
+
+                <!-- Pagination -->
+                <div id="paginationContainer" class="mt-6 flex justify-center">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">WebAI Auditor</h3>
+                    <p class="text-gray-400">Comprehensive website analysis and government job monitoring platform.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="gov-jobs.html" class="text-gray-400 hover:text-white">Gov Jobs</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">SSC Jobs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Banking Jobs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Railway Jobs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">UPSC Jobs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let currentPage = 1;
+        let currentFilters = {};
+
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStatistics();
+            loadCategories();
+            loadJobs();
+        });
+
+        // Load statistics
+        async function loadStatistics() {
+            try {
+                const response = await fetch(`${API_BASE}/gov-jobs/statistics`);
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('totalJobs').textContent = data.data.total_jobs;
+                    document.getElementById('jobsToday').textContent = data.data.jobs_today;
+                    document.getElementById('expiringSoon').textContent = data.data.expiring_soon;
+                    document.getElementById('thisWeek').textContent = data.data.jobs_this_week;
+                }
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        // Load categories
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/gov-jobs/categories/list`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const container = document.getElementById('categoriesContainer');
+                    container.innerHTML = '';
+
+                    Object.entries(data.data).forEach(([category, info]) => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-center justify-between';
+                        div.innerHTML = `
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="${category}" onchange="applyFilters()" class="mr-2">
+                                <span class="text-sm">${category}</span>
+                            </label>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">${info.count}</span>
+                        `;
+                        container.appendChild(div);
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load categories:', error);
+            }
+        }
+
+        // Load jobs
+        async function loadJobs(page = 1) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const jobsContainer = document.getElementById('jobsContainer');
+
+            loadingIndicator.style.display = 'flex';
+            jobsContainer.innerHTML = '';
+
+            try {
+                const params = new URLSearchParams({
+                    page: page,
+                    ...currentFilters
+                });
+
+                const response = await fetch(`${API_BASE}/gov-jobs?${params}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayJobs(data.data.data);
+                    displayPagination(data.data);
+                    currentPage = page;
+                }
+            } catch (error) {
+                console.error('Failed to load jobs:', error);
+                jobsContainer.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-exclamation-circle text-red-500 text-4xl mb-4"></i>
+                        <p class="text-gray-600">Failed to load jobs. Please try again later.</p>
+                    </div>
+                `;
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Display jobs
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobsContainer');
+
+            if (jobs.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-search text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-gray-600">No jobs found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            jobs.forEach(job => {
+                const isExpiring = job.days_remaining !== null && job.days_remaining <= 7;
+                const cardClass = isExpiring ? 'expiring-soon' : 'new-job';
+                const daysRemaining = job.days_remaining !== null
+                    ? `${job.days_remaining} days remaining`
+                    : 'Apply soon';
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-lg shadow-sm p-6 job-card transition-all duration-200 ${cardClass}`;
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="category-badge bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-medium">
+                                    ${job.category || 'Other'}
+                                </span>
+                                ${job.department ? `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">${job.department}</span>` : ''}
+                                ${isExpiring ? `<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs"><i class="fas fa-clock mr-1"></i>${daysRemaining}</span>` : ''}
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">${job.title}</h3>
+                            <p class="text-gray-600 text-sm mb-3">${job.description?.substring(0, 150)}...</p>
+                            <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+                                ${job.vacancy_count ? `<span><i class="fas fa-users mr-1"></i>${job.vacancy_count} Vacancies</span>` : ''}
+                                ${job.qualification ? `<span><i class="fas fa-graduation-cap mr-1"></i>${job.qualification}</span>` : ''}
+                                ${job.location ? `<span><i class="fas fa-map-marker-alt mr-1"></i>${job.location}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="ml-4 text-right">
+                            ${job.last_date_to_apply ? `<div class="text-sm text-gray-500">Last Date</div><div class="font-semibold text-gray-900">${formatDate(job.last_date_to_apply)}</div>` : ''}
+                            <a href="${job.source_url}" target="_blank" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded-md text-sm hover:bg-purple-700">
+                                Apply Now <i class="fas fa-external-link-alt ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Display pagination
+        function displayPagination(paginationData) {
+            const container = document.getElementById('paginationContainer');
+
+            if (!paginationData.last_page || paginationData.last_page <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '<div class="flex gap-2">';
+
+            if (paginationData.current_page > 1) {
+                html += `<button onclick="loadJobs(${paginationData.current_page - 1})" class="px-4 py-2 border rounded-md hover:bg-gray-50">Previous</button>`;
+            }
+
+            for (let i = 1; i <= paginationData.last_page; i++) {
+                const activeClass = i === paginationData.current_page ? 'bg-purple-600 text-white' : 'hover:bg-gray-50';
+                html += `<button onclick="loadJobs(${i})" class="px-4 py-2 border rounded-md ${activeClass}">${i}</button>`;
+            }
+
+            if (paginationData.current_page < paginationData.last_page) {
+                html += `<button onclick="loadJobs(${paginationData.current_page + 1})" class="px-4 py-2 border rounded-md hover:bg-gray-50">Next</button>`;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Search jobs
+        function searchJobs() {
+            const keyword = document.getElementById('searchInput').value.trim();
+            currentFilters.keyword = keyword || undefined;
+            loadJobs(1);
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const categories = Array.from(document.querySelectorAll('#categoriesContainer input:checked')).map(cb => cb.value);
+            const department = document.getElementById('departmentFilter').value;
+            const lastDate = document.querySelector('input[name="lastDate"]:checked').value;
+            const sort = document.getElementById('sortSelect').value;
+
+            currentFilters = {};
+
+            if (categories.length > 0) {
+                currentFilters.category = categories[0]; // Single category for now
+            }
+            if (department) {
+                currentFilters.department = department;
+            }
+            if (lastDate) {
+                currentFilters.last_date_to = now().addDays(parseInt(lastDate)).toDateString();
+            }
+
+            loadJobs(1);
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('#categoriesContainer input:checked').forEach(cb => cb.checked = false);
+            document.getElementById('departmentFilter').value = '';
+            document.querySelector('input[name="lastDate"][value=""]').checked = true;
+            document.getElementById('sortSelect').value = 'latest';
+
+            currentFilters = {};
+            loadJobs(1);
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // Helper for date calculations (client-side)
+        function now() {
+            const now = new Date();
+            return {
+                addDays: function(days) {
+                    const result = new Date(now);
+                    result.setDate(result.getDate() + days);
+                    return result;
+                }
+            };
+        }
+    </script>
+</body>
+</html>
