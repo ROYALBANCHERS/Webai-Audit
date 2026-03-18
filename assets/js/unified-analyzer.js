@@ -24,6 +24,27 @@ function isGovWebsite(url) {
     return govDomains.some(domain => url.includes(domain));
 }
 
+// Helper function to fetch through CORS proxy
+async function fetchWithCors(url) {
+    const corsProxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?'
+    ];
+
+    for (const proxy of corsProxies) {
+        try {
+            const response = await fetch(proxy + encodeURIComponent(url));
+            if (response.ok) {
+                const text = await response.text();
+                return JSON.parse(text);
+            }
+        } catch (e) {
+            continue;
+        }
+    }
+    return null;
+}
+
 // Fetch government website data using APIs
 async function fetchGovWebsiteData(url) {
     const results = {
@@ -37,40 +58,28 @@ async function fetchGovWebsiteData(url) {
     try {
         // SSC Special handling with CORRECT parameters
         if (url.includes('ssc.gov.in')) {
-            // Fetch notices - WORKING
-            const noticeRes = await fetch('https://ssc.gov.in/api/general-website/portal/notice-boards?page=1&limit=50&contentType=notice-boards&key=createdAt&order=DESC&attributes=id,headline,createdAt,redirectUrl');
-            if (noticeRes.ok) {
-                const noticeData = await noticeRes.json();
-                if (noticeData.statusCode === '200') {
-                    results.notices = noticeData.data || [];
-                }
+            // Fetch notices through CORS proxy
+            const noticeData = await fetchWithCors('https://ssc.gov.in/api/general-website/portal/notice-boards?page=1&limit=50&contentType=notice-boards&key=createdAt&order=DESC&attributes=id,headline,createdAt,redirectUrl');
+            if (noticeData && noticeData.statusCode === '200') {
+                results.notices = noticeData.data || [];
             }
 
-            // Fetch exams - UPDATED with correct attributes
-            const examRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=50&contentType=browse-exam&key=createdAt&order=DESC&attributes=id,headline,examId,contentType,startDate,endDate,language,createdAt');
-            if (examRes.ok) {
-                const examData = await examRes.json();
-                if (examData.statusCode === '200') {
-                    results.exams = examData.data || [];
-                }
+            // Fetch exams through CORS proxy
+            const examData = await fetchWithCors('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=50&contentType=browse-exam&key=createdAt&order=DESC&attributes=id,headline,examId,contentType,startDate,endDate,language,createdAt');
+            if (examData && examData.statusCode === '200') {
+                results.exams = examData.data || [];
             }
 
-            // Fetch announcements - UPDATED with correct attributes
-            const ribbonRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=20&contentType=ribbons&key=createdAt&order=DESC&attributes=id,headline,examId,contentType,redirectUrl,startDate,endDate,language,createdAt');
-            if (ribbonRes.ok) {
-                const ribbonData = await ribbonRes.json();
-                if (ribbonData.statusCode === '200') {
-                    results.announcements = ribbonData.data || [];
-                }
+            // Fetch announcements through CORS proxy
+            const ribbonData = await fetchWithCors('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=20&contentType=ribbons&key=createdAt&order=DESC&attributes=id,headline,examId,contentType,redirectUrl,startDate,endDate,language,createdAt');
+            if (ribbonData && ribbonData.statusCode === '200') {
+                results.announcements = ribbonData.data || [];
             }
 
-            // Fetch calendar - UPDATED with correct attributes
-            const calRes = await fetch('https://ssc.gov.in/api/general-website/portal/ssc-calendar?page=1&limit=50&contentType=ssc-calendar&key=startDate&order=ASC&attributes=id,headline,examId,examYear,desc,content,contentType,startDate,endDate,language,createdAt&year=2026');
-            if (calRes.ok) {
-                const calData = await calRes.json();
-                if (calData.statusCode === '200') {
-                    results.calendar = calData.data || [];
-                }
+            // Fetch calendar through CORS proxy
+            const calData = await fetchWithCors('https://ssc.gov.in/api/general-website/portal/ssc-calendar?page=1&limit=50&contentType=ssc-calendar&key=startDate&order=ASC&attributes=id,headline,examId,examYear,desc,content,contentType,startDate,endDate,language,createdAt&year=2026');
+            if (calData && calData.statusCode === '200') {
+                results.calendar = calData.data || [];
             }
         }
 
