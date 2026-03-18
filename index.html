@@ -240,44 +240,45 @@
 <body class="bg-gray-50 text-gray-800 overflow-x-hidden">
     <!-- Navigation -->
     <nav class="nav-blur fixed w-full z-50 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center shadow-lg pulse-glow">
-                        <i class="fas fa-globe text-white text-xl"></i>
-                    </div>
-                    <span class="text-2xl font-bold gradient-text">WebAI Auditor</span>
+        <div class="flex items-center h-20">
+            <!-- Logo - Left Edge -->
+            <div class="flex items-center space-x-3 pl-4 sm:pl-6 lg:pl-8">
+                <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center shadow-lg pulse-glow">
+                    <i class="fas fa-globe text-white text-xl"></i>
                 </div>
+                <span class="text-xl sm:text-2xl font-bold gradient-text">WebAI Auditor</span>
+            </div>
 
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-600 hover:text-gray-900 font-medium transition">Home</a>
-                    <a href="#features" class="text-gray-600 hover:text-gray-900 font-medium transition">Features</a>
-                    <a href="#tools" class="text-gray-600 hover:text-gray-900 font-medium transition">Tools</a>
-                    <a href="website-monitor.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-radar mr-1"></i>Monitor</a>
-                    <a href="gov-jobs.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-briefcase mr-1"></i>Gov Jobs</a>
-                    <a href="website-spy.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-eye mr-1"></i>Spy</a>
-                    <a href="gov-jobs-widget.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-code mr-1"></i>Widget</a>
-                    <a href="#pricing" class="text-gray-600 hover:text-gray-900 font-medium transition">Pricing</a>
-                    <a href="blog.html" class="text-gray-600 hover:text-gray-900 font-medium transition">Blog</a>
-                </div>
+            <!-- Center Navigation -->
+            <div class="hidden lg:flex items-center space-x-6 mx-auto">
+                <a href="#home" class="text-gray-600 hover:text-gray-900 font-medium transition">Home</a>
+                <a href="#features" class="text-gray-600 hover:text-gray-900 font-medium transition">Features</a>
+                <a href="#tools" class="text-gray-600 hover:text-gray-900 font-medium transition">Tools</a>
+                <a href="website-monitor.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-radar mr-1"></i>Monitor</a>
+                <a href="gov-jobs.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-briefcase mr-1"></i>Gov Jobs</a>
+                <a href="website-spy.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-eye mr-1"></i>Spy</a>
+                <a href="gov-jobs-widget.html" class="text-gray-600 hover:text-gray-900 font-medium transition"><i class="fas fa-code mr-1"></i>Widget</a>
+                <a href="#pricing" class="text-gray-600 hover:text-gray-900 font-medium transition">Pricing</a>
+                <a href="blog.html" class="text-gray-600 hover:text-gray-900 font-medium transition">Blog</a>
+            </div>
 
-                <div class="flex items-center space-x-4">
-                    <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 transition">
-                        <i class="fas fa-moon text-gray-600"></i>
-                    </button>
-                    <a href="#analyze" class="hidden sm:block gradient-bg text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition btn-shine">
-                        Start Free Audit
-                    </a>
-                    <button id="mobileMenuBtn" class="lg:hidden p-2">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-2 sm:space-x-4 ml-auto pr-4 sm:pr-6 lg:pr-8">
+                <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-moon text-gray-600"></i>
+                </button>
+                <a href="#analyze" class="hidden sm:block gradient-bg text-white px-4 sm:px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition btn-shine text-sm">
+                    Start Free Audit
+                </a>
+                <button id="mobileMenuBtn" class="lg:hidden p-2">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden lg:hidden bg-white border-t">
-            <div class="px-4 py-6 space-y-4">
+            <div class="px-4 sm:px-6 py-6 space-y-4">
                 <a href="#home" class="block py-3 text-gray-700 font-medium">Home</a>
                 <a href="#features" class="block py-3 text-gray-700 font-medium">Features</a>
                 <a href="#tools" class="block py-3 text-gray-700 font-medium">Tools</a>
