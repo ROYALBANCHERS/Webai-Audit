@@ -970,10 +970,14 @@
             })
         }
 
-        // Form submission - Run actual audit using API
+        // Form submission - Client-side Website Analyzer
         const auditForm = document.getElementById('auditForm');
         const urlInput = document.getElementById('urlInput');
         const submitBtn = document.getElementById('submitBtn');
+
+        // AI API Configuration (User can add their key)
+        let AI_API_KEY = localStorage.getItem('zai_api_key') || '';
+        let AI_API_URL = localStorage.getItem('zai_api_url') || 'https://api.zai.ai/v1/chat/completions';
 
         auditForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -988,66 +992,306 @@
                 url = 'https://' + url;
             }
 
-            // Show loading state with mode info
+            // Show loading state
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            const modeText = analysisMode === 'website' ? ' (Crawling entire website...)' : '...'
-            submitBtn.innerHTML = '<div class="spinner w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Analyzing' + modeText;
+            submitBtn.innerHTML = '<div class="spinner w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Analyzing...';
 
             try {
-                // Use the /crawl endpoint with mode parameter
-                const endpoint = analysisMode === 'website' ? '/crawl' : '/audit'
-                const response = await fetch(`https://webai-auditor-backend.abhishek88694.workers.dev/api${endpoint}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url, mode: analysisMode })
-                });
+                // Client-side analysis
+                const result = await analyzeWebsiteClientSide(url);
 
-                const data = await response.json();
-
-                if (data.success) {
-                    // Check if website exists
-                    const statusCode = data.results?.status_code || data.status_code;
-
-                    if (statusCode === 404) {
-                        alert('❌ Website Not Found\n\nThe URL "' + url + '" does not exist (404 Error).\nPlease check the URL and try again.');
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalBtnText;
-                        return;
-                    }
-
-                    if (statusCode >= 400 && statusCode !== 530) {
-                        alert('❌ Website Error\n\nThe URL "' + url + '" returned error code: ' + statusCode + '.\nPlease check the URL and try again.');
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalBtnText;
-                        return;
-                    }
-
-                    // Store data in sessionStorage for results page
-                    sessionStorage.setItem('auditResults', JSON.stringify(data));
+                if (result.success) {
+                    // Store results and redirect
+                    sessionStorage.setItem('auditResults', JSON.stringify(result));
                     sessionStorage.setItem('analyzedUrl', url);
                     sessionStorage.setItem('analysisMode', analysisMode);
-                    // Redirect to audit-results.html
                     window.location.href = `audit-results.html`;
                 } else {
-                    alert('Analysis failed: ' + (data.error || 'Unknown error'));
+                    alert('Analysis failed: ' + result.error);
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalBtnText;
                 }
             } catch (error) {
                 console.error('Analysis error:', error);
-
-                // Check if it's a network error (DNS failure, connection refused, etc.)
-                let errorMessage = 'Error: ' + error.message;
-                if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('Failed to fetch')) {
-                    errorMessage = '❌ Website Not Found\n\nThe URL "' + url + '" could not be reached.\n\nPossible reasons:\n• Website does not exist\n• DNS resolution failed\n• Network connection error\n\nPlease check the URL and try again.';
-                }
-
-                alert(errorMessage);
+                alert('Error: ' + error.message);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
         });
+
+        // Client-side Website Analyzer
+        async function analyzeWebsiteClientSide(url) {
+            const results = {
+                success: false,
+                url: url,
+                analyzed_at: new Date().toISOString(),
+                pages: [],
+                blogs: [],
+                pdfs: [],
+                summary: '',
+                error: null
+            };
+
+            try {
+                // Use CORS proxy to fetch the website
+                const corsProxies = [
+                    'https://api.allorigins.win/raw?url=',
+                    'https://corsproxy.io/?',
+                    'https://api.codetabs.com/v1/proxy?quest='
+                ];
+
+                let html = null;
+                let response = null;
+
+                // Try different proxies
+                for (const proxy of corsProxies) {
+                    try {
+                        const proxyUrl = proxy + encodeURIComponent(url);
+                        response = await fetch(proxyUrl, {
+                            headers: {
+                                'Accept': 'text/html,application/xhtml+xml'
+                            }
+                        });
+                        if (response.ok) {
+                            html = await response.text();
+                            break;
+                        }
+                    } catch (e) {
+                        continue;
+                    }
+                }
+
+                if (!html) {
+                    // Try direct fetch (might work for same-origin or CORS-enabled sites)
+                    try {
+                        response = await fetch(url);
+                        if (response.ok) {
+                            html = await response.text();
+                        }
+                    } catch (e) {
+                        // Last resort - use a public proxy
+                        const publicProxy = `https://cors-anywhere.herokuapp.com/${url}`;
+                        response = await fetch(publicProxy, {
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+                        if (response.ok) {
+                            html = await response.text();
+                        }
+                    }
+                }
+
+                if (!html) {
+                    results.error = 'Could not fetch website. The site may be blocking requests.';
+                    return results;
+                }
+
+                // Parse HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Extract basic info
+                const title = doc.querySelector('title')?.textContent || '';
+                const description = doc.querySelector('meta[name="description"]')?.content || '';
+                const keywords = doc.querySelector('meta[name="keywords"]')?.content || '';
+
+                // Extract all links
+                const links = Array.from(doc.querySelectorAll('a[href]'))
+                    .map(a => {
+                        const href = a.getAttribute('href');
+                        if (href.startsWith('http')) return href;
+                        if (href.startsWith('/')) return new URL(href, url).href;
+                        return null;
+                    })
+                    .filter(l => l && l.startsWith(new URL(url).origin));
+
+                results.pages = [...new Set(links)].slice(0, 50); // Unique pages, max 50
+
+                // Extract blogs/articles
+                const blogSelectors = [
+                    'article',
+                    '[class*="blog"]',
+                    '[class*="post"]',
+                    '[id*="blog"]',
+                    '[id*="post"]',
+                    '.news-item',
+                    '.article-item'
+                ];
+
+                const blogElements = [];
+                for (const selector of blogSelectors) {
+                    const found = doc.querySelectorAll(selector);
+                    if (found.length > 0) {
+                        found.forEach(el => blogElements.push(el));
+                        break;
+                    }
+                }
+
+                blogElements.slice(0, 20).forEach(el => {
+                    const titleEl = el.querySelector('h1, h2, h3, h4, h5, h6');
+                    const linkEl = el.querySelector('a[href]');
+                    const dateEl = el.querySelector('[datetime], time, [class*="date"], [class*="time"]');
+
+                    if (linkEl) {
+                        const blogUrl = linkEl.href;
+                        if (blogUrl.startsWith(new URL(url).origin)) {
+                            results.blogs.push({
+                                title: titleEl?.textContent?.trim() || linkEl.textContent?.trim() || '',
+                                url: blogUrl,
+                                date: dateEl?.getAttribute('datetime') || dateEl?.textContent || '',
+                                snippet: el.textContent?.substring(0, 200) || ''
+                            });
+                        }
+                    }
+                });
+
+                // Extract PDFs
+                const pdfLinks = Array.from(doc.querySelectorAll('a[href$=".pdf"]'))
+                    .map(a => ({
+                        title: a.textContent?.trim() || a.href.split('/').pop(),
+                        url: a.href.startsWith('http') ? a.href : new URL(a.href, url).href
+                    }));
+                results.pdfs = pdfLinks;
+
+                // Extract main content
+                const mainContent = extractMainContent(doc);
+
+                // Generate summary (with or without AI)
+                if (AI_API_KEY) {
+                    results.summary = await generateAISummary(url, title, description, mainContent, results.blogs);
+                } else {
+                    results.summary = generateBasicSummary(url, title, description, results.blogs, results.pdfs, results.pages.length);
+                }
+
+                results.success = true;
+                results.title = title;
+                results.description = description;
+                results.keywords = keywords;
+                results.content = mainContent;
+
+                return results;
+
+            } catch (error) {
+                results.error = error.message;
+                return results;
+            }
+        }
+
+        // Extract main content from page
+        function extractMainContent(doc) {
+            const contentSelectors = [
+                'main',
+                'article',
+                '[role="main"]',
+                '#content',
+                '.content',
+                '#main',
+                '.main-content'
+            ];
+
+            for (const selector of contentSelectors) {
+                const el = doc.querySelector(selector);
+                if (el) {
+                    return el.textContent?.substring(0, 10000) || '';
+                }
+            }
+
+            return doc.body?.textContent?.substring(0, 10000) || '';
+        }
+
+        // Generate basic summary without AI
+        function generateBasicSummary(url, title, description, blogs, pdfs, pageCount) {
+            let summary = `# Website Analysis Report\n\n`;
+            summary += `**URL:** ${url}\n`;
+            summary += `**Title:** ${title || 'N/A'}\n`;
+            summary += `**Description:** ${description || 'N/A'}\n\n`;
+
+            summary += `## Statistics\n\n`;
+            summary += `- **Total Pages Found:** ${pageCount}\n`;
+            summary += `- **Blogs/Articles:** ${blogs.length}\n`;
+            summary += `- **PDF Documents:** ${pdfs.length}\n\n`;
+
+            if (blogs.length > 0) {
+                summary += `## Recent Blogs/Articles\n\n`;
+                blogs.slice(0, 10).forEach((blog, i) => {
+                    summary += `${i + 1}. **${blog.title}**\n`;
+                    summary += `   - URL: ${blog.url}\n`;
+                    if (blog.date) summary += `   - Date: ${blog.date}\n`;
+                    summary += `\n`;
+                });
+            }
+
+            if (pdfs.length > 0) {
+                summary += `## PDF Documents\n\n`;
+                pdfs.forEach((pdf, i) => {
+                    summary += `${i + 1}. **${pdf.title}**\n`;
+                    summary += `   - URL: ${pdf.url}\n\n`;
+                });
+            }
+
+            summary += `\n---\n\n`;
+            summary += `*Note: For AI-powered insights and detailed analysis, add your Z.ai API key in settings.*`;
+
+            return summary;
+        }
+
+        // Generate AI-powered summary
+        async function generateAISummary(url, title, description, content, blogs) {
+            try {
+                const prompt = `Analyze this website and provide a comprehensive summary:
+
+URL: ${url}
+Title: ${title}
+Description: ${description}
+
+Recent Blogs/Articles (${blogs.length} found):
+${blogs.slice(0, 5).map(b => `- ${b.title}`).join('\n')}
+
+Content Sample:
+${content?.substring(0, 3000)}
+
+Please provide:
+1. Website purpose and overview
+2. Key topics covered
+3. Recent updates (from blogs)
+4. Overall assessment`;
+
+                const response = await fetch(AI_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AI_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-4',
+                        messages: [
+                            { role: 'system', content: 'You are a helpful website analyst.' },
+                            { role: 'user', content: prompt }
+                        ],
+                        max_tokens: 2000
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.choices[0]?.message?.content || generateBasicSummary(url, title, description, blogs, [], 0);
+                }
+
+                return generateBasicSummary(url, title, description, blogs, [], 0);
+            } catch (e) {
+                console.error('AI Error:', e);
+                return generateBasicSummary(url, title, description, blogs, [], 0);
+            }
+        }
+
+        // Function to set API key
+        window.setAIApiKey = function(key, url = 'https://api.zai.ai/v1/chat/completions') {
+            localStorage.setItem('zai_api_key', key);
+            localStorage.setItem('zai_api_url', url);
+            AI_API_KEY = key;
+            AI_API_URL = url;
+            alert('AI API Key saved! You can now use AI-powered analysis.');
+        };
 
         // URL suggestion buttons
         document.querySelectorAll('[href="#"]').forEach(link => {

@@ -422,6 +422,15 @@
             const audit = auditData;
             const results = audit.results || audit;
 
+            // Check if it's new client-side format (has blogs array directly)
+            const isClientSideFormat = audit.blogs !== undefined || audit.pdfs !== undefined;
+            console.log('Is client-side format:', isClientSideFormat);
+
+            if (isClientSideFormat) {
+                displayClientSideResults(audit);
+                return;
+            }
+
             // Get mode from multiple sources - audit data, sessionStorage, or check for pages array
             const mode = audit.mode || analysisMode || sessionStorage.getItem('analysisMode') || 'page';
 
@@ -456,6 +465,255 @@
             // Single page analysis (existing code)
             displayPageResults(audit, results);
         }
+
+        // Display client-side results (new format)
+        function displayClientSideResults(audit) {
+            const url = audit.url || 'Unknown';
+            const title = audit.title || 'N/A';
+            const description = audit.description || 'N/A';
+            const pages = audit.pages || [];
+            const blogs = audit.blogs || [];
+            const pdfs = audit.pdfs || [];
+            const summary = audit.summary || '';
+
+            // Overall score (calculate from available data)
+            const overallScore = Math.min(95, 60 + (blogs.length * 2) + (pdfs.length * 3));
+            const scoreClass = overallScore >= 80 ? 'score-excellent' : overallScore >= 60 ? 'score-good' : 'score-warning';
+
+            // Overall Score Header
+            document.getElementById('overallScore').innerHTML = `
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="text-white">
+                        <div class="flex items-center gap-2 mb-2 flex-wrap">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Client-Side Analysis</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${pages.length} Pages</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${blogs.length} Blogs</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${pdfs.length} PDFs</span>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">${url}</h1>
+                        <p class="text-white/80">${title}</p>
+                        <p class="text-white/60 text-sm mt-1">Analyzed ${new Date(audit.analyzed_at || Date.now()).toLocaleString()}</p>
+                    </div>
+                    <div class="text-center mt-6 md:mt-0 bg-white/20 rounded-2xl p-6">
+                        <div class="text-6xl font-bold text-white ${scoreClass}">${overallScore}</div>
+                        <div class="text-white/80 text-sm">Content Score</div>
+                    </div>
+                </div>
+            `;
+
+            // Quick stats
+            document.getElementById('quickLoadTime').textContent = '-';
+            document.getElementById('quickContentSize').textContent = description.length + ' chars';
+            document.getElementById('quickTechCount').textContent = blogs.length + pdfs.length;
+            document.getElementById('quickIssueCount').textContent = '0';
+            document.getElementById('pageCount').textContent = pages.length;
+            document.getElementById('linkCount').textContent = pages.length;
+
+            // Render client-side summary
+            renderClientSideSummary(audit);
+
+            // Render blogs
+            if (blogs.length > 0) {
+                renderClientSideBlogs(blogs);
+            }
+
+            // Render PDFs
+            if (pdfs.length > 0) {
+                renderClientSidePDFs(pdfs);
+            }
+
+            // Render pages
+            if (pages.length > 0) {
+                renderClientSidePages(pages);
+            }
+
+            // Show AI summary
+            const tabContent = document.getElementById('tabContent');
+            if (tabContent) {
+                const overviewTab = tabContent.querySelector('[data-tab="overview"]');
+                if (overviewTab) {
+                    overviewTab.innerHTML = `
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold mb-4">Analysis Summary</h3>
+                            <div class="prose max-w-none bg-gray-50 p-4 rounded-lg">
+                                <pre class="whitespace-pre-wrap text-sm">${summary}</pre>
+                            </div>
+
+                            ${!localStorage.getItem('zai_api_key') ? `
+                            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                <h4 class="font-bold text-blue-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Want AI-Powered Analysis?</h4>
+                                <p class="text-blue-700 text-sm mb-3">Add your Z.ai API key to get detailed AI summaries and insights!</p>
+                                <button onclick="showApiKeyModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+                                    <i class="fas fa-key mr-2"></i>Add API Key
+                                </button>
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function renderClientSideSummary(audit) {
+            const summaryEl = document.getElementById('analysisSummary');
+            if (!summaryEl) return;
+
+            const blogs = audit.blogs || [];
+            const pdfs = audit.pdfs || [];
+            const pages = audit.pages || [];
+
+            summaryEl.innerHTML = `
+                <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                    <div class="text-sm text-gray-600 mb-1">Pages Found</div>
+                    <div class="text-3xl font-bold text-blue-600">${pages.length}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-green-50 border border-green-200">
+                    <div class="text-sm text-gray-600 mb-1">Blogs/Articles</div>
+                    <div class="text-3xl font-bold text-green-600">${blogs.length}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-orange-50 border border-orange-200">
+                    <div class="text-sm text-gray-600 mb-1">PDF Documents</div>
+                    <div class="text-3xl font-bold text-orange-600">${pdfs.length}</div>
+                </div>
+                <div class="p-4 rounded-lg bg-purple-50 border border-purple-200">
+                    <div class="text-sm text-gray-600 mb-1">Description</div>
+                    <div class="text-lg font-bold text-purple-600 truncate">${audit.description?.substring(0, 30) || 'N/A'}...</div>
+                </div>
+            `;
+        }
+
+        function renderClientSideBlogs(blogs) {
+            const tabContent = document.getElementById('tabContent');
+            if (!tabContent) return;
+
+            // Add blogs tab if not exists
+            let blogsTab = tabContent.querySelector('[data-tab="blogs"]');
+            if (!blogsTab) {
+                const tabsNav = tabContent.querySelector('.flex.flex-wrap.gap-2.mb-6');
+                if (tabsNav) {
+                    tabsNav.innerHTML += `
+                        <button class="tab-btn px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200" data-tab="blogs">
+                            <i class="fas fa-newspaper mr-2"></i>Blogs (${blogs.length})
+                        </button>
+                    `;
+                }
+            }
+
+            // Create blogs content section
+            const blogsDiv = document.createElement('div');
+            blogsDiv.className = 'tab-pane hidden';
+            blogsDiv.setAttribute('data-tab', 'blogs');
+            blogsDiv.innerHTML = `
+                <div class="p-6">
+                    <h3 class="text-lg font-bold mb-4"><i class="fas fa-newspaper mr-2 text-green-600"></i>Blogs & Articles (${blogs.length})</h3>
+                    <div class="space-y-3">
+                        ${blogs.map((blog, i) => `
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-900">${blog.title}</h4>
+                                        <p class="text-sm text-gray-500 mt-1">${blog.url}</p>
+                                        ${blog.date ? `<p class="text-xs text-gray-400 mt-1"><i class="fas fa-calendar mr-1"></i>${blog.date}</p>` : ''}
+                                        ${blog.snippet ? `<p class="text-sm text-gray-600 mt-2 line-clamp-2">${blog.snippet.substring(0, 150)}...</p>` : ''}
+                                    </div>
+                                    <a href="${blog.url}" target="_blank" class="ml-4 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            tabContent.appendChild(blogsDiv);
+
+            // Add click handler
+            blogsDiv.addEventListener('click', function(e) {
+                if (e.target.closest('[data-tab="blogs"]')) {
+                    // Show blogs content
+                }
+            });
+        }
+
+        function renderClientSidePDFs(pdfs) {
+            const tabContent = document.getElementById('tabContent');
+            if (!tabContent) return;
+
+            // Add PDFs tab
+            const tabsNav = tabContent.querySelector('.flex.flex-wrap.gap-2.mb-6');
+            if (tabsNav) {
+                tabsNav.innerHTML += `
+                    <button class="tab-btn px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200" data-tab="pdfs">
+                        <i class="fas fa-file-pdf mr-2"></i>PDFs (${pdfs.length})
+                    </button>
+                `;
+            }
+
+            const pdfsDiv = document.createElement('div');
+            pdfsDiv.className = 'tab-pane hidden';
+            pdfsDiv.setAttribute('data-tab', 'pdfs');
+            pdfsDiv.innerHTML = `
+                <div class="p-6">
+                    <h3 class="text-lg font-bold mb-4"><i class="fas fa-file-pdf mr-2 text-red-600"></i>PDF Documents (${pdfs.length})</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${pdfs.map(pdf => `
+                            <div class="p-4 bg-red-50 rounded-lg border border-red-200 hover:shadow-md transition">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-3xl text-red-600 mr-4"></i>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-semibold text-gray-900 truncate">${pdf.title}</h4>
+                                        <p class="text-sm text-gray-500 truncate">${pdf.url}</p>
+                                    </div>
+                                    <a href="${pdf.url}" target="_blank" class="ml-4 px-3 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            tabContent.appendChild(pdfsDiv);
+        }
+
+        function renderClientSidePages(pages) {
+            const tabContent = document.getElementById('tabContent');
+            if (!tabContent) return;
+
+            const pagesDiv = document.createElement('div');
+            pagesDiv.className = 'tab-pane hidden';
+            pagesDiv.setAttribute('data-tab', 'pages');
+            pagesDiv.innerHTML = `
+                <div class="p-6">
+                    <h3 class="text-lg font-bold mb-4"><i class="fas fa-file-alt mr-2 text-blue-600"></i>All Pages (${pages.length})</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${pages.slice(0, 50).map(page => `
+                            <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition">
+                                <a href="${page}" target="_blank" class="text-blue-600 hover:underline font-medium text-sm line-clamp-2">
+                                    ${page}
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${pages.length > 50 ? `<p class="text-sm text-gray-500 mt-4">Showing 50 of ${pages.length} pages</p>` : ''}
+                </div>
+            `;
+
+            tabContent.appendChild(pagesDiv);
+        }
+
+        // API Key Modal
+        window.showApiKeyModal = function() {
+            const key = prompt('Enter your Z.ai API Key (or OpenAI-compatible key):');
+            if (key) {
+                const url = prompt('API URL (optional):', 'https://api.zai.ai/v1/chat/completions') || 'https://api.zai.ai/v1/chat-completions';
+                localStorage.setItem('zai_api_key', key);
+                localStorage.setItem('zai_api_url', url);
+                alert('API Key saved! Analyze again for AI-powered insights.');
+            }
+        };
 
         // Show not found error
         function showNotFoundError(url) {
