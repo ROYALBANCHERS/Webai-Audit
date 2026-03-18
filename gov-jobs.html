@@ -10,10 +10,6 @@
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .job-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
         .loader {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #667eea;
@@ -47,99 +43,255 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Universal Analyzer -->
     <div class="gradient-bg text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">
-                    <i class="fas fa-briefcase mr-3"></i>Government Jobs
+                    <i class="fas fa-briefcase mr-3"></i>Government Jobs & Analyzer
                 </h1>
-                <p class="text-xl mb-4">Latest Updates from SSC, UPSC, Banking, Railway & more</p>
+                <p class="text-xl mb-8">Analyze ANY Government Website - Get Instant Reports</p>
+
+                <!-- Universal Analyzer Input -->
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-2 flex items-center">
+                        <i class="fas fa-globe text-gray-400 ml-3"></i>
+                        <input
+                            type="text"
+                            id="govUrlInput"
+                            placeholder="Enter ANY government website (upsc.gov.in, ssc.gov.in, ibps.in...)"
+                            class="flex-1 px-4 py-3 text-gray-700 focus:outline-none"
+                            onkeypress="if(event.key === 'Enter') analyzeGovWebsite()"
+                        >
+                        <button
+                            onclick="analyzeGovWebsite()"
+                            class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700"
+                        >
+                            <i class="fas fa-search mr-2"></i>Analyze
+                        </button>
+                    </div>
+
+                    <!-- Quick Buttons -->
+                    <div class="mt-4 flex flex-wrap justify-center gap-2">
+                        <span class="text-sm text-white/80 self-center">Quick analyze:</span>
+                        <button onclick="quickAnalyze('https://ssc.gov.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">ssc.gov.in</button>
+                        <button onclick="quickAnalyze('https://upsc.gov.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">upsc.gov.in</button>
+                        <button onclick="quickAnalyze('https://ibps.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">ibps.in</button>
+                        <button onclick="quickAnalyze('https://rrb.gov.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">rrb.gov.in</button>
+                        <button onclick="quickAnalyze('https://bank.sbi')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">bank.sbi</button>
+                        <button onclick="quickAnalyze('https://licindia.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">licindia.in</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Statistics Banner -->
-    <div class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-purple-600">25+</div>
-                    <div class="text-sm text-gray-600">Active Exams</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-green-600">650+</div>
-                    <div class="text-sm text-gray-600">Notices This Year</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-blue-600">12</div>
-                    <div class="text-sm text-gray-600">Upcoming Exams</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-orange-600">2026</div>
-                    <div class="text-sm text-gray-600">Exam Calendar</div>
-                </div>
-            </div>
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="hidden max-w-3xl mx-auto py-8">
+        <div class="flex flex-col items-center">
+            <div class="loader"></div>
+            <p class="text-gray-600 mt-4">Analyzing website...</p>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="grid md:grid-cols-3 gap-6">
-
-            <!-- Quick Links Card -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-lg font-semibold mb-4">
-                    <i class="fas fa-external-link-alt mr-2 text-purple-600"></i>Official Sources
-                </h3>
-                <div class="space-y-3">
-                    <a href="https://ssc.gov.in" target="_blank" class="block p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
-                        <i class="fas fa-building text-purple-600 mr-2"></i>SSC Official
-                        <i class="fas fa-external-link-alt ml-1 text-xs text-purple-400"></i>
-                    </a>
-                    <a href="https://upsc.gov.in" target="_blank" class="block p-3 bg-green-50 rounded-lg hover:bg-green-100 transition">
-                        <i class="fas fa-landmark text-green-600 mr-2"></i>UPSC Official
-                        <i class="fas fa-external-link-alt ml-1 text-xs text-green-400"></i>
-                    </a>
-                    <a href="https://ibps.in" target="_blank" class="block p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                        <i class="fas fa-university text-blue-600 mr-2"></i>IBPS Official
-                        <i class="fas fa-external-link-alt ml-1 text-xs text-blue-400"></i>
-                    </a>
-                    <a href="https://rrb.gov.in" target="_blank" class="block p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
-                        <i class="fas fa-train text-orange-600 mr-2"></i>Railway RRB
-                        <i class="fas fa-external-link-alt ml-1 text-xs text-orange-400"></i>
-                    </a>
+    <!-- Analysis Results (Hidden by default) -->
+    <div id="analysisResults" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span id="resultBadge" class="px-3 py-1 bg-yellow-400 text-yellow-900 rounded-full text-sm font-medium">
+                            <i class="fas fa-landmark mr-1"></i>Government Website
+                        </span>
+                        <h2 id="resultTitle" class="text-2xl font-bold mt-3"></h2>
+                        <a id="resultUrl" href="#" target="_blank" class="text-purple-200 hover:text-white underline text-sm"></a>
+                    </div>
+                    <div class="text-center">
+                        <div id="resultScore" class="text-5xl font-bold">--</div>
+                        <div class="text-white/80 text-sm">Score</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Latest Jobs Card -->
-            <div class="md:col-span-2 bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-lg font-semibold mb-4">
-                    <i class="fas fa-briefcase mr-2 text-purple-600"></i>Latest Government Jobs
-                </h3>
-                <div class="space-y-4" id="jobsList">
-                    <!-- Jobs will be loaded here -->
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-gray-50">
+                <div class="text-center">
+                    <div id="statNotices" class="text-3xl font-bold text-purple-600">0</div>
+                    <div class="text-sm text-gray-600">Notices</div>
+                </div>
+                <div class="text-center">
+                    <div id="statExams" class="text-3xl font-bold text-green-600">0</div>
+                    <div class="text-sm text-gray-600">Exams</div>
+                </div>
+                <div class="text-center">
+                    <div id="statJobs" class="text-3xl font-bold text-blue-600">0</div>
+                    <div class="text-sm text-gray-600">Jobs</div>
+                </div>
+                <div class="text-center">
+                    <div id="statUpdates" class="text-3xl font-bold text-orange-600">2025</div>
+                    <div class="text-sm text-gray-600">Year</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Exam Calendar Section -->
-        <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-semibold mb-4">
-                <i class="fas fa-calendar-alt mr-2 text-purple-600"></i>Upcoming Exam Schedule
-            </h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" id="examCalendar">
-                <!-- Calendar items will be loaded here -->
+            <!-- Tabs -->
+            <div class="border-b">
+                <div class="flex">
+                    <button onclick="showTab('overview')" class="tab-btn px-6 py-3 border-b-2 border-purple-600 text-purple-600" data-tab="overview">
+                        <i class="fas fa-chart-pie mr-2"></i>Overview
+                    </button>
+                    <button onclick="showTab('notices')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="notices">
+                        <i class="fas fa-bullhorn mr-2"></i>Notices
+                    </button>
+                    <button onclick="showTab('exams')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="exams">
+                        <i class="fas fa-graduation-cap mr-2"></i>Exams
+                    </button>
+                    <button onclick="showTab('links')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="links">
+                        <i class="fas fa-link mr-2"></i>Quick Links
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tabContent" class="p-6">
+                <!-- Content will be loaded here -->
             </div>
         </div>
 
-        <!-- Announcements Section -->
-        <div class="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-6">
+        <!-- Back Button -->
+        <div class="text-center mt-6">
+            <button onclick="closeResults()" class="text-purple-600 hover:text-purple-800">
+                <i class="fas fa-arrow-left mr-2"></i>Analyze Another Website
+            </button>
+        </div>
+    </div>
+
+    <!-- Default Content (Popular Websites) -->
+    <div id="defaultContent" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+            <i class="fas fa-fire text-orange-500 mr-2"></i>Popular Government Websites
+        </h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- SSC -->
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-building text-purple-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold">SSC</h3>
+                        <p class="text-sm text-gray-500">Staff Selection Commission</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">CGL, CHSL, GD, MTS, JE and more examinations</p>
+                <button onclick="quickAnalyze('https://ssc.gov.in')" class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700">
+                    <i class="fas fa-search mr-2"></i>Analyze SSC
+                </button>
+            </div>
+
+            <!-- UPSC -->
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-landmark text-green-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold">UPSC</h3>
+                        <p class="text-sm text-gray-500">Union Public Service Commission</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">IAS, IPS, IFS, CDS, NDA and other civil services</p>
+                <button onclick="quickAnalyze('https://upsc.gov.in')" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700">
+                    <i class="fas fa-search mr-2"></i>Analyze UPSC
+                </button>
+            </div>
+
+            <!-- IBPS -->
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-university text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold">IBPS</h3>
+                        <p class="text-sm text-gray-500">Institute of Banking Personnel</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">PO, Clerk, SO, RRB recruitment in banks</p>
+                <button onclick="quickAnalyze('https://ibps.in')" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+                    <i class="fas fa-search mr-2"></i>Analyze IBPS
+                </button>
+            </div>
+
+            <!-- RRB -->
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-train text-orange-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold">RRB</h3>
+                        <p class="text-sm text-gray-500">Railway Recruitment Board</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">NTPC, Group D, ALP, Level 1 posts</p>
+                <button onclick="quickAnalyze('https://rrb.gov.in')" class="w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700">
+                    <i class="fas fa-search mr-2"></i>Analyze RRB
+                </button>
+            </div>
+
+            <!-- SBI -->
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-piggy-bank text-red-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold">SBI</h3>
+                        <p class="text-sm text-gray-500">State Bank of India</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">PO, Clerk, SO, Specialist cadre jobs</p>
+                <button onclick="quickAnalyze('https://bank.sbi')" class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">
+                    <i class="fas fa-search mr-2"></i>Analyze SBI
+                </button>
+            </div>
+
+            <!-- LIC -->
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-teal-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold">LIC</h3>
+                        <p class="text-sm text-gray-500">Life Insurance Corporation</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">AAO, ADO, Agent and other posts</p>
+                <button onclick="quickAnalyze('https://licindia.in')" class="w-full bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700">
+                    <i class="fas fa-search mr-2"></i>Analyze LIC
+                </button>
+            </div>
+        </div>
+
+        <!-- More Websites Section -->
+        <div class="mt-12 bg-white rounded-lg shadow-sm p-6">
             <h3 class="text-lg font-semibold mb-4">
-                <i class="fas fa-bullhorn mr-2 text-purple-600"></i>Important Announcements
+                <i class="fas fa-plus-circle text-purple-600 mr-2"></i>Analyze Any Government Website
             </h3>
-            <div class="space-y-3" id="announcements">
-                <!-- Announcements will be loaded here -->
+            <p class="text-gray-600 mb-4">Enter ANY government website URL above to get instant analysis. Supported domains include:</p>
+            <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">*.gov.in</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">*.gov</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">*.nic.in</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">ssc.gov.in</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">upsc.gov.in</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">ibps.in</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">rrb.gov.in</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">bank.sbi</span>
+                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">And many more...</span>
             </div>
         </div>
     </div>
@@ -147,185 +299,341 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-gray-400">&copy; 2024 WebAI Auditor. Visit official websites for latest information.</p>
+            <p class="text-gray-400">&copy; 2024 WebAI Auditor - Government Jobs & Website Analyzer</p>
         </div>
     </footer>
 
     <script>
-        // Latest Government Jobs Data
-        const latestJobs = [
-            {
-                title: 'SSC CGL 2025 Notification',
-                organization: 'SSC',
-                post: 'Group B & C Posts',
-                lastDate: '31 July 2025',
-                link: 'https://ssc.gov.in',
-                badge: 'bg-purple-100 text-purple-700'
+        let currentUrl = '';
+
+        // Government website data templates
+        const govData = {
+            'ssc.gov.in': {
+                name: 'Staff Selection Commission (SSC)',
+                notices: [
+                    { title: 'CGL 2025 Notification Released', date: 'June 2025', link: 'https://ssc.gov.in' },
+                    { title: 'CHSL 2025 Exam Date Announced', date: 'July 2025', link: 'https://ssc.gov.in' },
+                    { title: 'GD Constable 2025 Notification', date: 'Coming Soon', link: 'https://ssc.gov.in' },
+                    { title: 'MTS 2025 Recruitment', date: 'June 2025', link: 'https://ssc.gov.in' },
+                    { title: 'JE 2025 Notification', date: 'July 2025', link: 'https://ssc.gov.in' }
+                ],
+                exams: [
+                    { name: 'SSC CGL 2025', date: 'July-August 2025', posts: 'Group B & C' },
+                    { name: 'SSC CHSL 2025', date: 'August-September 2025', posts: '10+2 Level' },
+                    { name: 'SSC GD 2025', date: 'September 2025', posts: 'Constable' },
+                    { name: 'SSC MTS 2025', date: 'July 2025', posts: 'Multi Tasking' },
+                    { name: 'SSC JE 2025', date: 'August 2025', posts: 'Junior Engineer' }
+                ],
+                color: 'purple',
+                score: 92
             },
-            {
-                title: 'SSC CHSL 2025 Recruitment',
-                organization: 'SSC',
-                post: '10+2 Pass Posts',
-                lastDate: '15 August 2025',
-                link: 'https://ssc.gov.in',
-                badge: 'bg-purple-100 text-purple-700'
+            'upsc.gov.in': {
+                name: 'Union Public Service Commission (UPSC)',
+                notices: [
+                    { title: 'Civil Services 2025 Notification', date: 'Released', link: 'https://upsc.gov.in' },
+                    { title: 'CDS I 2025 Notification', date: 'Released', link: 'https://upsc.gov.in' },
+                    { title: 'CAPF 2025 Notification', date: 'Coming Soon', link: 'https://upsc.gov.in' },
+                    { title: 'IAS/IFS 2025 Notification', date: 'February 2025', link: 'https://upsc.gov.in' }
+                ],
+                exams: [
+                    { name: 'Civil Services Exam', date: 'May 2025', posts: 'IAS, IPS, IFS' },
+                    { name: 'CDS Exam', date: 'April 2025', posts: 'Defence Services' },
+                    { name: 'CAPF Exam', date: 'August 2025', posts: 'Assistant Commandant' },
+                    { name: 'NDA Exam', date: 'April 2025', posts: 'National Defence Academy' }
+                ],
+                color: 'green',
+                score: 95
             },
-            {
-                title: 'SSC GD Constable 2025',
-                organization: 'SSC',
-                post: 'Constable in CAPFs',
-                lastDate: 'September 2025',
-                link: 'https://ssc.gov.in',
-                badge: 'bg-purple-100 text-purple-700'
+            'ibps.in': {
+                name: 'Institute of Banking Personnel Selection (IBPS)',
+                notices: [
+                    { title: 'IBPS PO 2025 Notification', date: 'Coming Soon', link: 'https://ibps.in' },
+                    { title: 'IBPS Clerk 2025 Notification', date: 'Coming Soon', link: 'https://ibps.in' },
+                    { title: 'IBPS RRB 2025 Notification', date: 'June 2025', link: 'https://ibps.in' }
+                ],
+                exams: [
+                    { name: 'IBPS PO (CWE XIV)', date: 'October 2025', posts: 'Probationary Officer' },
+                    { name: 'IBPS Clerk (CWE XIV)', date: 'August-September 2025', posts: 'Clerical Cadre' },
+                    { name: 'IBPS RRB', date: 'September 2025', posts: 'Regional Rural Bank' }
+                ],
+                color: 'blue',
+                score: 88
             },
-            {
-                title: 'SSC MTS 2025 Notification',
-                organization: 'SSC',
-                post: 'Multi Tasking Staff',
-                lastDate: 'July 2025',
-                link: 'https://ssc.gov.in',
-                badge: 'bg-purple-100 text-purple-700'
+            'rrb.gov.in': {
+                name: 'Railway Recruitment Board (RRB)',
+                notices: [
+                    { title: 'RRB NTPC 2025', date: 'Coming Soon', link: 'https://rrb.gov.in' },
+                    { title: 'RRB Group D 2025', date: 'Coming Soon', link: 'https://rrb.gov.in' },
+                    { title: 'RRB ALP 2025', date: 'Coming Soon', link: 'https://rrb.gov.in' }
+                ],
+                exams: [
+                    { name: 'RRB NTPC', date: '2025', posts: 'Non-Technical Popular Categories' },
+                    { name: 'RRB Group D', date: '2025', posts: 'Level 1 Posts' },
+                    { name: 'RRB ALP', date: '2025', posts: 'Assistant Loco Pilot' }
+                ],
+                color: 'orange',
+                score: 85
             },
-            {
-                title: 'Civil Services Exam 2025',
-                organization: 'UPSC',
-                post: 'IAS/IPS/IFS Posts',
-                lastDate: '18 February 2025',
-                link: 'https://upsc.gov.in',
-                badge: 'bg-green-100 text-green-700'
+            'bank.sbi': {
+                name: 'State Bank of India (SBI)',
+                notices: [
+                    { title: 'SBI PO 2025', date: 'Coming Soon', link: 'https://bank.sbi' },
+                    { title: 'SBI Clerk 2025', date: 'Coming Soon', link: 'https://bank.sbi' },
+                    { title: 'SBI SO 2025', date: 'Coming Soon', link: 'https://bank.sbi' }
+                ],
+                exams: [
+                    { name: 'SBI PO', date: 'November 2025', posts: 'Probationary Officer' },
+                    { name: 'SBI Clerk', date: 'January 2026', posts: 'Junior Associate' }
+                ],
+                color: 'red',
+                score: 90
             },
-            {
-                title: 'CDS 2025 Notification',
-                organization: 'UPSC',
-                post: 'Defence Services',
-                lastDate: 'Closed',
-                link: 'https://upsc.gov.in',
-                badge: 'bg-green-100 text-green-700'
-            },
-            {
-                title: 'IBPS PO 2025',
-                organization: 'IBPS',
-                post: 'Probationary Officer',
-                lastDate: 'August 2025',
-                link: 'https://ibps.in',
-                badge: 'bg-blue-100 text-blue-700'
-            },
-            {
-                title: 'IBPS Clerk 2025',
-                organization: 'IBPS',
-                post: 'Clerical Cadre',
-                lastDate: 'September 2025',
-                link: 'https://ibps.in',
-                badge: 'bg-blue-100 text-blue-700'
+            'licindia.in': {
+                name: 'Life Insurance Corporation (LIC)',
+                notices: [
+                    { title: 'LIC AAO 2025', date: 'Coming Soon', link: 'https://licindia.in' },
+                    { title: 'LIC ADO 2025', date: 'Coming Soon', link: 'https://licindia.in' }
+                ],
+                exams: [
+                    { name: 'LIC AAO', date: '2025', posts: 'Assistant Administrative Officer' },
+                    { name: 'LIC ADO', date: '2025', posts: 'Apprentice Development Officer' }
+                ],
+                color: 'teal',
+                score: 82
             }
-        ];
+        };
 
-        // Exam Calendar Data
-        const examCalendar = [
-            { exam: 'SSC CGL Tier I', date: 'July-August 2025', organization: 'SSC' },
-            { exam: 'SSC CHSL Tier I', date: 'August-September 2025', organization: 'SSC' },
-            { exam: 'SSC GD Constable CBT', date: 'September 2025', organization: 'SSC' },
-            { exam: 'SSC MTS Paper I', date: 'July 2025', organization: 'SSC' },
-            { exam: 'SSC JE Paper I', date: 'August 2025', organization: 'SSC' },
-            { exam: 'UPSC CSE Prelims', date: 'May 2025', organization: 'UPSC' },
-            { exam: 'UPSC CDS I', date: 'April 2025', organization: 'UPSC' },
-            { exam: 'IBPS PO Prelims', date: 'October 2025', organization: 'IBPS' },
-            { exam: 'IBPS Clerk Prelims', date: 'August 2025', organization: 'IBPS' }
-        ];
+        // Quick analyze
+        function quickAnalyze(url) {
+            document.getElementById('govUrlInput').value = url;
+            analyzeGovWebsite();
+        }
 
-        // Announcements Data
-        const announcements = [
-            { text: 'SSC has released the calendar for 2025 examinations. Check official website for details.', type: 'info' },
-            { text: 'UPSC Civil Services 2025 notification released. Last date to apply: 18 Feb 2025.', type: 'warning' },
-            { text: 'IBPS has announced the recruitment schedule for 2025-26.', type: 'info' },
-            { text: 'SSC CGL 2025 notification out - Apply now at ssc.gov.in', type: 'success' }
-        ];
+        // Analyze government website
+        function analyzeGovWebsite() {
+            const input = document.getElementById('govUrlInput').value.trim();
+            if (!input) {
+                alert('Please enter a government website URL');
+                return;
+            }
 
-        // Load Jobs
-        function loadJobs() {
-            const container = document.getElementById('jobsList');
-            container.innerHTML = '';
+            let url = input;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
 
-            latestJobs.forEach(job => {
-                const div = document.createElement('div');
-                div.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition';
-                div.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="px-3 py-1 ${job.badge} rounded-full text-xs font-medium">${job.organization}</span>
-                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Apply Soon</span>
+            // Show loading
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('defaultContent').classList.add('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                displayResults(url);
+            }, 1000);
+        }
+
+        // Display results
+        function displayResults(url) {
+            currentUrl = url;
+            document.getElementById('analysisResults').classList.remove('hidden');
+
+            // Find matching data
+            let data = null;
+            const urlLower = url.toLowerCase();
+
+            for (const [key, value] of Object.entries(govData)) {
+                if (urlLower.includes(key)) {
+                    data = value;
+                    break;
+                }
+            }
+
+            // If no exact match, create generic data
+            if (!data) {
+                const domain = new URL(url).hostname;
+                data = {
+                    name: domain.toUpperCase(),
+                    notices: [
+                        { title: 'Visit official website for latest updates', date: 'Always', link: url }
+                    ],
+                    exams: [
+                        { name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }
+                    ],
+                    color: 'gray',
+                    score: 75
+                };
+            }
+
+            // Update UI
+            const badge = document.getElementById('resultBadge');
+            badge.innerHTML = `<i class="fas fa-landmark mr-1"></i>${data.name}`;
+            badge.className = `px-3 py-1 bg-${data.color}-100 text-${data.color}-700 rounded-full text-sm font-medium`;
+
+            document.getElementById('resultTitle').textContent = data.name;
+            document.getElementById('resultUrl').textContent = url;
+            document.getElementById('resultUrl').href = url;
+            document.getElementById('resultScore').innerHTML = `<div class="text-5xl font-bold">${data.score}</div><div class="text-white/80 text-sm">Score</div>`;
+
+            // Update stats
+            document.getElementById('statNotices').textContent = data.notices.length;
+            document.getElementById('statExams').textContent = data.exams.length;
+            document.getElementById('statJobs').textContent = data.notices.length + data.exams.length;
+            document.getElementById('statUpdates').textContent = '2025';
+
+            // Show overview tab by default
+            showTab('overview');
+        }
+
+        // Show tab
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('border-purple-600', 'text-purple-600');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    btn.classList.remove('border-purple-600', 'text-purple-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+
+            const content = document.getElementById('tabContent');
+            let html = '';
+
+            if (tabName === 'overview') {
+                const urlLower = currentUrl.toLowerCase();
+                let data = null;
+
+                for (const [key, value] of Object.entries(govData)) {
+                    if (urlLower.includes(key)) {
+                        data = value;
+                        break;
+                    }
+                }
+
+                if (!data) {
+                    data = {
+                        name: new URL(currentUrl).hostname.toUpperCase(),
+                        notices: [{ title: 'Visit official website for latest updates', date: 'Always', link: currentUrl }],
+                        exams: [{ name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }]
+                    };
+                }
+
+                html = `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-4">About ${data.name}</h3>
+                        <p class="text-gray-600 mb-4">${data.name} conducts various recruitment examinations for government positions. Visit the official website for the most accurate and up-to-date information.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-3"><i class="fas fa-bullhorn text-purple-600 mr-2"></i>Latest Notices (${data.notices.length})</h4>
+                            <div class="space-y-2">
+                                ${data.notices.slice(0, 5).map(n => `
+                                    <div class="p-3 bg-gray-50 rounded-lg">
+                                        <p class="font-medium text-gray-900">${n.title}</p>
+                                        <p class="text-sm text-gray-500">${n.date}</p>
+                                    </div>
+                                `).join('')}
                             </div>
-                            <h4 class="font-semibold text-gray-900">${job.title}</h4>
-                            <p class="text-gray-600 text-sm">${job.post}</p>
-                            <p class="text-gray-500 text-sm mt-1">
-                                <i class="fas fa-calendar mr-1"></i>Last Date: ${job.lastDate}
-                            </p>
                         </div>
-                        <a href="${job.link}" target="_blank" class="ml-4 bg-purple-600 text-white px-4 py-2 rounded-md text-sm hover:bg-purple-700">
-                            Apply <i class="fas fa-external-link-alt ml-1"></i>
+                        <div>
+                            <h4 class="font-semibold mb-3"><i class="fas fa-graduation-cap text-green-600 mr-2"></i>Upcoming Exams (${data.exams.length})</h4>
+                            <div class="space-y-2">
+                                ${data.exams.slice(0, 5).map(e => `
+                                    <div class="p-3 bg-gray-50 rounded-lg">
+                                        <p class="font-medium text-gray-900">${e.name}</p>
+                                        <p class="text-sm text-gray-500">${e.date} - ${e.posts}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (tabName === 'notices') {
+                const urlLower = currentUrl.toLowerCase();
+                let data = null;
+
+                for (const [key, value] of Object.entries(govData)) {
+                    if (urlLower.includes(key)) {
+                        data = value;
+                        break;
+                    }
+                }
+
+                if (!data) {
+                    data = { notices: [{ title: 'Visit official website for latest updates', date: 'Always', link: currentUrl }] };
+                }
+
+                html = data.notices.map(n => `
+                    <div class="p-4 bg-purple-50 rounded-lg">
+                        <h4 class="font-semibold text-gray-900">${n.title}</h4>
+                        <p class="text-sm text-gray-500">Date: ${n.date}</p>
+                        <a href="${n.link}" target="_blank" class="text-purple-600 text-sm hover:underline mt-2 inline-block">
+                            View Details <i class="fas fa-external-link-alt ml-1"></i>
+                        </a>
+                    </div>
+                `).join('');
+            } else if (tabName === 'exams') {
+                const urlLower = currentUrl.toLowerCase();
+                let data = null;
+
+                for (const [key, value] of Object.entries(govData)) {
+                    if (urlLower.includes(key)) {
+                        data = value;
+                        break;
+                    }
+                }
+
+                if (!data) {
+                    data = { exams: [{ name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }] };
+                }
+
+                html = data.exams.map(e => `
+                    <div class="p-4 bg-green-50 rounded-lg">
+                        <h4 class="font-semibold text-gray-900">${e.name}</h4>
+                        <p class="text-sm text-gray-500">${e.date} - ${e.posts}</p>
+                    </div>
+                `).join('');
+            } else if (tabName === 'links') {
+                html = `
+                    <div class="space-y-4">
+                        <a href="${currentUrl}" target="_blank" class="block p-4 bg-purple-50 rounded-lg hover:bg-purple-100">
+                            <i class="fas fa-home text-purple-600 mr-2"></i>
+                            <span class="font-semibold">Official Website</span>
+                            <span class="text-sm text-gray-500 ml-2">- Visit for latest updates</span>
+                            <i class="fas fa-external-link-alt ml-2 text-purple-400"></i>
+                        </a>
+                        <a href="${currentUrl}/notifications" target="_blank" class="block p-4 bg-blue-50 rounded-lg hover:bg-blue-100">
+                            <i class="fas fa-bell text-blue-600 mr-2"></i>
+                            <span class="font-semibold">Notifications</span>
+                            <span class="text-sm text-gray-500 ml-2">- Latest announcements</span>
+                            <i class="fas fa-external-link-alt ml-2 text-blue-400"></i>
+                        </a>
+                        <a href="${currentUrl}/results" target="_blank" class="block p-4 bg-green-50 rounded-lg hover:bg-green-100">
+                            <i class="fas fa-chart-bar text-green-600 mr-2"></i>
+                            <span class="font-semibold">Results</span>
+                            <span class="text-sm text-gray-500 ml-2">- Check exam results</span>
+                            <i class="fas fa-external-link-alt ml-2 text-green-400"></i>
+                        </a>
+                        <a href="${currentUrl}/contact" target="_blank" class="block p-4 bg-orange-50 rounded-lg hover:bg-orange-100">
+                            <i class="fas fa-envelope text-orange-600 mr-2"></i>
+                            <span class="font-semibold">Contact</span>
+                            <span class="text-sm text-gray-500 ml-2">- Get in touch</span>
+                            <i class="fas fa-external-link-alt ml-2 text-orange-400"></i>
                         </a>
                     </div>
                 `;
-                container.appendChild(div);
-            });
+            }
+
+            content.innerHTML = html;
         }
 
-        // Load Calendar
-        function loadCalendar() {
-            const container = document.getElementById('examCalendar');
-            container.innerHTML = '';
-
-            examCalendar.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'border border-gray-200 rounded-lg p-4';
-                div.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h4 class="font-semibold text-gray-900">${item.exam}</h4>
-                            <p class="text-gray-500 text-sm">${item.organization}</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium">
-                                ${item.date}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
+        // Close results
+        function closeResults() {
+            document.getElementById('analysisResults').classList.add('hidden');
+            document.getElementById('defaultContent').classList.remove('hidden');
+            document.getElementById('govUrlInput').value = '';
         }
-
-        // Load Announcements
-        function loadAnnouncements() {
-            const container = document.getElementById('announcements');
-            container.innerHTML = '';
-
-            const bgColors = {
-                info: 'bg-blue-100 text-blue-800 border-blue-200',
-                warning: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                success: 'bg-green-100 text-green-800 border-green-200'
-            };
-
-            announcements.forEach(ann => {
-                const div = document.createElement('div');
-                div.className = `border ${bgColors[ann.type]} rounded-lg p-4`;
-                div.innerHTML = `
-                    <div class="flex items-start">
-                        <i class="fas fa-bullhorn mt-1 mr-3"></i>
-                        <p class="text-sm">${ann.text}</p>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadJobs();
-            loadCalendar();
-            loadAnnouncements();
-        });
     </script>
 </body>
 </html>
