@@ -4,7 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis Report - WebAI Auditor</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+        // Display government website results
+        function displayGovWebsiteResults(audit) {
+            const url = audit.url || 'Unknown';
+            const title = audit.title || 'Government Website';
+            const notices = audit.notices || [];
+            const exams = audit.exams || [];
+            const announcements = audit.announcements || [];
+            const calendar = audit.calendar || [];
+
+            // Calculate score
+            const overallScore = Math.min(98, 70 + (notices.length * 2) + (exams.length * 1));
+            const scoreClass = overallScore >= 80 ? 'score-excellent' : overallScore >= 60 ? 'score-good' : 'score-warning';
+
+            // Overall Score Header
+            document.getElementById('overallScore').innerHTML = `
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="text-white">
+                        <div class="flex items-center gap-2 mb-2 flex-wrap">
+                            <span class="px-3 py-1 bg-yellow-400 text-yellow-900 rounded-full text-sm font-medium"><i class="fas fa-landmark mr-1"></i>Government Website</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${notices.length} Notices</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${exams.length} Updates</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${calendar.length} Calendar Events</span>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">${url}</h1>
+                        <p class="text-white/80">${title}</p>
+                        <p class="text-white/60 text-sm mt-1">Analyzed ${new Date(audit.analyzed_at || Date.now()).toLocaleString()}</p>
+                    </div>
+                    <div class="text-center mt-6 md:mt-0 bg-white/20 rounded-2xl p-6">
+                        <div class="text-6xl font-bold text-white ${scoreClass}">${overallScore}</div>
+                        <div class="text-white/80 text-sm">Update Score</div>
+                    </div>
+                </div>
+            `;
+
+            // Quick Stats
+            const statsHTML = `
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-blue-600">${notices.length}</div>
+                    <div class="text-gray-600 text-sm">Notices</div>
+                </div>
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-purple-600">${exams.length}</div>
+                    <div class="text-gray-600 text-sm">Exam Updates</div>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-green-600">${announcements.length}</div>
+                    <div class="text-gray-600 text-sm">Announcements</div>
+                </div>
+                <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-orange-600">${calendar.length}</div>
+                    <div class="text-gray-600 text-sm">Upcoming Dates</div>
+                </div>
+            `;
+            document.querySelector('.grid.grid-cols-2.md\:grid-cols-4').innerHTML = statsHTML;
+
+            // Results sections
+            let resultsHTML = '';
+
+            // Notices Section
+            if (notices.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-bullhorn text-blue-600 mr-2"></i>Latest Notices</h2>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">${notices.length} Total</span>
+                        </div>
+                        <div class="space-y-3">
+                            ${notices.slice(0, 20).map(notice => `
+                                <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">${notice.headline || 'Notice'}</h3>
+                                            <p class="text-gray-500 text-sm mt-1">${notice.createdAt ? new Date(notice.createdAt).toLocaleDateString() : 'N/A'}</p>
+                                        </div>
+                                        ${notice.redirectUrl ? `<a href="${notice.redirectUrl}" target="_blank" class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">View</a>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Exam Updates Section
+            if (exams.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-graduation-cap text-purple-600 mr-2"></i>Exam Updates</h2>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">${exams.length} Total</span>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            ${exams.slice(0, 10).map(exam => `
+                                <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition">
+                                    <h3 class="font-semibold text-gray-800">${exam.headline || 'Exam Update'}</h3>
+                                    <p class="text-gray-500 text-sm mt-1">${exam.contentType || 'Notice'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Announcements Section
+            if (announcements.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-megaphone text-green-600 mr-2"></i>Important Announcements</h2>
+                        </div>
+                        <div class="space-y-3">
+                            ${announcements.map(ann => `
+                                <div class="border-l-4 border-green-500 bg-green-50 rounded-r-lg p-4">
+                                    <p class="font-medium text-gray-800">${ann.headline || 'Announcement'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Calendar Section
+            if (calendar.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-calendar-alt text-orange-600 mr-2"></i>Upcoming Exam Dates</h2>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">${calendar.length} Events</span>
+                        </div>
+                        <div class="space-y-3">
+                            ${calendar.slice(0, 15).map(cal => `
+                                <div class="flex items-center justify-between border border-gray-200 rounded-lg p-4">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">${cal.headline || 'Exam'}</h3>
+                                        <p class="text-gray-500 text-sm">${cal.examYear || ''}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium">
+                                            ${cal.startDate ? new Date(cal.startDate).toLocaleDateString() : 'TBA'}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Summary Section
+            if (audit.summary) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fas fa-file-alt text-gray-600 mr-2"></i>Summary Report</h2>
+                        <div class="prose max-w-none">
+                            <pre class="whitespace-pre-wrap text-gray-700 bg-gray-50 rounded-lg p-4">${audit.summary}</pre>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Update the main content area
+            document.getElementById('mainContent').innerHTML = resultsHTML;
+        }
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         .tab-btn.active {
@@ -427,6 +591,12 @@
             console.log('Is client-side format:', isClientSideFormat);
 
             if (isClientSideFormat) {
+                // Check if it's a government website
+                const isGovWebsite = audit.isGov || (audit.notices && audit.notices.length > 0);
+                if (isGovWebsite) {
+                    displayGovWebsiteResults(audit);
+                    return;
+                }
                 displayClientSideResults(audit);
                 return;
             }
@@ -1591,7 +1761,171 @@
 
         // Initialize
         loadAudit();
-    </script>
+    
+        // Display government website results
+        function displayGovWebsiteResults(audit) {
+            const url = audit.url || 'Unknown';
+            const title = audit.title || 'Government Website';
+            const notices = audit.notices || [];
+            const exams = audit.exams || [];
+            const announcements = audit.announcements || [];
+            const calendar = audit.calendar || [];
+
+            // Calculate score
+            const overallScore = Math.min(98, 70 + (notices.length * 2) + (exams.length * 1));
+            const scoreClass = overallScore >= 80 ? 'score-excellent' : overallScore >= 60 ? 'score-good' : 'score-warning';
+
+            // Overall Score Header
+            document.getElementById('overallScore').innerHTML = `
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="text-white">
+                        <div class="flex items-center gap-2 mb-2 flex-wrap">
+                            <span class="px-3 py-1 bg-yellow-400 text-yellow-900 rounded-full text-sm font-medium"><i class="fas fa-landmark mr-1"></i>Government Website</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${notices.length} Notices</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${exams.length} Updates</span>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">${calendar.length} Calendar Events</span>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">${url}</h1>
+                        <p class="text-white/80">${title}</p>
+                        <p class="text-white/60 text-sm mt-1">Analyzed ${new Date(audit.analyzed_at || Date.now()).toLocaleString()}</p>
+                    </div>
+                    <div class="text-center mt-6 md:mt-0 bg-white/20 rounded-2xl p-6">
+                        <div class="text-6xl font-bold text-white ${scoreClass}">${overallScore}</div>
+                        <div class="text-white/80 text-sm">Update Score</div>
+                    </div>
+                </div>
+            `;
+
+            // Quick Stats
+            const statsHTML = `
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-blue-600">${notices.length}</div>
+                    <div class="text-gray-600 text-sm">Notices</div>
+                </div>
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-purple-600">${exams.length}</div>
+                    <div class="text-gray-600 text-sm">Exam Updates</div>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-green-600">${announcements.length}</div>
+                    <div class="text-gray-600 text-sm">Announcements</div>
+                </div>
+                <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-orange-600">${calendar.length}</div>
+                    <div class="text-gray-600 text-sm">Upcoming Dates</div>
+                </div>
+            `;
+            document.querySelector('.grid.grid-cols-2.md\:grid-cols-4').innerHTML = statsHTML;
+
+            // Results sections
+            let resultsHTML = '';
+
+            // Notices Section
+            if (notices.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-bullhorn text-blue-600 mr-2"></i>Latest Notices</h2>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">${notices.length} Total</span>
+                        </div>
+                        <div class="space-y-3">
+                            ${notices.slice(0, 20).map(notice => `
+                                <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">${notice.headline || 'Notice'}</h3>
+                                            <p class="text-gray-500 text-sm mt-1">${notice.createdAt ? new Date(notice.createdAt).toLocaleDateString() : 'N/A'}</p>
+                                        </div>
+                                        ${notice.redirectUrl ? `<a href="${notice.redirectUrl}" target="_blank" class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">View</a>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Exam Updates Section
+            if (exams.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-graduation-cap text-purple-600 mr-2"></i>Exam Updates</h2>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">${exams.length} Total</span>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            ${exams.slice(0, 10).map(exam => `
+                                <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition">
+                                    <h3 class="font-semibold text-gray-800">${exam.headline || 'Exam Update'}</h3>
+                                    <p class="text-gray-500 text-sm mt-1">${exam.contentType || 'Notice'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Announcements Section
+            if (announcements.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-megaphone text-green-600 mr-2"></i>Important Announcements</h2>
+                        </div>
+                        <div class="space-y-3">
+                            ${announcements.map(ann => `
+                                <div class="border-l-4 border-green-500 bg-green-50 rounded-r-lg p-4">
+                                    <p class="font-medium text-gray-800">${ann.headline || 'Announcement'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Calendar Section
+            if (calendar.length > 0) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-calendar-alt text-orange-600 mr-2"></i>Upcoming Exam Dates</h2>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">${calendar.length} Events</span>
+                        </div>
+                        <div class="space-y-3">
+                            ${calendar.slice(0, 15).map(cal => `
+                                <div class="flex items-center justify-between border border-gray-200 rounded-lg p-4">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">${cal.headline || 'Exam'}</h3>
+                                        <p class="text-gray-500 text-sm">${cal.examYear || ''}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium">
+                                            ${cal.startDate ? new Date(cal.startDate).toLocaleDateString() : 'TBA'}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Summary Section
+            if (audit.summary) {
+                resultsHTML += `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fas fa-file-alt text-gray-600 mr-2"></i>Summary Report</h2>
+                        <div class="prose max-w-none">
+                            <pre class="whitespace-pre-wrap text-gray-700 bg-gray-50 rounded-lg p-4">${audit.summary}</pre>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Update the main content area
+            document.getElementById('mainContent').innerHTML = resultsHTML;
+        }
+</script>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 py-16 mt-20">
