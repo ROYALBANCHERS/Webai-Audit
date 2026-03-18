@@ -248,7 +248,7 @@
     </footer>
 
     <script>
-        // Using direct government APIs - no backend needed
+        const API_BASE = 'http://localhost:8000/api';
         let currentPage = 1;
         let currentFilters = {};
 
@@ -304,7 +304,7 @@
             }
         }
 
-        // Load jobs - using direct government APIs
+        // Load jobs
         async function loadJobs(page = 1) {
             const loadingIndicator = document.getElementById('loadingIndicator');
             const jobsContainer = document.getElementById('jobsContainer');
@@ -313,75 +313,25 @@
             jobsContainer.innerHTML = '';
 
             try {
-                const category = currentFilters.category || '';
+                const params = new URLSearchParams({
+                    page: page,
+                    ...currentFilters
+                });
 
-                // Fetch from different government APIs based on category
-                let jobs = [];
+                const response = await fetch(`${API_BASE}/gov-jobs?${params}`);
+                const data = await response.json();
 
-                if (!category || category === 'ssc') {
-                    // SSC Notices
-                    const noticeRes = await fetch('https://ssc.gov.in/api/general-website/portal/notice-boards?page=' + page + '&limit=50&contentType=notice-boards&key=createdAt&order=DESC');
-                    if (noticeRes.ok) {
-                        const noticeData = await noticeRes.json();
-                        if (noticeData.statusCode === '200') {
-                            jobs = jobs.concat((noticeData.data || []).map(item => ({
-                                title: item.headline || 'SSC Notice',
-                                description: item.contentType || 'Staff Selection Commission',
-                                category: 'SSC',
-                                department: 'SSC',
-                                last_date_to_apply: item.createdAt || null,
-                                source_url: item.redirectUrl || 'https://ssc.gov.in',
-                                vacancy_count: null,
-                                qualification: 'Varies',
-                                location: 'All India',
-                                days_remaining: null
-                            })));
-                        }
-                    }
-
-                    // SSC Exam Updates
-                    const examRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?page=' + page + '&limit=50&contentType=browse-exam&key=createdAt&order=DESC');
-                    if (examRes.ok) {
-                        const examData = await examRes.json();
-                        if (examData.statusCode === '200') {
-                            jobs = jobs.concat((examData.data || []).map(item => ({
-                                title: item.headline || 'SSC Exam Update',
-                                description: item.contentType || 'SSC Examination',
-                                category: 'SSC',
-                                department: 'SSC',
-                                last_date_to_apply: item.startDate || null,
-                                source_url: 'https://ssc.gov.in',
-                                vacancy_count: null,
-                                qualification: 'Varies',
-                                location: 'All India',
-                                days_remaining: null
-                            })));
-                        }
-                    }
+                if (data.success) {
+                    displayJobs(data.data.data);
+                    displayPagination(data.data);
+                    currentPage = page;
                 }
-
-                // Filter by search term
-                if (currentFilters.search) {
-                    const searchLower = currentFilters.search.toLowerCase();
-                    jobs = jobs.filter(job =>
-                        job.title.toLowerCase().includes(searchLower) ||
-                        job.description.toLowerCase().includes(searchLower)
-                    );
-                }
-
-                displayJobs(jobs);
-                document.getElementById('paginationContainer').innerHTML = '';
-                currentPage = page;
-
             } catch (error) {
                 console.error('Failed to load jobs:', error);
                 jobsContainer.innerHTML = `
                     <div class="text-center py-12">
                         <i class="fas fa-exclamation-circle text-red-500 text-4xl mb-4"></i>
-                        <p class="text-gray-600">Failed to load jobs. Please check your connection.</p>
-                        <button onclick="loadJobs()" class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
-                            <i class="fas fa-redo mr-2"></i>Retry
-                        </button>
+                        <p class="text-gray-600">Failed to load jobs. Please try again later.</p>
                     </div>
                 `;
             } finally {
