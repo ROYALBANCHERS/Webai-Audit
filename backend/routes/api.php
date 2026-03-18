@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\WebsiteMonitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +67,17 @@ Route::get('/api/health', [AuditController::class, 'health']);
 Route::post('/api/competitors', [AuditController::class, 'findCompetitors']);
 Route::post('/api/github/search', [AuditController::class, 'searchGitHub']);
 Route::get('/api/stats', [AuditController::class, 'stats']);
+
+// Website Monitoring endpoints
+Route::prefix('monitor')->group(function () {
+    Route::get('/', [WebsiteMonitorController::class, 'index'])->name('monitor.index');
+    Route::post('/', [WebsiteMonitorController::class, 'store'])->name('monitor.store');
+    Route::get('/stats', [WebsiteMonitorController::class, 'stats'])->name('monitor.stats');
+    Route::get('/recent', [WebsiteMonitorController::class, 'recentChanges'])->name('monitor.recent');
+    Route::get('/stream', [WebsiteMonitorController::class, 'stream'])->name('monitor.stream');
+    Route::post('/check-all', [WebsiteMonitorController::class, 'checkAll'])->name('monitor.check-all');
+    Route::get('/{id}', [WebsiteMonitorController::class, 'show'])->name('monitor.show');
+    Route::delete('/{id}', [WebsiteMonitorController::class, 'destroy'])->name('monitor.destroy');
+    Route::post('/{id}/check', [WebsiteMonitorController::class, 'checkChanges'])->name('monitor.check');
+    Route::post('/{id}/toggle', [WebsiteMonitorController::class, 'toggle'])->name('monitor.toggle');
+});
