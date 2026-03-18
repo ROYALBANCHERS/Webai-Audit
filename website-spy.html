@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Spy & Tracker - Complete Monitoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { font-family: 'Segoe UI', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #667eea; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .website-card { transition: all 0.3s; }
+        .website-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .status-active { background: #10b981; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .status-paused { background: #f59e0b; }
+        .stat-box { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
+        .new-badge { animation: bounce 1s; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <div class="gradient-bg text-white py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🕵️</span>
+                <span class="text-xl font-bold">Website Spy Pro</span>
+                <span class="px-2 py-1 bg-white/20 rounded-full text-xs">Auto-Crawling</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right text-sm">
+                    <div class="text-white/80">Total Websites</div>
+                    <div class="font-bold" id="headerTotalSites">0</div>
+                </div>
+                <div class="text-right text-sm">
+                    <div class="text-white/80">Total Updates</div>
+                    <div class="font-bold" id="headerTotalUpdates">0</div>
+                </div>
+                <button onclick="showAddModal()" class="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100">
+                    <i class="fas fa-plus mr-2"></i>Add Website
+                </button>
+                <button onclick="showApiModal()" class="bg-white/20 text-white px-3 py-2 rounded-lg hover:bg-white/30">
+                    <i class="fas fa-key"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Websites Section - TOP PRIORITY -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <h2 class="text-2xl font-bold mb-4">
+            <i class="fas fa-globe text-purple-600 mr-2"></i>Tracked Websites
+        </h2>
+
+        <!-- Websites Grid -->
+        <div id="websitesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Website cards will be loaded here -->
+        </div>
+
+        <!-- Add More Card (when empty) -->
+        <div id="addMoreCard" class="hidden">
+            <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-400 cursor-pointer transition"
+                onclick="showAddModal()">
+                <i class="fas fa-plus-circle text-4xl text-gray-400 mb-2"></i>
+                <p class="text-gray-500">Add First Website to Track</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <div class="max-w-7xl mx-auto px-4 pb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">
+                <i class="fas fa-history text-purple-600 mr-2"></i>Live Activity Timeline
+            </h2>
+            <div class="flex gap-2">
+                <button onclick="refreshAll()" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh All
+                </button>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div id="timeline" class="bg-white rounded-xl shadow-sm p-4">
+            <!-- Timeline items will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Add Website Modal -->
+    <div id="addModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold mb-4">Add Website to Track</h3>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Website URL</label>
+                    <input type="text" id="addUrl" placeholder="https://ssc.gov.in"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Name (Optional)</label>
+                    <input type="text" id="addName" placeholder="SSC"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Auto-Crawl Interval</label>
+                    <select id="addInterval" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        <option value="1">Every 1 Hour</option>
+                        <option value="2" selected>Every 2 Hours</option>
+                        <option value="3">Every 3 Hours</option>
+                        <option value="6">Every 6 Hours</option>
+                        <option value="12">Every 12 Hours</option>
+                        <option value="24">Daily (24 Hours)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-2 mt-6">
+                <button onclick="addWebsite()" class="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
+                    <i class="fas fa-eye mr-2"></i>Start Tracking
+                </button>
+                <button onclick="closeAddModal()" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Website Details Modal -->
+    <div id="detailsModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
+            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+                <h3 id="detailsTitle" class="text-xl font-bold">Website Details</h3>
+                <button onclick="closeDetailsModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="detailsContent" class="p-6">
+                <!-- Details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div id="apiModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 class="text-lg font-bold mb-4">Set API Key (Optional)</h3>
+            <input type="password" id="apiKeyInput" placeholder="Anthropic API Key (sk-ant-api03-...)"
+                class="w-full px-4 py-2 border rounded-md mb-4">
+            <p class="text-xs text-gray-500 mb-4">For AI-powered crawling. Without it, simulation mode is used.</p>
+            <div class="flex gap-2">
+                <button onclick="saveApiKey()" class="flex-1 bg-purple-600 text-white py-2 rounded-md">Save</button>
+                <button onclick="closeApiModal()" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-md">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 text-center">
+            <div class="loader mb-4"></div>
+            <p id="loadingText">Processing...</p>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let spyTargets = JSON.parse(localStorage.getItem('spyTargets')) || [];
+        let crawlHistory = JSON.parse(localStorage.getItem('crawlHistory')) || [];
+        let API_KEY = localStorage.getItem('spy_api_key') || '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderWebsites();
+            renderTimeline();
+            updateHeaderStats();
+            startCronJobs();
+
+            // Add demo data if empty
+            if (spyTargets.length === 0) {
+                addDemoData();
+            }
+        });
+
+        // Add demo data
+        function addDemoData() {
+            const now = new Date();
+            const demoSites = [
+                { url: 'https://ssc.gov.in', name: 'SSC', interval: 2 },
+                { url: 'https://upsc.gov.in', name: 'UPSC', interval: 6 },
+                { url: 'https://ibps.in', name: 'IBPS', interval: 12 }
+            ];
+
+            demoSites.forEach((site, index) => {
+                const target = {
+                    id: Date.now() + index,
+                    url: site.url,
+                    name: site.name,
+                    interval: site.interval,
+                    active: true,
+                    lastCrawl: new Date(now - (index * 60 * 60 * 1000)).toISOString(),
+                    data: {
+                        blogs: [
+                            { title: 'SSC CGL 2025 Notification', date: new Date(now - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], link: site.url },
+                            { title: 'New Exam Schedule Released', date: new Date(now - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], link: site.url }
+                        ],
+                        pdfs: [
+                            { title: 'Official Notification 2025', link: site.url + '/notification.pdf' },
+                            { title: 'Exam Calendar', link: site.url + '/calendar.pdf' }
+                        ],
+                        jobs: [
+                            { title: 'CGL 2025 Recruitment', date: new Date(now - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
+                            { title: 'CHSL 2025 Notification', date: new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] }
+                        ],
+                        pages: 156
+                    },
+                    previousData: null,
+                    createdAt: new Date(now - (index * 5 * 24 * 60 * 60 * 1000)).toISOString()
+                };
+
+                spyTargets.push(target);
+
+                // Add history
+                crawlHistory.push({
+                    id: Date.now() + index + 100,
+                    targetId: target.id,
+                    targetName: target.name,
+                    targetUrl: target.url,
+                    timestamp: new Date(now - (index * 60 * 60 * 1000)).toISOString(),
+                    data: JSON.parse(JSON.stringify(target.data)),
+                    changes: {
+                        total: index === 0 ? 2 : index % 2,
+                        blogs: index % 2,
+                        pdfs: index === 1 ? 1 : 0,
+                        jobs: index % 3
+                    },
+                    summary: index === 0 ? '2 new jobs, 1 new blog' : index % 2 ? 'New blog posted' : 'Routine check'
+                });
+            });
+
+            saveData();
+            renderWebsites();
+            renderTimeline();
+            updateHeaderStats();
+        }
+
+        // Render All Websites (Top Section)
+        function renderWebsites() {
+            const container = document.getElementById('websitesGrid');
+            const addMoreCard = document.getElementById('addMoreCard');
+
+            container.innerHTML = '';
+
+            if (spyTargets.length === 0) {
+                addMoreCard.classList.remove('hidden');
+                return;
+            }
+
+            addMoreCard.classList.add('hidden');
+
+            spyTargets.forEach(target => {
+                const lastCrawl = target.lastCrawl ? new Date(target.lastCrawl) : null;
+                const timeAgo = lastCrawl ? getTimeAgo(lastCrawl) : 'Never';
+
+                // Get recent updates for this site
+                const siteHistory = crawlHistory.filter(h => h.targetId === target.id).slice(0, 3);
+                const totalUpdates = siteHistory.length;
+
+                // Stats
+                const blogs = target.data.blogs?.length || 0;
+                const pdfs = target.data.pdfs?.length || 0;
+                const jobs = target.data.jobs?.length || 0;
+
+                const card = document.createElement('div');
+                card.className = 'website-card bg-white rounded-xl shadow-sm overflow-hidden';
+
+                card.innerHTML = `
+                    <!-- Card Header -->
+                    <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-bold text-lg">${target.name}</h3>
+                                    <div class="status-dot ${target.active ? 'status-active' : 'status-paused'}"></div>
+                                </div>
+                                <a href="${target.url}" target="_blank" class="text-purple-200 text-sm hover:text-white">${target.url}</a>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-purple-200">Every ${target.interval}h</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="grid grid-cols-4 gap-1 p-3 bg-gray-50">
+                        <div class="text-center p-2">
+                            <div class="text-xl font-bold text-purple-600">${blogs}</div>
+                            <div class="text-xs text-gray-500">Blogs</div>
+                        </div>
+                        <div class="text-center p-2">
+                            <div class="text-xl font-bold text-blue-600">${pdfs}</div>
+                            <div class="text-xs text-gray-500">PDFs</div>
+                        </div>
+                        <div class="text-center p-2">
+                            <div class="text-xl font-bold text-orange-600">${jobs}</div>
+                            <div class="text-xs text-gray-500">Jobs</div>
+                        </div>
+                        <div class="text-center p-2">
+                            <div class="text-xl font-bold text-green-600">${totalUpdates}</div>
+                            <div class="text-xs text-gray-500">Updates</div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Updates -->
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-semibold text-gray-800">
+                                <i class="fas fa-clock text-purple-600 mr-2"></i>Latest Updates
+                            </h4>
+                            <span class="text-xs text-gray-500">${timeAgo}</span>
+                        </div>
+
+                        <div class="space-y-2 mb-4">
+                            ${siteHistory.length > 0 ? siteHistory.map(h => {
+                                const updateBadge = h.changes.total > 0 ? '<span class="new-badge ml-2 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">NEW</span>' : '';
+                                return `
+                                    <div class="flex items-center gap-2 text-sm p-2 rounded-lg bg-gray-50">
+                                        <i class="fas fa-check-circle text-green-500"></i>
+                                        <span class="text-gray-700">${h.summary}</span>
+                                        ${updateBadge}
+                                        <span class="text-xs text-gray-400 ml-auto">${getTimeAgo(new Date(h.timestamp))}</span>
+                                    </div>
+                                `;
+                            }).join('') : '<p class="text-sm text-gray-500">No recent updates</p>'}
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="flex gap-2 pt-3 border-t">
+                            <button onclick="crawlNow(${target.id})" class="flex-1 bg-purple-100 text-purple-700 py-2 rounded-lg text-sm font-medium hover:bg-purple-200">
+                                <i class="fas fa-sync-alt mr-1"></i>Crawl Now
+                            </button>
+                            <button onclick="viewDetails(${target.id})" class="flex-1 bg-blue-100 text-blue-700 py-2 rounded-lg text-sm font-medium hover:bg-blue-200">
+                                <i class="fas fa-list mr-1"></i>Details
+                            </button>
+                            <button onclick="toggleTarget(${target.id})" class="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-${target.active ? 'pause' : 'play'}"></i>
+                            </button>
+                            <button onclick="removeTarget(${target.id})" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Render Timeline
+        function renderTimeline() {
+            const container = document.getElementById('timeline');
+            container.innerHTML = '';
+
+            if (crawlHistory.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No activity yet. Add a website to start tracking!</p>';
+                return;
+            }
+
+            crawlHistory.slice(0, 20).forEach((entry, index) => {
+                const time = new Date(entry.timestamp);
+                const icon = entry.changes.jobs > 0 ? 'briefcase' : entry.changes.blogs > 0 ? 'blog' : 'file';
+                const iconBg = entry.changes.total > 0 ? 'bg-green-500' : 'bg-gray-300';
+
+                const div = document.createElement('div');
+                div.className = 'flex gap-4 mb-4';
+                div.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 rounded-full ${iconBg} flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-${icon} text-white text-sm"></i>
+                        </div>
+                        ${index < crawlHistory.length - 1 ? '<div class="w-0.5 h-8 bg-gray-200"></div>' : ''}
+                    </div>
+                    <div class="flex-1 bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="font-semibold">${entry.targetName}</span>
+                                ${entry.changes.total > 0 ? '<span class="ml-2 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">NEW</span>' : ''}
+                            </div>
+                            <span class="text-xs text-gray-400">${getTimeAgo(time)}</span>
+                        </div>
+                        <p class="text-gray-700">${entry.summary}</p>
+                        <div class="text-xs text-gray-500 mt-1">
+                            ${entry.changes.jobs > 0 ? `<span class="text-orange-600">Jobs: ${entry.changes.jobs}</span>` : ''}
+                            ${entry.changes.blogs > 0 ? `<span class="text-purple-600">Blogs: ${entry.changes.blogs}</span>` : ''}
+                            ${entry.changes.pdfs > 0 ? `<span class="text-blue-600">PDFs: ${entry.changes.pdfs}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Crawl Now
+        async function crawlNow(targetId) {
+            const target = spyTargets.find(t => t.id === targetId);
+            if (!target) return;
+
+            showLoading(`Crawling ${target.name}...`);
+
+            try {
+                if (API_KEY) {
+                    const data = await aiCrawl(target.url);
+                    target.data = data;
+                } else {
+                    target.data = await simulateCrawl(target.url);
+                }
+
+                target.lastCrawl = new Date().toISOString();
+
+                // Add history
+                crawlHistory.unshift({
+                    id: Date.now(),
+                    targetId: target.id,
+                    targetName: target.name,
+                    targetUrl: target.url,
+                    timestamp: new Date().toISOString(),
+                    data: target.data,
+                    changes: { total: Math.floor(Math.random() * 3) },
+                    summary: 'Manual crawl completed'
+                });
+
+                saveData();
+                renderWebsites();
+                renderTimeline();
+                updateHeaderStats();
+
+                hideLoading();
+
+            } catch (error) {
+                hideLoading();
+                console.error(error);
+            }
+        }
+
+        // AI Crawl
+        async function aiCrawl(url) {
+            const response = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'x-api-key': API_KEY,
+                    'anthropic-version': '2023-06-01',
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-20250514',
+                    max_tokens: 3000,
+                    messages: [{
+                        role: 'user',
+                        content: `Analyze ${url} and extract all content. Return ONLY JSON:
+{
+  "blogs": [{"title": "...", "date": "YYYY-MM-DD", "link": "..."}],
+  "pdfs": [{"title": "...", "link": "..."}],
+  "jobs": [{"title": "...", "date": "YYYY-MM-DD"}],
+  "pages": 0
+}
+
+Include everything - notifications, jobs, documents, blog posts.`
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            const text = data.content[0].text;
+            const jsonMatch = text.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                return JSON.parse(jsonMatch[0]);
+            }
+
+            return { blogs: [], pdfs: [], jobs: [], pages: 0 };
+        }
+
+        // Simulate Crawl
+        async function simulateCrawl(url) {
+            const hostname = new URL(url).hostname;
+            const isGov = hostname.includes('.gov') || hostname.includes('.gov.in');
+
+            return {
+                blogs: [
+                    { title: `${hostname} - Latest Update`, date: new Date().toISOString().split('T')[0], link: url },
+                    { title: 'New Announcement', date: new Date().toISOString().split('T')[0], link: url }
+                ],
+                pdfs: [
+                    { title: 'Official Notification', link: url + '/notification.pdf' },
+                    { title: 'Exam Schedule', link: url + '/schedule.pdf' }
+                ],
+                jobs: isGov ? [
+                    { title: 'New Recruitment 2025', date: new Date().toISOString().split('T')[0] },
+                    { title: 'Exam Result', date: new Date().toISOString().split('T')[0] }
+                ] : [],
+                pages: Math.floor(Math.random() * 100) + 50
+            };
+        }
+
+        // View Details Modal
+        function viewDetails(targetId) {
+            const target = spyTargets.find(t => t.id === targetId);
+            if (!target) return;
+
+            document.getElementById('detailsTitle').textContent = target.name + ' - Complete Details';
+
+            const content = document.getElementById('detailsContent');
+            content.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Info -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Information</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">URL:</span>
+                                <a href="${target.url}" target="_blank" class="text-purple-600">${target.url}</a>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Check Interval:</span>
+                                <span>Every ${target.interval} hours</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Status:</span>
+                                <span class="${target.active ? 'text-green-600' : 'text-orange-600'}">${target.active ? 'Active' : 'Paused'}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Added:</span>
+                                <span>${new Date(target.createdAt).toLocaleDateString()}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Last Crawl:</span>
+                                <span>${target.lastCrawl ? new Date(target.lastCrawl).toLocaleString() : 'Never'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Statistics</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-purple-50 rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-600">${target.data.blogs?.length || 0}</div>
+                                <div class="text-xs text-gray-500">Blogs</div>
+                            </div>
+                            <div class="bg-blue-50 rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold text-blue-600">${target.data.pdfs?.length || 0}</div>
+                                <div class="text-xs text-gray-500">PDFs</div>
+                            </div>
+                            <div class="bg-orange-50 rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold text-orange-600">${target.data.jobs?.length || 0}</div>
+                                <div class="text-xs text-gray-500">Jobs</div>
+                            </div>
+                            <div class="bg-green-50 rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold text-green-600">${target.data.pages || 0}</div>
+                                <div class="text-xs text-gray-500">Pages</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Sections -->
+                <div class="mt-6">
+                    <!-- Blogs -->
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-2 flex items-center">
+                            <i class="fas fa-blog text-purple-600 mr-2"></i>Blogs (${target.data.blogs?.length || 0})
+                        </h4>
+                        <div class="space-y-2">
+                            ${(target.data.blogs || []).map(b => `
+                                <div class="p-3 bg-gray-50 rounded-lg">
+                                    <a href="${b.link}" target="_blank" class="font-medium text-purple-600 hover:underline">${b.title}</a>
+                                    <div class="text-xs text-gray-500">${b.date}</div>
+                                </div>
+                            `).join('') || '<p class="text-gray-500 text-sm">No blogs found</p>'}
+                        </div>
+                    </div>
+
+                    <!-- PDFs -->
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-2 flex items-center">
+                            <i class="fas fa-file-pdf text-blue-600 mr-2"></i>PDFs (${target.data.pdfs?.length || 0})
+                        </h4>
+                        <div class="space-y-2">
+                            ${(target.data.pdfs || []).map(p => `
+                                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                                    <a href="${p.link}" target="_blank" class="font-medium text-blue-600 hover:underline">${p.title}</a>
+                                    <i class="fas fa-download text-gray-400"></i>
+                                </div>
+                            `).join('') || '<p class="text-gray-500 text-sm">No PDFs found</p>'}
+                        </div>
+                    </div>
+
+                    <!-- Jobs -->
+                    <div>
+                        <h4 class="font-semibold mb-2 flex items-center">
+                            <i class="fas fa-briefcase text-orange-600 mr-2"></i>Jobs (${target.data.jobs?.length || 0})
+                        </h4>
+                        <div class="space-y-2">
+                            ${(target.data.jobs || []).map(j => `
+                                <div class="p-3 bg-orange-50 rounded-lg">
+                                    <div class="font-medium">${j.title}</div>
+                                    <div class="text-xs text-gray-500">${j.date}</div>
+                                </div>
+                            `).join('') || '<p class="text-gray-500 text-sm">No jobs found</p>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detailsModal').classList.remove('hidden');
+        }
+
+        // Cron Jobs - Auto check based on interval
+        function startCronJobs() {
+            // Check every minute
+            setInterval(() => {
+                const now = new Date();
+
+                spyTargets.forEach(target => {
+                    if (!target.active) return;
+
+                    if (!target.lastCrawl) {
+                        crawlNow(target.id);
+                        return;
+                    }
+
+                    const lastCrawl = new Date(target.lastCrawl);
+                    const elapsed = (now - lastCrawl) / (1000 * 60 * 60); // hours
+
+                    if (elapsed >= target.interval) {
+                        console.log(`Auto-crawling ${target.name}`);
+                        crawlNow(target.id);
+                    }
+                });
+            }, 60 * 1000); // Every minute
+        }
+
+        // Refresh All
+        function refreshAll() {
+            spyTargets.forEach(t => {
+                if (t.active) crawlNow(t.id);
+            });
+        }
+
+        // Helper Functions
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + ' min ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours ago';
+            return Math.floor(seconds / 86400) + ' days ago';
+        }
+
+        function showAddModal() { document.getElementById('addModal').classList.remove('hidden'); }
+        function closeAddModal() { document.getElementById('addModal').classList.add('hidden'); }
+        function showApiModal() { document.getElementById('apiModal').classList.remove('hidden'); }
+        function closeApiModal() { document.getElementById('apiModal').classList.add('hidden'); }
+        function closeDetailsModal() { document.getElementById('detailsModal').classList.add('hidden'); }
+
+        function addWebsite() {
+            const url = document.getElementById('addUrl').value.trim();
+            const name = document.getElementById('addName').value.trim();
+            const interval = parseInt(document.getElementById('addInterval').value);
+
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            const fullUrl = url.startsWith('http') ? url : 'https://' + url;
+
+            const target = {
+                id: Date.now(),
+                url: fullUrl,
+                name: name || new URL(fullUrl).hostname,
+                interval: interval,
+                active: true,
+                lastCrawl: null,
+                data: { blogs: [], pdfs: [], jobs: [], pages: 0 },
+                previousData: null,
+                createdAt: new Date().toISOString()
+            };
+
+            spyTargets.push(target);
+            saveData();
+
+            // Immediate crawl
+            crawlNow(target.id);
+
+            closeAddModal();
+        }
+
+        function saveApiKey() {
+            API_KEY = document.getElementById('apiKeyInput').value.trim();
+            localStorage.setItem('spy_api_key', API_KEY);
+            closeApiModal();
+            alert('API Key saved!');
+        }
+
+        function saveData() {
+            localStorage.setItem('spyTargets', JSON.stringify(spyTargets));
+            localStorage.setItem('crawlHistory', JSON.stringify(crawlHistory));
+        }
+
+        function updateHeaderStats() {
+            document.getElementById('headerTotalSites').textContent = spyTargets.filter(t => t.active).length;
+            document.getElementById('headerTotalUpdates').textContent = crawlHistory.length;
+        }
+
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loading').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        function toggleTarget(id) {
+            const target = spyTargets.find(t => t.id === id);
+            if (target) {
+                target.active = !target.active;
+                saveData();
+                renderWebsites();
+                updateHeaderStats();
+            }
+        }
+
+        function removeTarget(id) {
+            if (confirm('Stop tracking this website?')) {
+                spyTargets = spyTargets.filter(t => t.id !== id);
+                saveData();
+                renderWebsites();
+                updateHeaderStats();
+            }
+        }
+    </script>
+</body>
+</html>
