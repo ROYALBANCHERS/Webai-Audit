@@ -89,15 +89,20 @@
                     </p>
                 </div>
 
-                <!-- Custom Amount -->
-                <div class="bg-gray-50 rounded-xl p-6 mb-8">
-                    <label class="block text-gray-700 font-medium mb-3">Or enter custom amount (₹10 minimum)</label>
+                <!-- Custom Amount - Enter Any Amount -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-8">
+                    <label class="block text-gray-700 font-medium mb-3">
+                        <i class="fas fa-heart text-red-500 mr-2"></i>Enter any amount you want to support (USD)
+                    </label>
                     <div class="flex gap-4">
-                        <input type="number" id="customAmount" min="10" placeholder="Enter amount" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                        <button onclick="payCustomAmount()" class="gradient-bg text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90">
-                            Pay Custom Amount
+                        <input type="number" id="customAmount" min="1" placeholder="Enter amount (e.g., 10, 20, 50...)" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 text-lg font-semibold">
+                        <button onclick="payAnyAmount()" class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition shadow-lg flex items-center">
+                            <i class="fas fa-heart mr-2"></i>Pay Now
                         </button>
                     </div>
+                    <p class="text-sm text-gray-500 mt-3 text-center">
+                        💚 You can enter any amount - $1, $5, $10, $50, or any amount you want!
+                    </p>
                 </div>
 
                 <!-- PhonePe Payment Info -->
@@ -214,7 +219,21 @@
     </footer>
 
     <script>
-        // PhonePe Payment Gateway Integration
+        // Razorpay Payment Link - Direct redirect
+        const RAZORPAY_PAYMENT_URL = 'https://rzp.io/rzp/q6A00hAS';
+
+        // Function to pay any amount - redirects to Razorpay
+        function payAnyAmount() {
+            const amount = document.getElementById('customAmount').value;
+            if (amount && amount >= 1) {
+                // Open Razorpay payment page in new tab
+                window.open(RAZORPAY_PAYMENT_URL, '_blank');
+            } else {
+                alert('Please enter a valid amount (minimum $1)');
+            }
+        }
+
+        // PhonePe Payment Gateway Integration (for fixed amounts)
         const PHONEPE_CONFIG = {
             merchantId: 'YOUR_MERCHANT_ID', // Replace with your PhonePe Merchant ID
             saltKey: 'YOUR_SALT_KEY',       // Replace with your PhonePe Salt Key
