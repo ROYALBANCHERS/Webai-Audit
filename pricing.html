@@ -6,7 +6,7 @@
     <title>Support Us - WebAI Auditor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}.pricing-card{transition:all .3s ease}.pricing-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.3)}.phonepe-btn{background:#5f259f;color:#fff;padding:14px 28px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:all .3s}.phonepe-btn:hover{background:#4a1d7d;transform:scale(1.02)}</style>
+    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}.pricing-card{transition:all .3s ease}.pricing-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.3)}.phonepe-btn{background:#5f259f;color:#fff;padding:14px 28px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:all .3s}.phonepe-btn:hover{background:#4a1d7d;transform:scale(1.02)}.payment-link{text-decoration:none!important;color:inherit!important;cursor:pointer!important;display:inline-flex;align-items:center}.payment-link:hover{text-decoration:none!important;color:inherit!important}</style>
 </head>
 <body class="bg-gray-50 text-gray-800">
     <!-- Navigation -->
@@ -72,15 +72,15 @@
                 </div>
 
                 <!-- Quick USD Payment Options (Razorpay) -->
-                <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 mb-8">
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 mb-8" onclick="return false;">
                     <h3 class="font-bold text-center text-gray-800 mb-4">
                         <i class="fas fa-bolt text-yellow-500 mr-2"></i>Quick USD Payment (Razorpay)
                     </h3>
                     <div class="flex justify-center gap-4 flex-wrap">
-                        <a href="https://rzp.io/rzp/q6A00hAS" target="_blank" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition shadow-lg flex items-center">
+                        <a href="https://rzp.io/rzp/q6A00hAS" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition shadow-lg flex items-center no-underline" onclick="event.stopPropagation(); window.open(this.href, '_blank'); return false;">
                             <i class="fas fa-star mr-2"></i>Pay $5 USD
                         </a>
-                        <a href="https://rzp.io/rzp/q6A00hAS?amount=9" target="_blank" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition shadow-lg flex items-center">
+                        <a href="https://rzp.io/rzp/q6A00hAS" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition shadow-lg flex items-center no-underline" onclick="event.stopPropagation(); window.open(this.href, '_blank'); return false;">
                             <i class="fas fa-crown mr-2"></i>Pay $9 USD
                         </a>
                     </div>
