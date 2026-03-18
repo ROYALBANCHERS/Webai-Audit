@@ -38,8 +38,7 @@ async function fetchGovWebsiteData(url) {
         // SSC Special handling with CORRECT parameters
         if (url.includes('ssc.gov.in')) {
             // Fetch notices - WORKING
-            const noticeParams = 'page=1&limit=50&contentType=notice-boards&key=createdAt&order=DESC&isAttachment=true&language=english&attributes=id,headline,createdAt,redirectUrl';
-            const noticeRes = await fetch('https://ssc.gov.in/api/general-website/portal/notice-boards?' + noticeParams);
+            const noticeRes = await fetch('https://ssc.gov.in/api/general-website/portal/notice-boards?page=1&limit=50&contentType=notice-boards&key=createdAt&order=DESC&attributes=id,headline,createdAt,redirectUrl');
             if (noticeRes.ok) {
                 const noticeData = await noticeRes.json();
                 if (noticeData.statusCode === '200') {
@@ -48,8 +47,7 @@ async function fetchGovWebsiteData(url) {
             }
 
             // Fetch exams - UPDATED with correct attributes
-            const examParams = 'page=1&limit=50&contentType=browse-exam&key=createdAt&order=DESC&isPaginationRequired=false&isAttachment=true&language=english&attributes=id,headline,examId,contentType,startDate,endDate,language,createdAt';
-            const examRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?' + examParams);
+            const examRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=50&contentType=browse-exam&key=createdAt&order=DESC&attributes=id,headline,examId,contentType,startDate,endDate,language,createdAt');
             if (examRes.ok) {
                 const examData = await examRes.json();
                 if (examData.statusCode === '200') {
@@ -58,7 +56,7 @@ async function fetchGovWebsiteData(url) {
             }
 
             // Fetch announcements - UPDATED with correct attributes
-            const ribbonRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=20&contentType=ribbons&key=createdAt&order=DESC&isAttachment=false&language=english&attributes=id,headline,examId,contentType,redirectUrl,startDate,endDate,language,createdAt');
+            const ribbonRes = await fetch('https://ssc.gov.in/api/general-website/portal/records?page=1&limit=20&contentType=ribbons&key=createdAt&order=DESC&attributes=id,headline,examId,contentType,redirectUrl,startDate,endDate,language,createdAt');
             if (ribbonRes.ok) {
                 const ribbonData = await ribbonRes.json();
                 if (ribbonData.statusCode === '200') {
@@ -67,7 +65,7 @@ async function fetchGovWebsiteData(url) {
             }
 
             // Fetch calendar - UPDATED with correct attributes
-            const calRes = await fetch('https://ssc.gov.in/api/general-website/portal/ssc-calendar?page=1&limit=50&contentType=ssc-calendar&key=startDate&order=ASC&isAttachment=true&isPaginationRequired=false&language=english&attributes=id,headline,examId,examYear,desc,content,contentType,startDate,endDate,language,createdAt&year=2026');
+            const calRes = await fetch('https://ssc.gov.in/api/general-website/portal/ssc-calendar?page=1&limit=50&contentType=ssc-calendar&key=startDate&order=ASC&attributes=id,headline,examId,examYear,desc,content,contentType,startDate,endDate,language,createdAt&year=2026');
             if (calRes.ok) {
                 const calData = await calRes.json();
                 if (calData.statusCode === '200') {
