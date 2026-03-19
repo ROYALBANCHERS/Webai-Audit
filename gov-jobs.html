@@ -81,6 +81,13 @@
                         <button onclick="quickAnalyze('https://bank.sbi')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">bank.sbi</button>
                         <button onclick="quickAnalyze('https://licindia.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">licindia.in</button>
                     </div>
+
+                    <!-- Add Custom Website Button -->
+                    <div class="mt-4">
+                        <button onclick="toggleAddWebsiteModal()" class="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-medium hover:bg-yellow-300">
+                            <i class="fas fa-plus mr-2"></i>Add Your Trusted Website
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -293,6 +300,111 @@
                 <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">bank.sbi</span>
                 <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">And many more...</span>
             </div>
+        </div>
+    </div>
+
+    <!-- User Custom Websites Section -->
+    <div id="userWebsitesSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-star text-yellow-500 mr-2"></i>My Trusted Websites
+            </h2>
+            <button onclick="toggleAddWebsiteModal()" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
+                <i class="fas fa-plus mr-2"></i>Add Website
+            </button>
+        </div>
+        <div id="userWebsitesList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- User websites will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Add Website Modal -->
+    <div id="addWebsiteModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Add Trusted Website</h3>
+                <button onclick="toggleAddWebsiteModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="addUserWebsite(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Website URL *</label>
+                    <input
+                        type="url"
+                        id="customWebsiteUrl"
+                        placeholder="https://example.gov.in"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        required
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Name (Optional)</label>
+                    <input
+                        type="text"
+                        id="customWebsiteName"
+                        placeholder="Organization Name"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="customWebsiteCategory" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="general">General</option>
+                        <option value="ssc">SSC</option>
+                        <option value="upsc">UPSC</option>
+                        <option value="ibps">Banking</option>
+                        <option value="railway">Railway</option>
+                        <option value="defence">Defence</option>
+                        <option value="teaching">Teaching</option>
+                        <option value="state">State Govt</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="autoUpdate" class="mr-2">
+                        <span class="text-sm text-gray-600">Auto-update via MCP Server</span>
+                    </label>
+                    <p class="text-xs text-gray-500 mt-1">Enable to receive automatic updates when new jobs are posted</p>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="toggleAddWebsiteModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+                        <i class="fas fa-plus mr-2"></i>Add Website
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- All Jobs Feed (MCP API) -->
+    <div id="allJobsSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-rss text-purple-600 mr-2"></i>Live Job Feed
+            </h2>
+            <div class="flex gap-2">
+                <button onclick="refreshAllJobs()" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh
+                </button>
+                <select id="categoryFilter" onchange="filterByCategory()" class="px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="all">All Categories</option>
+                    <option value="ssc">SSC</option>
+                    <option value="upsc">UPSC</option>
+                    <option value="ibps">Banking</option>
+                    <option value="railway">Railway</option>
+                    <option value="defence">Defence</option>
+                    <option value="teaching">Teaching</option>
+                </select>
+            </div>
+        </div>
+        <div id="allJobsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Jobs will be loaded here from MCP API -->
+        </div>
+        <div id="loadingJobs" class="hidden flex justify-center py-8">
+            <div class="loader"></div>
         </div>
     </div>
 
@@ -659,6 +771,300 @@
             document.getElementById('defaultContent').classList.remove('hidden');
             document.getElementById('govUrlInput').value = '';
         }
+
+        // ============ USER WEBSITE MANAGEMENT ============
+
+        // API Base URL (Update with your Vercel deployment URL)
+        const API_BASE_URL = 'https://your-vercel-app.vercel.app/api';
+
+        // User websites stored in localStorage
+        let userWebsites = JSON.parse(localStorage.getItem('userGovWebsites') || '[]');
+
+        // Toggle add website modal
+        function toggleAddWebsiteModal() {
+            const modal = document.getElementById('addWebsiteModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Add user website
+        async function addUserWebsite(event) {
+            event.preventDefault();
+
+            const url = document.getElementById('customWebsiteUrl').value;
+            const name = document.getElementById('customWebsiteName').value;
+            const category = document.getElementById('customWebsiteCategory').value;
+            const autoUpdate = document.getElementById('autoUpdate').checked;
+
+            // Validate URL
+            try {
+                new URL(url);
+            } catch {
+                alert('Please enter a valid URL');
+                return;
+            }
+
+            const website = {
+                id: `site-${Date.now()}`,
+                url: url,
+                name: name || new URL(url).hostname.toUpperCase(),
+                category: category,
+                autoUpdate: autoUpdate,
+                addedAt: new Date().toISOString(),
+                lastScraped: null
+            };
+
+            userWebsites.push(website);
+            saveUserWebsites();
+            renderUserWebsites();
+
+            // If auto-update is enabled, scrape immediately
+            if (autoUpdate) {
+                await scrapeWebsite(website);
+            }
+
+            toggleAddWebsiteModal();
+            document.getElementById('customWebsiteUrl').value = '';
+            document.getElementById('customWebsiteName').value = '';
+
+            // Show success message
+            showNotification('Website added successfully!', 'success');
+        }
+
+        // Save user websites to localStorage
+        function saveUserWebsites() {
+            localStorage.setItem('userGovWebsites', JSON.stringify(userWebsites));
+            updateUserWebsitesSection();
+        }
+
+        // Render user websites
+        function renderUserWebsites() {
+            const container = document.getElementById('userWebsitesList');
+
+            if (userWebsites.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <i class="fas fa-folder-open text-4xl mb-4"></i>
+                        <p>No websites added yet. Click "Add Website" to get started.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = userWebsites.map(site => `
+                <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-globe text-purple-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold">${site.name}</h3>
+                                <p class="text-xs text-gray-500">${new URL(site.url).hostname}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeWebsite('${site.id}')" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between text-sm mb-3">
+                        <span class="px-2 py-1 bg-${getCategoryColor(site.category)}-100 text-${getCategoryColor(site.category)}-700 rounded">
+                            ${site.category.toUpperCase()}
+                        </span>
+                        ${site.autoUpdate ? '<span class="text-green-600"><i class="fas fa-sync-alt mr-1"></i>Auto-update</span>' : ''}
+                    </div>
+                    ${site.lastScraped ? `<p class="text-xs text-gray-400">Last updated: ${new Date(site.lastScraped).toLocaleString()}</p>` : '<p class="text-xs text-gray-400">Not yet analyzed</p>'}
+                    <button onclick="quickAnalyze('${site.url}')" class="w-full mt-3 bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700">
+                        <i class="fas fa-search mr-2"></i>Analyze Now
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Remove website
+        function removeWebsite(id) {
+            if (confirm('Are you sure you want to remove this website?')) {
+                userWebsites = userWebsites.filter(w => w.id !== id);
+                saveUserWebsites();
+                renderUserWebsites();
+                showNotification('Website removed', 'info');
+            }
+        }
+
+        // Get category color
+        function getCategoryColor(category) {
+            const colors = {
+                ssc: 'purple',
+                upsc: 'green',
+                ibps: 'blue',
+                railway: 'orange',
+                defence: 'red',
+                teaching: 'teal',
+                state: 'indigo',
+                general: 'gray'
+            };
+            return colors[category] || 'gray';
+        }
+
+        // Update user websites section visibility
+        function updateUserWebsitesSection() {
+            const section = document.getElementById('userWebsitesSection');
+            if (userWebsites.length > 0) {
+                section.classList.remove('hidden');
+            } else {
+                section.classList.add('hidden');
+            }
+        }
+
+        // ============ MCP API INTEGRATION ============
+
+        // Scrape website via API
+        async function scrapeWebsite(website) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/gov-jobs/scrape`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ customUrls: [website.url] })
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.results && result.results.length > 0) {
+                    website.lastScraped = new Date().toISOString();
+                    website.jobs = result.results[0].jobs;
+                    saveUserWebsites();
+                    return result.results[0];
+                }
+            } catch (error) {
+                console.error('Scraping error:', error);
+            }
+            return null;
+        }
+
+        // Refresh all jobs from API
+        async function refreshAllJobs() {
+            const loading = document.getElementById('loadingJobs');
+            const container = document.getElementById('allJobsList');
+
+            loading.classList.remove('hidden');
+            container.innerHTML = '';
+
+            try {
+                // Load from local JSON first (fallback)
+                const response = await fetch('/api/gov-jobs.json');
+                const data = await response.json();
+
+                if (data.jobs && data.jobs.length > 0) {
+                    displayJobs(data.jobs);
+                } else {
+                    container.innerHTML = '<p class="col-span-full text-center text-gray-500">No jobs found</p>';
+                }
+            } catch (error) {
+                container.innerHTML = '<p class="col-span-full text-center text-red-500">Error loading jobs</p>';
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        // Display jobs in the feed
+        function displayJobs(jobs) {
+            const container = document.getElementById('allJobsList');
+            const categoryFilter = document.getElementById('categoryFilter').value;
+
+            let filteredJobs = jobs;
+            if (categoryFilter !== 'all') {
+                filteredJobs = jobs.filter(job => job.category === categoryFilter);
+            }
+
+            container.innerHTML = filteredJobs.map(job => `
+                <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition ${job.new ? 'ring-2 ring-green-400' : ''}">
+                    ${job.new ? '<span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">NEW</span>' : ''}
+                    <div class="relative">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2 py-1 bg-${getCategoryColor(job.category)}-100 text-${getCategoryColor(job.category)}-700 rounded text-xs font-medium">
+                                ${job.organization}
+                            </span>
+                            <span class="text-xs text-gray-500">${new Date(job.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">${job.title}</h4>
+                        <div class="text-sm text-gray-600 space-y-1">
+                            <p><i class="fas fa-users mr-2 text-gray-400"></i>Vacancies: <strong>${job.vacancies}</strong></p>
+                            <p><i class="fas fa-calendar mr-2 text-gray-400"></i>Last Date: <strong class="text-red-600">${job.lastDate}</strong></p>
+                            <p><i class="fas fa-graduation-cap mr-2 text-gray-400"></i>${job.qualification}</p>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <a href="${job.applyLink}" target="_blank" class="flex-1 text-center bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 text-sm">
+                                <i class="fas fa-external-link-alt mr-1"></i>Apply
+                            </a>
+                            <a href="${job.notificationPdf}" target="_blank" class="px-3 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter by category
+        function filterByCategory() {
+            refreshAllJobs();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500'
+            };
+
+            const notification = document.createElement('div');
+            notification.className = `fixed bottom-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50`;
+            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle mr-2"></i>${message}`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // ============ AUTO-UPDATE VIA MCP SERVER ============
+
+        // Webhook trigger for auto-update (can be called from cron job)
+        async function triggerWebhook() {
+            const domains = userWebsites.filter(w => w.autoUpdate).map(w => new URL(w.url).hostname);
+
+            if (domains.length === 0) return;
+
+            try {
+                await fetch(`${API_BASE_URL}/gov-jobs/webhook`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        secret: 'YOUR_WEBHOOK_SECRET', // Set this in environment
+                        domains: domains
+                    })
+                });
+            } catch (error) {
+                console.error('Webhook error:', error);
+            }
+        }
+
+        // ============ INITIALIZATION ============
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderUserWebsites();
+            updateUserWebsitesSection();
+            refreshAllJobs();
+
+            // Auto-refresh every 30 minutes if user has auto-update enabled
+            setInterval(() => {
+                const autoUpdateSites = userWebsites.filter(w => w.autoUpdate);
+                if (autoUpdateSites.length > 0) {
+                    refreshAllJobs();
+                }
+            }, 30 * 60 * 1000);
+        });
     </script>
 </body>
 </html>
