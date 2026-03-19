@@ -599,18 +599,31 @@
             document.getElementById('analysisResults').classList.add('hidden');
 
             try {
-                // REAL API call to scrape website
-                const apiUrl = `https://webai-audit.web.app/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`;
+                // Z.AI Powered API - Multiple endpoints for reliability
+                const apiEndpoints = [
+                    `https://webai-audit.pages.dev/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                    `https://royalbanchers.github.io/Webai-Audit/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`
+                ];
 
-                const response = await fetch(apiUrl);
-                const data = await response.json();
+                let success = false;
+                for (const apiUrl of apiEndpoints) {
+                    try {
+                        const response = await fetch(apiUrl, { timeout: 15000 });
+                        const data = await response.json();
 
-                document.getElementById('loadingIndicator').classList.add('hidden');
+                        if (data.success) {
+                            document.getElementById('loadingIndicator').classList.add('hidden');
+                            displayRealResults(data);
+                            success = true;
+                            break;
+                        }
+                    } catch (e) {
+                        continue; // Try next endpoint
+                    }
+                }
 
-                if (data.success) {
-                    displayRealResults(data);
-                } else {
-                    // Fallback to CORS proxy
+                if (!success) {
+                    // Fallback to direct scraping
                     await scrapeWithProxy(url);
                 }
             } catch (error) {

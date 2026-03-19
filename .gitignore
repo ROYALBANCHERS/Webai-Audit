@@ -39,3 +39,7 @@ Thumbs.db
 /vendor/
 composer.phar
 firebase-monitoring/service-account-key.json
+
+# Environment variables (keep private)
+.env
+*.key
