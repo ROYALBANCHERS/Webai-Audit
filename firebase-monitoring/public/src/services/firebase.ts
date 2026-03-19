@@ -1,23 +1,23 @@
 /**
  * Firebase Configuration and Initialization
- * Update these values with your Firebase project config
+ * Project: webai-audit
  */
 
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getFunctions, connectFunctionsEmulator, Functions } from 'firebase/functions';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
+import { getAnalytics, Analytics } from 'firebase/analytics';
 
-// Your Firebase project configuration
-// Get these from Firebase Console → Project Settings → General
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "YOUR_API_KEY",
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "your-project.firebaseapp.com",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "your-project-id",
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "your-project.appspot.com",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:123456789:web:abcdef",
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-XXXXXXXXXX"
+  apiKey: "AIzaSyDKwujMamQ_UCCqTg0F26--Mp7uszFXHPc",
+  authDomain: "webai-audit.firebaseapp.com",
+  projectId: "webai-audit",
+  storageBucket: "webai-audit.firebasestorage.app",
+  messagingSenderId: "631556970889",
+  appId: "1:631556970889:web:0114170d0227c6de35e958",
+  measurementId: "G-7JR11T9NS0"
 };
 
 // Initialize Firebase
@@ -32,16 +32,26 @@ if (!getApps().length) {
 export const auth: Auth = getAuth(app);
 export const db: Firestore = getFirestore(app);
 
-// Initialize Cloud Functions
-export const functions: Functions = getFunctions(app, 'asia-south1'); // Change region as needed
+// Initialize Cloud Functions (asia-south1 region)
+export const functions: Functions = getFunctions(app, 'asia-south1');
+
+// Initialize Analytics (only in browser)
+export let analytics: Analytics | null = null;
+if (typeof window !== 'undefined') {
+  try {
+    analytics = getAnalytics(app);
+  } catch (error) {
+    console.log('Analytics initialization skipped');
+  }
+}
 
 // Connect to emulator in development
 if (process.env.NODE_ENV === 'development') {
   try {
     connectFunctionsEmulator(functions, 'localhost', 5001);
-    console.log('Connected to Functions emulator');
+    console.log('Connected to Functions emulator on localhost:5001');
   } catch (error) {
-    console.log('Emulator already connected');
+    console.log('Emulator already connected or not available');
   }
 }
 

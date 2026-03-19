@@ -17,6 +17,7 @@ firestore.rules
 .env.test.local
 .env.production.local
 functions/.env
+public/.env
 
 # Build output
 dist/
@@ -46,3 +47,7 @@ lerna-debug.log*
 .parcel-cache/
 .next/
 out/
+
+# OS
+Thumbs.db
+.DS_Store
