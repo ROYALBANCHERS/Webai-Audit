@@ -77,8 +77,10 @@
                             onkeypress="if(event.key === 'Enter') analyzeGovWebsite()"
                         >
                         <button
-                            onclick="analyzeGovWebsite()"
-                            class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700"
+                            id="analyzeBtn"
+                            type="button"
+                            onclick="handleAnalyzeClick()"
+                            class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700 active:scale-95 transition cursor-pointer"
                         >
                             <i class="fas fa-search mr-2"></i>Analyze
                         </button>
@@ -669,6 +671,23 @@
         function quickAnalyze(url) {
             document.getElementById('govUrlInput').value = url;
             analyzeGovWebsite();
+        }
+
+        // Handle analyze button click (wrapper for async function)
+        function handleAnalyzeClick() {
+            try {
+                analyzeGovWebsite().catch(error => {
+                    console.error('Analysis error:', error);
+                    // Fallback to direct data
+                    const input = document.getElementById('govUrlInput').value.trim();
+                    if (input) {
+                        showManualLinkOption(input.startsWith('http') ? input : 'https://' + input);
+                    }
+                });
+            } catch (error) {
+                console.error('Click error:', error);
+                alert('Please try again. If issue persists, click the quick buttons below.');
+            }
         }
 
         // Analyze government website - REAL API CALL
@@ -1442,6 +1461,18 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('WebAI Auditor initialized');
+
+            // Add event listener to analyze button as backup
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            if (analyzeBtn) {
+                analyzeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleAnalyzeClick();
+                });
+                console.log('Analyze button event listener attached');
+            }
+
             renderUserWebsites();
             updateUserWebsitesSection();
             refreshAllJobs();
