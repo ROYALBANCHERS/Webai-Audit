@@ -476,6 +476,16 @@
     </footer>
 
     <script>
+        console.log('Script loading...');
+
+        // Test function to verify JavaScript is working
+        window.testFunction = function() {
+            alert('JavaScript is working!');
+            console.log('Test function called');
+            return true;
+        };
+
+        // Global variables
         let currentUrl = '';
         let scrapedData = null; // Store real scraped data
 
@@ -1529,19 +1539,40 @@
 
         // ============ INITIALIZATION ============
 
+        // Make functions globally accessible
+        window.doAnalyze = doAnalyze;
+        window.showQuickResult = showQuickResult;
+        window.quickAnalyze = quickAnalyze;
+        window.displayRealResults = displayRealResults;
+        window.showTab = showTab;
+
+        // Error handler
+        window.onerror = function(msg, url, line) {
+            console.error('JavaScript Error:', msg, 'at line', line);
+            return false;
+        };
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             console.log('WebAI Auditor loaded successfully');
 
-            renderUserWebsites();
-            updateUserWebsitesSection();
-            refreshAllJobs();
+            try {
+                if (typeof renderUserWebsites === 'function') renderUserWebsites();
+                if (typeof updateUserWebsitesSection === 'function') updateUserWebsitesSection();
+                if (typeof refreshAllJobs === 'function') refreshAllJobs();
+            } catch (e) {
+                console.error('Init error:', e);
+            }
 
             // Auto-refresh every 30 minutes if user has auto-update enabled
             setInterval(() => {
-                const autoUpdateSites = userWebsites.filter(w => w.autoUpdate);
-                if (autoUpdateSites.length > 0) {
-                    refreshAllJobs();
+                try {
+                    const autoUpdateSites = userWebsites.filter(w => w.autoUpdate);
+                    if (autoUpdateSites.length > 0 && typeof refreshAllJobs === 'function') {
+                        refreshAllJobs();
+                    }
+                } catch (e) {
+                    console.error('Auto-refresh error:', e);
                 }
             }, 30 * 60 * 1000);
         });
