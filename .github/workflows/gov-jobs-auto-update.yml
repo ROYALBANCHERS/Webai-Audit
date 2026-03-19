@@ -17,7 +17,7 @@ on:
       - 'api/gov-jobs.json'
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
   # Add your webhook secret in GitHub repository secrets
   WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
 
