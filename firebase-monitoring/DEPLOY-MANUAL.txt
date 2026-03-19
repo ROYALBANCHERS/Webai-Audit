@@ -1,0 +1,88 @@
+# Firebase Functions Deployment Guide
+
+## Quick Deploy Method (Recommended)
+
+Since service account has permission issues, use this manual method:
+
+### Option 1: Firebase Login (Interactive)
+
+1. Open terminal/command prompt
+2. Navigate to firebase-monitoring folder:
+   ```bash
+   cd C:\Users\Shamiksha\repo_temp\firebase-monitoring
+   ```
+
+3. Login to Firebase:
+   ```bash
+   firebase login
+   ```
+   This will open a browser for authentication.
+
+4. After successful login, deploy:
+   ```bash
+   firebase deploy --only functions
+   ```
+
+### Option 2: Using CI Token
+
+1. Generate Firebase CI token:
+   ```bash
+   firebase login:ci
+   ```
+
+2. Copy the token (looks like: 1//0xxxx...)
+
+3. Use token for deployment:
+   ```bash
+   firebase deploy --only functions --token "YOUR_TOKEN_HERE"
+   ```
+
+### Option 3: Grant Service Account Permissions
+
+To use service account, grant it permissions:
+
+1. Go to: https://console.cloud.google.com/iam-admin/iam?project=webai-audit
+2. Find service account: firebase-adminsdk-fbsvc@webai-audit.iam.gserviceaccount.com
+3. Edit and add role: "Service Usage Consumer" (roles/serviceusage.serviceUsageConsumer)
+4. Save and wait 2-3 minutes for propagation
+5. Then run:
+   ```bash
+   firebase deploy --only functions
+   ```
+
+## What Gets Deployed
+
+After successful deployment, these Cloud Functions will be active:
+
+1. **scheduledScraper** - Runs every 4 hours, scrapes monitored websites
+2. **addMonitoredSite** - Add new website to monitor
+3. **removeMonitoredSite** - Remove website from monitoring
+4. **getMonitoredSites** - List all monitored sites
+5. **scrapeNow** - Trigger immediate scraping
+6. **getChangeHistory** - Get change history for a site
+
+## Post-Deployment Setup
+
+1. Set GEMINI_API_KEY in Firebase Console:
+   - Go to: https://console.firebase.google.com/project/webai-audit/functions/config
+   - Add runtime variable: GEMINI_API_KEY
+
+2. Create Firestore indexes:
+   - Go to: https://console.firebase.google.com/project/webai-audit/firestore/indexes
+   - Create composite index for queries
+
+3. Test functions:
+   ```bash
+   firebase functions:log
+   ```
+
+## Current Status
+
+- Project: webai-audit
+- Functions: Written and compiled successfully
+- Blocking Issue: Service account lacks "Service Usage Consumer" role
+- Solution: Use manual login (Option 1 recommended)
+
+---
+
+Generated: 2026-03-19
