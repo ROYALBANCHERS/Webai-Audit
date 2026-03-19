@@ -210,7 +210,7 @@ jobs:
     name: Send Notifications
     needs: scrape-gov-jobs
     runs-on: ubuntu-latest
-    if: steps.git-check.outputs.changed == 'true'
+    if: needs.scrape-gov-jobs.result == 'success'
 
     steps:
       - name: Send Discord notification
