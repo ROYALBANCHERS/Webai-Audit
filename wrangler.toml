@@ -3,31 +3,4 @@
 
 name = "webai-auditor"
 compatibility_date = "2024-01-01"
-
-# Build configuration
-[build]
-command = "echo 'No build needed for static site'"
-
-# Environment variables
-[vars]
-ENVIRONMENT = "production"
-
-# Redirects for SPA
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-
-# API routes (optional - for serverless functions)
-[[routes]]
-pattern = "/api/*"
-type = "Functions"
-
-# Headers for security
-[[headers]]
-for = "/*"
-[headers.values]
-X-Frame-Options = "DENY"
-X-Content-Type-Options = "nosniff"
-X-XSS-Protection = "1; mode=block"
-Referrer-Policy = "strict-origin-when-cross-origin"
+pages_build_output_dir = "."
