@@ -1,0 +1,8 @@
+# Cloudflare Pages Redirects
+
+# SPA fallback - redirect all non-file routes to index.html
+/*    /index.html   200
+
+# API routes
+/api/scrape    /api/scrape.js   200
+/api/*        /api/index.js     200
