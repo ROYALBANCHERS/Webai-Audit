@@ -81,6 +81,7 @@ export interface SiteMetadata {
   domain: string;
   favicon?: string;
   pageTitle?: string;
+  title?: string; // Page title (alias for pageTitle)
   description?: string;
   lastStatusCode?: number;
   responseTime?: number; // milliseconds
@@ -211,6 +212,22 @@ export interface ScrapingStats {
 // ============================================
 // REQUEST/RESPONSE TYPES FOR API
 // ============================================
+export interface ScrapingResult {
+  success: boolean;
+  url: string;
+  statusCode?: number;
+  contentHash?: string;
+  contentSnapshot?: string;
+  title?: string;
+  metadata?: SiteMetadata;
+  processingTime: number;
+  error?: {
+    code: string;
+    message: string;
+    isPermanent: boolean;
+  };
+}
+
 export interface AddSiteRequest {
   url: string;
   siteName?: string;

@@ -325,7 +325,22 @@ export class SiteService {
         sites.push({
           id: doc.id,
           userId: doc.ref.parent.parent?.id || '',
-          ...site,
+          url: site.url,
+          siteName: site.siteName,
+          category: site.category,
+          isActive: site.isActive,
+          checkInterval: site.checkInterval,
+          lastCheckedAt: site.lastCheckedAt,
+          lastContentHash: site.lastContentHash,
+          lastContentSnapshot: site.lastContentSnapshot,
+          lastChangeDetectedAt: site.lastChangeDetectedAt,
+          totalChangesDetected: site.totalChangesDetected,
+          monitoringStatus: site.monitoringStatus,
+          lastError: site.lastError,
+          selectors: site.selectors,
+          metadata: site.metadata,
+          createdAt: site.createdAt,
+          updatedAt: site.updatedAt,
         });
       }
 
@@ -352,7 +367,7 @@ export class ChangeService {
   async recordChange(change: Omit<SiteChange, 'id' | 'detectedAt' | 'isRead'>): Promise<string> {
     const changeRef = this.db
       .collection('users')
-      .collection(change.userId)
+      .doc(change.userId)
       .collection('site_changes')
       .doc();
 

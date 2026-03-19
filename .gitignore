@@ -38,3 +38,4 @@ Thumbs.db
 # Composer
 /vendor/
 composer.phar
+firebase-monitoring/service-account-key.json

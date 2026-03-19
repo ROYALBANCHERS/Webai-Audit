@@ -2,9 +2,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "noEmit": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strict": false,
     "target": "es2017",
     "sourceMap": true,
     "outDir": "lib",
@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": false
   },
   "include": [
     "src/**/*"

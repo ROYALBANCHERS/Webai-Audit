@@ -950,7 +950,8 @@
 
             try {
                 // Load from local JSON first (fallback)
-                const response = await fetch('/api/gov-jobs.json');
+                // For GitHub Pages, use relative path
+                const response = await fetch('api/gov-jobs.json');
                 const data = await response.json();
 
                 if (data.jobs && data.jobs.length > 0) {

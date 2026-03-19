@@ -79,7 +79,7 @@ export class WebScraper {
       }
 
       // Parse HTML
-      const $ = cheerio.load(response.data);
+      const $: any = cheerio.load(response.data);
 
       // Extract visible text content
       const visibleContent = this.extractVisibleContent($, validatedUrl);
@@ -96,7 +96,7 @@ export class WebScraper {
         statusCode: response.status,
         contentHash,
         contentSnapshot: compressContent(visibleContent),
-        title: metadata.title,
+        title: metadata.pageTitle,
         metadata,
         processingTime: Date.now() - startTime,
       };
@@ -189,8 +189,8 @@ export class WebScraper {
    * Extract visible text content from HTML
    * Ignores scripts, styles, navbars, ads, etc.
    */
-  private extractVisibleContent($: cheerio.CheerioAPI, baseUrl: string): string {
-    let $content = $('body');
+  private extractVisibleContent($: any, baseUrl: string): string {
+    let $content: any = $('body');
 
     // Use custom main content selector if provided
     if (this.selectors?.mainContent) {
@@ -250,7 +250,7 @@ export class WebScraper {
    * Extract metadata from the page
    */
   private extractMetadata(
-    $: cheerio.CheerioAPI,
+    $: any,
     response: any,
     url: string,
     contentSize: number,

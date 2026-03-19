@@ -77,7 +77,7 @@ export const addSite = functions.https.onCall(async (data, context) => {
       lastContentHash: initialScrape.contentHash,
       lastContentSnapshot: initialScrape.contentSnapshot,
       lastCheckedAt: admin.firestore.Timestamp.now(),
-      metadata: initialScrape.metadata || {},
+      metadata: initialScrape.metadata || { domain: new URL(initialScrape.url).hostname },
       selectors,
     });
 
@@ -330,14 +330,15 @@ export const checkSite = functions.https.onCall(async (data, context) => {
  * Scheduled scraper - runs every 4 hours
  * Checks all active sites and detects changes
  */
-export const scheduledScraper = functions.pubsub
-  .schedule('0 */4 * * *') // Every 4 hours
-  .timeZone('Asia/Kolkata')
+export const scheduledScraper = functions
   .runWith({
     timeoutSeconds: 540, // Max timeout (9 minutes)
     memory: '2GB',
   })
-  .onRun(async (context) => {
+  .pubsub
+  .schedule('0 */4 * * *') // Every 4 hours
+  .timeZone('Asia/Kolkata')
+  .onRun(async (context: any) => {
     const siteService = new SiteService();
     const changeService = new ChangeService();
 
