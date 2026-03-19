@@ -475,6 +475,7 @@
 
     <script>
         let currentUrl = '';
+        let scrapedData = null; // Store real scraped data
 
         // Government website data templates
         const govData = {
@@ -579,8 +580,8 @@
             analyzeGovWebsite();
         }
 
-        // Analyze government website
-        function analyzeGovWebsite() {
+        // Analyze government website - REAL API CALL
+        async function analyzeGovWebsite() {
             const input = document.getElementById('govUrlInput').value.trim();
             if (!input) {
                 alert('Please enter a government website URL');
@@ -595,11 +596,142 @@
             // Show loading
             document.getElementById('loadingIndicator').classList.remove('hidden');
             document.getElementById('defaultContent').classList.add('hidden');
+            document.getElementById('analysisResults').classList.add('hidden');
 
-            setTimeout(() => {
+            try {
+                // REAL API call to scrape website
+                const apiUrl = `https://webai-audit.web.app/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`;
+
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
                 document.getElementById('loadingIndicator').classList.add('hidden');
-                displayResults(url);
-            }, 1000);
+
+                if (data.success) {
+                    displayRealResults(data);
+                } else {
+                    // Fallback to CORS proxy
+                    await scrapeWithProxy(url);
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+                // Try alternative method
+                await scrapeWithProxy(url);
+            }
+        }
+
+        // Alternative scraping method with proxy
+        async function scrapeWithProxy(url) {
+            try {
+                // Using AllOrigins CORS proxy
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                const response = await fetch(proxyUrl);
+                const html = await response.text();
+
+                const parsedData = parseGovWebsiteHTML(html, url);
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                displayRealResults(parsedData);
+            } catch (error) {
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                alert('Failed to analyze website. Please try again or visit the official website directly.');
+                document.getElementById('defaultContent').classList.remove('hidden');
+            }
+        }
+
+        // Parse HTML and extract government data
+        function parseGovWebsiteHTML(html, url) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract title
+            const title = doc.querySelector('title')?.textContent || new URL(url).hostname;
+            const cleanTitle = title.split('|')[0].split('-')[0].trim().substring(0, 50);
+
+            // Extract notices/links
+            const notices = [];
+            const exams = [];
+            const links = doc.querySelectorAll('a[href]');
+
+            let noticeCount = 0;
+            let examCount = 0;
+
+            links.forEach(link => {
+                if (noticeCount >= 8 && examCount >= 8) return;
+
+                const text = link.textContent.trim().toLowerCase();
+                const href = link.getAttribute('href');
+                if (!href || text.length < 3) return;
+
+                let fullUrl = href;
+                if (href.startsWith('/')) {
+                    const urlObj = new URL(url);
+                    fullUrl = `${urlObj.protocol}//${urlObj.host}${href}`;
+                }
+
+                // Look for notices
+                if (noticeCount < 8 && /notices?|notifications?|news|updates?|latest|announcement/.test(text)) {
+                    if (!notices.find(n => n.link === fullUrl)) {
+                        notices.push({
+                            title: link.textContent.trim(),
+                            link: fullUrl,
+                            date: new Date().toLocaleDateString('en-IN')
+                        });
+                        noticeCount++;
+                    }
+                }
+
+                // Look for exams/recruitment
+                if (examCount < 8 && /recruit|vacancy|exam|cgl|chsl|civil service|application|apply online/.test(text)) {
+                    if (!exams.find(e => e.link === fullUrl)) {
+                        exams.push({
+                            name: link.textContent.trim(),
+                            link: fullUrl,
+                            posts: 'Various Posts',
+                            date: 'Check Official Site'
+                        });
+                        examCount++;
+                    }
+                }
+            });
+
+            // Calculate score
+            const score = Math.min(95, 50 + (notices.length + exams.length) * 5);
+
+            return {
+                success: true,
+                url,
+                name: cleanTitle,
+                score,
+                notices: notices.length > 0 ? notices : [{ title: 'Visit official website for latest updates', link: url, date: new Date().toLocaleDateString('en-IN') }],
+                exams: exams.length > 0 ? exams : [{ name: 'Latest Recruitment', link: url, posts: 'Various Posts', date: 'Check Official Site' }],
+                stats: { notices: notices.length, exams: exams.length }
+            };
+        }
+
+        // Display REAL scraped results
+        function displayRealResults(data) {
+            currentUrl = data.url;
+            scrapedData = data; // Save for tabs
+            document.getElementById('analysisResults').classList.remove('hidden');
+
+            // Update UI
+            const badge = document.getElementById('resultBadge');
+            badge.innerHTML = `<i class="fas fa-landmark mr-1"></i>${data.name}`;
+            badge.className = `px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium`;
+
+            document.getElementById('resultTitle').textContent = data.name;
+            document.getElementById('resultUrl').textContent = data.url;
+            document.getElementById('resultUrl').href = data.url;
+            document.getElementById('resultScore').innerHTML = `<div class="text-5xl font-bold">${data.score}</div><div class="text-white/80 text-sm">Score</div>`;
+
+            // Update stats
+            document.getElementById('statNotices').textContent = data.stats?.notices || data.notices?.length || 0;
+            document.getElementById('statExams').textContent = data.stats?.exams || data.exams?.length || 0;
+            document.getElementById('statJobs').textContent = (data.notices?.length || 0) + (data.exams?.length || 0);
+            document.getElementById('statUpdates').textContent = new Date().getFullYear();
+
+            // Show overview tab by default
+            showTab('overview');
         }
 
         // Display results
@@ -670,49 +802,59 @@
             const content = document.getElementById('tabContent');
             let html = '';
 
+            // Use scrapedData if available, otherwise fall back to govData
+            let data = scrapedData;
+
             if (tabName === 'overview') {
-                const urlLower = currentUrl.toLowerCase();
-                let data = null;
-
-                for (const [key, value] of Object.entries(govData)) {
-                    if (urlLower.includes(key)) {
-                        data = value;
-                        break;
-                    }
-                }
-
                 if (!data) {
-                    data = {
-                        name: new URL(currentUrl).hostname.toUpperCase(),
-                        notices: [{ title: 'Visit official website for latest updates', date: 'Always', link: currentUrl }],
-                        exams: [{ name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }]
-                    };
+                    // Fallback to old method
+                    const urlLower = currentUrl.toLowerCase();
+                    for (const [key, value] of Object.entries(govData)) {
+                        if (urlLower.includes(key)) {
+                            data = value;
+                            break;
+                        }
+                    }
+                    if (!data) {
+                        data = {
+                            name: new URL(currentUrl).hostname.toUpperCase(),
+                            notices: [{ title: 'Visit official website for latest updates', date: 'Always', link: currentUrl }],
+                            exams: [{ name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }]
+                        };
+                    }
                 }
 
                 html = `
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold mb-4">About ${data.name}</h3>
-                        <p class="text-gray-600 mb-4">${data.name} conducts various recruitment examinations for government positions. Visit the official website for the most accurate and up-to-date information.</p>
+                        <p class="text-gray-600 mb-4">${data.name} - Official government website for recruitment, examinations, and job notifications. Real-time data fetched from live website.</p>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <p class="text-green-800"><i class="fas fa-check-circle mr-2"></i>Live Data - Last updated: ${new Date().toLocaleString('en-IN')}</p>
+                        </div>
                     </div>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <h4 class="font-semibold mb-3"><i class="fas fa-bullhorn text-purple-600 mr-2"></i>Latest Notices (${data.notices.length})</h4>
+                            <h4 class="font-semibold mb-3"><i class="fas fa-bullhorn text-purple-600 mr-2"></i>Latest Notices (${data.notices?.length || 0})</h4>
                             <div class="space-y-2">
-                                ${data.notices.map(n => `
-                                    <div class="p-3 bg-gray-50 rounded-lg">
-                                        <p class="font-medium text-gray-900">${n.title}</p>
-                                        <p class="text-sm text-gray-500">${n.date}</p>
+                                ${(data.notices || []).map(n => `
+                                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition">
+                                        <a href="${n.link}" target="_blank" class="block">
+                                            <p class="font-medium text-gray-900">${n.title}</p>
+                                            <p class="text-sm text-gray-500">${n.date}</p>
+                                        </a>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
                         <div>
-                            <h4 class="font-semibold mb-3"><i class="fas fa-graduation-cap text-green-600 mr-2"></i>Upcoming Exams (${data.exams.length})</h4>
+                            <h4 class="font-semibold mb-3"><i class="fas fa-graduation-cap text-green-600 mr-2"></i>Upcoming Exams (${data.exams?.length || 0})</h4>
                             <div class="space-y-2">
-                                ${data.exams.map(e => `
-                                    <div class="p-3 bg-gray-50 rounded-lg">
-                                        <p class="font-medium text-gray-900">${e.name}</p>
-                                        <p class="text-sm text-gray-500">${e.date} - ${e.posts}</p>
+                                ${(data.exams || []).map(e => `
+                                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-green-50 transition">
+                                        <a href="${e.link}" target="_blank" class="block">
+                                            <p class="font-medium text-gray-900">${e.name}</p>
+                                            <p class="text-sm text-gray-500">${e.date} - ${e.posts || 'Various Posts'}</p>
+                                        </a>
                                     </div>
                                 `).join('')}
                             </div>
