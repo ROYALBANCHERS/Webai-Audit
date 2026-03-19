@@ -1,0 +1,18 @@
+# WebAI Audit Firebase Deployment Guide
+# Using service account authentication
+
+## Steps:
+
+1. Install Firebase CLI (if not installed):
+   npm install -g firebase-tools
+
+2. Login using service account:
+   firebase login:ci --no-localhost
+
+3. Or use service account directly with gcloud:
+   gcloud auth activate-service-account --key-file=service-account-key.json
+
+## Current Status:
+- Service account: firebase-adminsdk-fbsvc@webai-audit.iam.gserviceaccount.com
+- Project: webai-audit
+- Functions ready to deploy
