@@ -952,6 +952,7 @@
                 // Load from local JSON first (fallback)
                 // For GitHub Pages, use relative path
                 const response = await fetch('api/gov-jobs.json');
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
 
                 if (data.jobs && data.jobs.length > 0) {
@@ -960,7 +961,8 @@
                     container.innerHTML = '<p class="col-span-full text-center text-gray-500">No jobs found</p>';
                 }
             } catch (error) {
-                container.innerHTML = '<p class="col-span-full text-center text-red-500">Error loading jobs</p>';
+                console.error('Error loading jobs:', error);
+                container.innerHTML = '<p class="col-span-full text-center text-red-500">Error loading jobs. Please try again later.</p>';
             } finally {
                 loading.classList.add('hidden');
             }
