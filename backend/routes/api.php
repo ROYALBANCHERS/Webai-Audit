@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WebsiteMonitorController;
+use App\Http\Controllers\GovJobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,26 @@ Route::post('/competitors', [AuditController::class, 'findCompetitors'])->name('
 Route::prefix('github')->group(function () {
     Route::post('/search', [AuditController::class, 'searchGitHub'])->name('github.search');
     Route::get('/trending', [AuditController::class, 'trending'])->name('github.trending');
+});
+
+// Government Jobs endpoints (Public - No Authentication)
+Route::prefix('gov-jobs')->group(function () {
+    Route::get('/', [GovJobController::class, 'index'])->name('gov-jobs.list');
+    Route::get('/{id}', [GovJobController::class, 'show'])->name('gov-jobs.show');
+    Route::get('/categories/list', [GovJobController::class, 'getCategories'])->name('gov-jobs.categories');
+    Route::get('/departments/list', [GovJobController::class, 'getDepartments'])->name('gov-jobs.departments');
+    Route::get('/statistics', [GovJobController::class, 'getStatistics'])->name('gov-jobs.statistics');
+    Route::get('/expiring-soon', [GovJobController::class, 'getExpiringSoon'])->name('gov-jobs.expiring-soon');
+});
+
+// Government Jobs endpoints (Protected - Require Authentication)
+Route::middleware('auth:sanctum')->prefix('gov-jobs')->group(function () {
+    Route::get('/my-jobs', [GovJobController::class, 'myJobs'])->name('gov-jobs.my-jobs');
+    Route::post('/subscribe', [GovJobController::class, 'subscribe'])->name('gov-jobs.subscribe');
+    Route::get('/subscription', [GovJobController::class, 'getSubscription'])->name('gov-jobs.subscription');
+    Route::post('/subscription/toggle', [GovJobController::class, 'toggleSubscription'])->name('gov-jobs.subscription.toggle');
+    Route::post('/{jobId}/read', [GovJobController::class, 'markAsRead'])->name('gov-jobs.read');
+    Route::post('/save', [GovJobController::class, 'saveJob'])->name('gov-jobs.save');
 });
 
 // Legacy/compatibility endpoints

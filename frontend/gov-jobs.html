@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Jobs - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+        .category-btn.active { background: #667eea; color: white; }
+        .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #667eea; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .expiring-soon { border-left: 4px solid #ef4444; }
+        .new-job { border-left: 4px solid #10b981; }
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .tag-ssc { background: #dbeafe; color: #1e40af; }
+        .tag-banking { background: #fef3c7; color: #92400e; }
+        .tag-railway { background: #e0e7ff; color: #3730a3; }
+        .tag-upsc { background: #fce7f3; color: #9d174d; }
+        .tag-teaching { background: #d1fae5; color: #065f46; }
+        .tag-defense { background: #fee2e2; color: #991b1b; }
+        .tag-engineering { background: #cffafe; color: #0e7490; }
+        .tag-other { background: #f3f4f6; color: #374151; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-chart-line text-2xl text-purple-600"></i>
+                        <span class="ml-2 text-xl font-bold text-gray-900">WebAI Auditor</span>
+                    </a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-gray-600 hover:text-purple-600 transition">Home</a>
+                        <a href="features.html" class="text-gray-600 hover:text-purple-600 transition">Features</a>
+                        <a href="gov-jobs.html" class="text-purple-600 font-semibold">Government Jobs</a>
+                        <a href="tools.html" class="text-gray-600 hover:text-purple-600 transition">Tools</a>
+                        <a href="blog.html" class="text-gray-600 hover:text-purple-600 transition">Blog</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="job-subscription.html" class="text-gray-600 hover:text-purple-600 transition">
+                        <i class="fas fa-bell mr-1"></i> Job Alerts
+                    </a>
+                    <a href="dashboard.html" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+                        <i class="fas fa-user mr-1"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Government Jobs Portal</h1>
+            <p class="text-purple-100 text-lg max-w-2xl mx-auto mb-8">
+                Find the latest government job opportunities from SSC, Banking, Railway, UPSC, and more.
+                Get personalized job alerts based on your preferences.
+            </p>
+            <div class="bg-white rounded-xl shadow-lg p-4 max-w-3xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 relative">
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" placeholder="Search jobs by keyword, department, or qualification..."
+                            class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <button onclick="searchJobs()" class="bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition font-semibold">
+                        Search Jobs
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Cards -->
+    <section class="py-8 -mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-600" id="totalJobs">-</div>
+                    <div class="text-gray-500 text-sm mt-1">Total Jobs</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-600" id="todayJobs">-</div>
+                    <div class="text-gray-500 text-sm mt-1">Added Today</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-orange-600" id="expiringSoon">-</div>
+                    <div class="text-gray-500 text-sm mt-1">Expiring Soon</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-600" id="categories">-</div>
+                    <div class="text-gray-500 text-sm mt-1">Categories</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="py-6 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <!-- Category Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterByCategory('')" class="category-btn active px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        All Jobs
+                    </button>
+                    <button onclick="filterByCategory('SSC')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        SSC
+                    </button>
+                    <button onclick="filterByCategory('Banking')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        Banking
+                    </button>
+                    <button onclick="filterByCategory('Railway')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        Railway
+                    </button>
+                    <button onclick="filterByCategory('UPSC')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        UPSC
+                    </button>
+                    <button onclick="filterByCategory('Teaching')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        Teaching
+                    </button>
+                    <button onclick="filterByCategory('Defense')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition hover:border-purple-500">
+                        Defense
+                    </button>
+                </div>
+
+                <!-- Additional Filters -->
+                <div class="flex flex-wrap gap-4 items-center">
+                    <select id="departmentFilter" onchange="applyFilters()" class="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500">
+                        <option value="">All Departments</option>
+                    </select>
+                    <select id="dateFilter" onchange="applyFilters()" class="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500">
+                        <option value="">All Dates</option>
+                        <option value="7">Expiring in 7 days</option>
+                        <option value="30">Expiring in 30 days</option>
+                    </select>
+                    <select id="sortFilter" onchange="applyFilters()" class="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500">
+                        <option value="latest">Latest First</option>
+                        <option value="expiring">Expiring Soon</option>
+                        <option value="category">By Category</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs List Section -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    <span id="jobsTitle">Latest Government Jobs</span>
+                    <span id="jobsCount" class="text-lg font-normal text-gray-500 ml-2"></span>
+                </h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="setView('grid')" id="gridViewBtn" class="p-2 rounded-lg bg-purple-100 text-purple-600">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button onclick="setView('list')" id="listViewBtn" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="flex justify-center items-center py-20">
+                <div class="loader"></div>
+            </div>
+
+            <!-- Jobs Container -->
+            <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-20">
+                <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">No jobs found</h3>
+                <p class="text-gray-500">Try adjusting your filters or search terms</p>
+                <button onclick="resetFilters()" class="mt-4 text-purple-600 hover:text-purple-700 font-medium">
+                    <i class="fas fa-redo mr-1"></i> Reset Filters
+                </button>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="flex justify-center items-center gap-2 mt-8"></div>
+        </div>
+    </section>
+
+    <!-- Subscribe CTA -->
+    <section class="py-16 bg-purple-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Never Miss a Job Opportunity</h2>
+            <p class="text-gray-600 mb-8">
+                Subscribe to personalized job alerts and get notified when new government jobs matching your preferences are posted.
+            </p>
+            <a href="job-subscription.html" class="inline-flex items-center bg-purple-600 text-white px-8 py-4 rounded-lg hover:bg-purple-700 transition font-semibold text-lg">
+                <i class="fas fa-bell mr-2"></i> Set Up Job Alerts
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-line text-2xl text-purple-500"></i>
+                        <span class="ml-2 text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                    <p class="text-sm">Comprehensive government jobs portal for SSC, Banking, Railway, UPSC and more.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="features.html" class="hover:text-white transition">Features</a></li>
+                        <li><a href="gov-jobs.html" class="hover:text-white transition">Government Jobs</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" onclick="filterByCategory('SSC')" class="hover:text-white transition">SSC Jobs</a></li>
+                        <li><a href="#" onclick="filterByCategory('Banking')" class="hover:text-white transition">Banking Jobs</a></li>
+                        <li><a href="#" onclick="filterByCategory('Railway')" class="hover:text-white transition">Railway Jobs</a></li>
+                        <li><a href="#" onclick="filterByCategory('UPSC')" class="hover:text-white transition">UPSC Jobs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="contact.html" class="hover:text-white transition">Contact Us</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Job Detail Modal -->
+    <div id="jobModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 id="modalTitle" class="text-xl font-bold text-gray-900"></h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div id="modalContent"></div>
+                <div class="mt-6 flex gap-4">
+                    <a id="modalApplyLink" href="#" target="_blank" class="flex-1 bg-purple-600 text-white py-3 rounded-lg text-center hover:bg-purple-700 transition font-semibold">
+                        <i class="fas fa-external-link-alt mr-2"></i> Apply Now
+                    </a>
+                    <button onclick="saveJob()" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL - adjust this to match your backend URL
+        const API_BASE = 'http://localhost:8000/api';
+
+        // State
+        let currentPage = 1;
+        let currentFilters = {};
+        let currentView = 'grid';
+        let selectedCategory = '';
+        let totalPages = 1;
+        let currentJobId = null;
+
+        // Tag classes
+        const tagClasses = {
+            'SSC': 'tag-ssc',
+            'Banking': 'tag-banking',
+            'Railway': 'tag-railway',
+            'UPSC': 'tag-upsc',
+            'Teaching': 'tag-teaching',
+            'Defense': 'tag-defense',
+            'Engineering': 'tag-engineering',
+            'Other': 'tag-other'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStatistics();
+            loadCategories();
+            loadDepartments();
+            loadJobs();
+        });
+
+        // Load Statistics
+        async function loadStatistics() {
+            try {
+                const response = await fetch(`${API_BASE}/gov-jobs/statistics`);
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('totalJobs').textContent = data.data.total_jobs || 0;
+                    document.getElementById('todayJobs').textContent = data.data.jobs_today || 0;
+                    document.getElementById('expiringSoon').textContent = data.data.expiring_soon || 0;
+                    document.getElementById('categories').textContent = Object.keys(data.data.by_category || {}).length;
+                }
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        // Load Categories
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/gov-jobs/categories/list`);
+                const data = await response.json();
+                if (data.success) {
+                    // Categories are already in buttons, just update counts if needed
+                }
+            } catch (error) {
+                console.error('Failed to load categories:', error);
+            }
+        }
+
+        // Load Departments
+        async function loadDepartments() {
+            try {
+                const response = await fetch(`${API_BASE}/gov-jobs/departments/list`);
+                const data = await response.json();
+                if (data.success) {
+                    const select = document.getElementById('departmentFilter');
+                    data.data.forEach(dept => {
+                        const option = document.createElement('option');
+                        option.value = dept.name;
+                        option.textContent = `${dept.name} (${dept.count})`;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load departments:', error);
+            }
+        }
+
+        // Load Jobs
+        async function loadJobs(page = 1) {
+            showLoading();
+            currentPage = page;
+
+            let url = `${API_BASE}/gov-jobs?page=${page}`;
+            const params = new URLSearchParams();
+
+            if (currentFilters.keyword) params.append('keyword', currentFilters.keyword);
+            if (selectedCategory) params.append('category', selectedCategory);
+            if (currentFilters.department) params.append('department', currentFilters.department);
+            if (currentFilters.expiringDays) params.append('last_date_to', currentFilters.expiringDays);
+
+            if (params.toString()) {
+                url += '&' + params.toString();
+            }
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayJobs(data.data.data || data.data);
+                    totalPages = data.data.last_page || 1;
+                    updatePagination();
+                    updateJobsCount(data.data.total || 0);
+                }
+            } catch (error) {
+                console.error('Failed to load jobs:', error);
+                showEmpty();
+            }
+        }
+
+        // Display Jobs
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobsContainer');
+            const emptyState = document.getElementById('emptyState');
+            const loadingState = document.getElementById('loadingState');
+
+            loadingState.classList.add('hidden');
+
+            if (!jobs || jobs.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            if (currentView === 'grid') {
+                container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+                container.innerHTML = jobs.map(job => createJobCard(job)).join('');
+            } else {
+                container.className = 'space-y-4';
+                container.innerHTML = jobs.map(job => createJobListItem(job)).join('');
+            }
+        }
+
+        // Create Job Card
+        function createJobCard(job) {
+            const tagClass = tagClasses[job.category] || 'tag-other';
+            const daysRemaining = job.days_remaining;
+            const isExpiring = daysRemaining !== null && daysRemaining <= 7;
+            const borderClass = isExpiring ? 'expiring-soon' : '';
+
+            return `
+                <div class="bg-white rounded-xl shadow-md card-hover overflow-hidden ${borderClass}">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="tag ${tagClass}">${job.category || 'Other'}</span>
+                            ${daysRemaining !== null ? `
+                                <span class="${isExpiring ? 'text-red-600' : 'text-gray-500'} text-sm">
+                                    <i class="far fa-clock mr-1"></i>${daysRemaining} days left
+                                </span>
+                            ` : ''}
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">${job.title}</h3>
+                        ${job.department ? `
+                            <p class="text-gray-600 text-sm mb-3">
+                                <i class="fas fa-building mr-1"></i>${job.department}
+                            </p>
+                        ` : ''}
+                        ${job.qualification ? `
+                            <p class="text-gray-500 text-sm mb-3">
+                                <i class="fas fa-graduation-cap mr-1"></i>${job.qualification}
+                            </p>
+                        ` : ''}
+                        ${job.vacancy_count > 0 ? `
+                            <p class="text-purple-600 text-sm font-medium mb-3">
+                                <i class="fas fa-users mr-1"></i>${job.vacancy_count} Vacancies
+                            </p>
+                        ` : ''}
+                        ${job.last_date_to_apply ? `
+                            <p class="text-gray-500 text-sm mb-4">
+                                <i class="far fa-calendar mr-1"></i>Last Date: ${formatDate(job.last_date_to_apply)}
+                            </p>
+                        ` : ''}
+                        <div class="flex gap-2">
+                            <button onclick="openModal(${job.id})" class="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition text-sm font-medium">
+                                View Details
+                            </button>
+                            <a href="${job.source_url}" target="_blank" class="px-4 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition text-sm font-medium">
+                                Apply
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create Job List Item
+        function createJobListItem(job) {
+            const tagClass = tagClasses[job.category] || 'tag-other';
+            const daysRemaining = job.days_remaining;
+            const isExpiring = daysRemaining !== null && daysRemaining <= 7;
+
+            return `
+                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="tag ${tagClass}">${job.category || 'Other'}</span>
+                                ${isExpiring ? `<span class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-1"></i>Expiring Soon</span>` : ''}
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">${job.title}</h3>
+                            <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+                                ${job.department ? `<span><i class="fas fa-building mr-1"></i>${job.department}</span>` : ''}
+                                ${job.qualification ? `<span><i class="fas fa-graduation-cap mr-1"></i>${job.qualification}</span>` : ''}
+                                ${job.vacancy_count > 0 ? `<span><i class="fas fa-users mr-1"></i>${job.vacancy_count} Vacancies</span>` : ''}
+                                ${job.last_date_to_apply ? `<span><i class="far fa-calendar mr-1"></i>${formatDate(job.last_date_to_apply)}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="openModal(${job.id})" class="px-6 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition font-medium">
+                                View Details
+                            </button>
+                            <a href="${job.source_url}" target="_blank" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium">
+                                Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Filter by Category
+        function filterByCategory(category) {
+            selectedCategory = category;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.trim() === (category || 'All Jobs')) {
+                    btn.classList.add('active');
+                }
+            });
+            currentPage = 1;
+            loadJobs();
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            currentFilters.department = document.getElementById('departmentFilter').value;
+            const dateValue = document.getElementById('dateFilter').value;
+            currentFilters.expiringDays = dateValue ? getDateExpiryFilter(dateValue) : null;
+            currentPage = 1;
+            loadJobs();
+        }
+
+        // Get Date Expiry Filter
+        function getDateExpiryFilter(days) {
+            const date = new Date();
+            date.setDate(date.getDate() + parseInt(days));
+            return date.toISOString().split('T')[0];
+        }
+
+        // Search Jobs
+        function searchJobs() {
+            currentFilters.keyword = document.getElementById('searchInput').value.trim();
+            currentPage = 1;
+            loadJobs();
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            currentFilters = {};
+            selectedCategory = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('departmentFilter').value = '';
+            document.getElementById('dateFilter').value = '';
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.category-btn').classList.add('active');
+            loadJobs();
+        }
+
+        // Set View
+        function setView(view) {
+            currentView = view;
+            document.getElementById('gridViewBtn').className = view === 'grid' ? 'p-2 rounded-lg bg-purple-100 text-purple-600' : 'p-2 rounded-lg hover:bg-gray-100 text-gray-500';
+            document.getElementById('listViewBtn').className = view === 'list' ? 'p-2 rounded-lg bg-purple-100 text-purple-600' : 'p-2 rounded-lg hover:bg-gray-100 text-gray-500';
+            loadJobs(currentPage);
+        }
+
+        // Update Pagination
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            if (currentPage > 1) {
+                html += `<button onclick="loadJobs(${currentPage - 1})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"><i class="fas fa-chevron-left"></i></button>`;
+            }
+
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                const activeClass = i === currentPage ? 'bg-purple-600 text-white' : 'border border-gray-300 hover:bg-gray-50';
+                html += `<button onclick="loadJobs(${i})" class="px-4 py-2 rounded-lg ${activeClass}">${i}</button>`;
+            }
+
+            if (currentPage < totalPages) {
+                html += `<button onclick="loadJobs(${currentPage + 1})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"><i class="fas fa-chevron-right"></i></button>`;
+            }
+
+            pagination.innerHTML = html;
+        }
+
+        // Update Jobs Count
+        function updateJobsCount(count) {
+            document.getElementById('jobsCount').textContent = `(${count} jobs)`;
+        }
+
+        // Show/Hide Loading
+        function showLoading() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+        }
+
+        function showEmpty() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('jobsContainer').innerHTML = '';
+        }
+
+        // Open Modal
+        async function openModal(jobId) {
+            currentJobId = jobId;
+            const modal = document.getElementById('jobModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            const modalApplyLink = document.getElementById('modalApplyLink');
+
+            modalTitle.textContent = 'Loading...';
+            modalContent.innerHTML = '<div class="flex justify-center py-8"><div class="loader"></div></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/gov-jobs/${jobId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const job = data.data;
+                    modalTitle.textContent = job.title;
+                    modalApplyLink.href = job.source_url;
+
+                    modalContent.innerHTML = `
+                        <div class="space-y-4">
+                            ${job.category ? `<span class="tag ${tagClasses[job.category] || 'tag-other'}">${job.category}</span>` : ''}
+                            ${job.department ? `
+                                <div>
+                                    <h4 class="font-semibold text-gray-700 mb-1">Department</h4>
+                                    <p class="text-gray-600">${job.department}</p>
+                                </div>
+                            ` : ''}
+                            ${job.description ? `
+                                <div>
+                                    <h4 class="font-semibold text-gray-700 mb-1">Description</h4>
+                                    <p class="text-gray-600 whitespace-pre-line">${job.description}</p>
+                                </div>
+                            ` : ''}
+                            <div class="grid grid-cols-2 gap-4">
+                                ${job.qualification ? `
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700 mb-1">Qualification</h4>
+                                        <p class="text-gray-600">${job.qualification}</p>
+                                    </div>
+                                ` : ''}
+                                ${job.vacancy_count > 0 ? `
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700 mb-1">Vacancies</h4>
+                                        <p class="text-gray-600">${job.vacancy_count}</p>
+                                    </div>
+                                ` : ''}
+                                ${job.salary ? `
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700 mb-1">Salary</h4>
+                                        <p class="text-gray-600">${job.salary}</p>
+                                    </div>
+                                ` : ''}
+                                ${job.location ? `
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700 mb-1">Location</h4>
+                                        <p class="text-gray-600">${job.location}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            ${job.last_date_to_apply ? `
+                                <div class="bg-purple-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-purple-700 mb-1">
+                                        <i class="far fa-calendar-alt mr-2"></i>Last Date to Apply
+                                    </h4>
+                                    <p class="text-purple-600 font-medium">${formatDate(job.last_date_to_apply)}</p>
+                                </div>
+                            ` : ''}
+                            <p class="text-sm text-gray-500">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Source: ${job.source_website}
+                            </p>
+                        </div>
+                    `;
+
+                    modal.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Failed to load job details:', error);
+            }
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('jobModal').classList.add('hidden');
+            currentJobId = null;
+        }
+
+        // Save Job (bookmark)
+        function saveJob() {
+            // TODO: Implement saved jobs functionality
+            alert('Job saved! (This feature requires authentication)');
+        }
+
+        // Format Date
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchJobs();
+            }
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('jobModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

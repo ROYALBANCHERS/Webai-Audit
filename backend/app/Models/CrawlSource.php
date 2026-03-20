@@ -9,6 +9,11 @@ class CrawlSource extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'base_url',
@@ -19,10 +24,14 @@ class CrawlSource extends Model
         'last_crawled_at',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'crawl_urls' => 'array',
         'selectors' => 'array',
-        'crawl_frequency' => 'integer',
         'is_active' => 'boolean',
         'last_crawled_at' => 'datetime',
     ];
@@ -36,14 +45,26 @@ class CrawlSource extends Model
     }
 
     /**
-     * Check if source is due for crawling
+     * Check if source needs crawling
      */
-    public function isDueForCrawling(): bool
+    public function needsCrawling(): bool
     {
+        if (!$this->is_active) {
+            return false;
+        }
+
         if (!$this->last_crawled_at) {
             return true;
         }
 
         return $this->last_crawled_at->addSeconds($this->crawl_frequency)->isPast();
+    }
+
+    /**
+     * Get government jobs from this source
+     */
+    public function govJobs()
+    {
+        return $this->hasMany(GovJob::class, 'source_website', 'name');
     }
 }
