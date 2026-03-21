@@ -188,6 +188,30 @@
         </div>
     </div>
 
+    <!-- Public Sources Management (TinyFish Integration) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-robot text-purple-600 mr-2"></i>
+                AI-Powered Job Sources
+                <span class="ml-3 text-sm font-normal text-gray-500">
+                    <i class="fas fa-sync-alt mr-1"></i>Real-time updates enabled
+                </span>
+            </h2>
+            <button onclick="loadPublicSources()" class="text-purple-600 hover:text-purple-800">
+                <i class="fas fa-refresh mr-1"></i>Refresh
+            </button>
+        </div>
+
+        <div id="publicSourcesList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Sources will be loaded here dynamically -->
+            <div class="col-span-full text-center py-12 bg-white rounded-lg shadow-sm">
+                <div class="loader mx-auto mb-4"></div>
+                <p class="text-gray-600">Loading job sources...</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Default Content (Popular Websites) -->
     <div id="defaultContent" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 class="text-2xl font-bold text-gray-900 mb-6">
@@ -1576,6 +1600,542 @@
                 }
             }, 30 * 60 * 1000);
         });
+
+        // ============ TINYFISH PUBLIC SOURCE MANAGEMENT ============
+
+        const TINYFISH_API_BASE = '/api/sources'; // Adjust this path as needed
+        let publicSources = [];
+        let sseConnection = null;
+
+        // Load public sources
+        async function loadPublicSources() {
+            try {
+                const response = await fetch(TINYFISH_API_BASE);
+                const data = await response.json();
+
+                if (data.success) {
+                    publicSources = data.data;
+                    renderPublicSources();
+                }
+            } catch (error) {
+                console.error('Error loading public sources:', error);
+            }
+        }
+
+        // Render public sources
+        function renderPublicSources() {
+            const container = document.getElementById('publicSourcesList');
+
+            if (!container) return;
+
+            if (!publicSources || publicSources.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-lg shadow-sm">
+                        <i class="fas fa-globe text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-700">No Sources Configured</h3>
+                        <p class="text-gray-500 mb-6">Government job sources will appear here once configured by admin</p>
+                        <div class="flex justify-center gap-4 flex-wrap">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="fas fa-robot text-purple-500"></i>
+                                <span>AI-Powered Scraping</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="fas fa-sync text-green-500"></i>
+                                <span>Real-time Updates</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="fas fa-bell text-blue-500"></i>
+                                <span>Instant Notifications</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = publicSources.map(source => {
+                const statusColor = getStatusColor(source.status);
+                const categoryColor = getCategoryColor(source.category);
+
+                return `
+                <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition border-l-4 border-${statusColor}">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-${categoryColor}-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-${getCategoryIcon(source.category)} text-${categoryColor}-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-bold text-lg">${source.name}</h3>
+                                    ${source.is_featured ? '<span class="px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full"><i class="fas fa-star mr-1"></i>Featured</span>' : ''}
+                                </div>
+                                <a href="${source.url}" target="_blank" class="text-sm text-gray-500 hover:text-purple-600">
+                                    ${new URL(source.url).hostname}
+                                    <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="testPublicSource(${source.id})" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg" title="Test Source">
+                                <i class="fas fa-vial"></i>
+                            </button>
+                            <button onclick="viewSourceJobs(${source.id})" class="p-2 text-green-500 hover:bg-green-50 rounded-lg" title="View Jobs">
+                                <i class="fas fa-briefcase"></i>
+                            </button>
+                            ${source.is_active ? `
+                                <span class="p-2 text-green-500"><i class="fas fa-circle text-xs"></i></span>
+                            ` : `
+                                <span class="p-2 text-gray-400"><i class="fas fa-pause-circle text-xs"></i></span>
+                            `}
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-4 gap-3 mb-4 text-center">
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-purple-600">${source.total_jobs_found || 0}</div>
+                            <div class="text-xs text-purple-700">Jobs Found</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-green-600">${source.success_count || 0}</div>
+                            <div class="text-xs text-green-700">Success</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-red-600">${source.failure_count || 0}</div>
+                            <div class="text-xs text-red-700">Failed</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3">
+                            <div class="text-lg font-bold text-blue-600">${source.scraping_strategy ? source.scraping_strategy.toUpperCase() : 'AUTO'}</div>
+                            <div class="text-xs text-blue-700">Strategy</div>
+                        </div>
+                    </div>
+
+                    <!-- Status & Last Update -->
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeClass(source.status)}">
+                            <i class="fas fa-${getStatusIcon(source.status)} mr-1"></i>
+                            ${source.status.toUpperCase()}
+                        </span>
+                        ${source.last_crawled_at ? `
+                            <span class="text-gray-500">
+                                <i class="fas fa-clock mr-1"></i>
+                                ${formatTimeAgo(source.last_crawled_at)}
+                            </span>
+                        ` : `
+                            <span class="text-gray-400">Not yet crawled</span>
+                        `}
+                    </div>
+
+                    ${source.auto_update ? `
+                        <div class="mt-3 text-xs text-green-600 flex items-center">
+                            <i class="fas fa-sync-alt mr-1"></i>
+                            Auto-update enabled • Every ${formatFrequency(source.crawl_frequency)}
+                        </div>
+                    ` : ''}
+
+                    ${source.success_rate ? `
+                        <div class="mt-2">
+                            <div class="flex justify-between text-xs text-gray-600 mb-1">
+                                <span>Success Rate</span>
+                                <span>${source.success_rate}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-${source.success_rate >= 80 ? 'green' : source.success_rate >= 50 ? 'yellow' : 'red'}-500 h-2 rounded-full" style="width: ${source.success_rate}%"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `}).join('');
+        }
+
+        // Test public source
+        async function testPublicSource(sourceId) {
+            const source = publicSources.find(s => s.id === sourceId);
+            if (!source) return;
+
+            showNotification(`Testing ${source.name}...`, 'info');
+
+            try {
+                const response = await fetch(`${TINYFISH_API_BASE}/${sourceId}/test`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.data.success) {
+                    showNotification(`Success! Found ${data.data.jobs.length} jobs`, 'success');
+                    showTestResults(data.data);
+                } else {
+                    showNotification('Test failed', 'error');
+                    showTestResults({ success: false, error: data.data?.error || 'Unknown error' });
+                }
+            } catch (error) {
+                showNotification('Error testing source', 'error');
+                console.error('Test error:', error);
+            }
+        }
+
+        // View jobs from specific source
+        async function viewSourceJobs(sourceId) {
+            try {
+                const response = await fetch(`${TINYFISH_API_BASE}/${sourceId}/jobs`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displaySourceJobs(data.data, data.source);
+                }
+            } catch (error) {
+                console.error('Error loading source jobs:', error);
+            }
+        }
+
+        // Display jobs from a specific source
+        function displaySourceJobs(jobs, source) {
+            const container = document.getElementById('sourceJobsContent');
+            const modal = document.getElementById('sourceJobsModal');
+
+            if (!container || !modal) return;
+
+            if (!jobs || jobs.data.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">No jobs found from ${source?.name || 'this source'}</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="mb-4 p-3 bg-purple-50 rounded-lg">
+                        <h4 class="font-semibold text-purple-800">${source?.name || 'Source'}</h4>
+                        <p class="text-sm text-purple-600">${jobs.data.length} jobs found</p>
+                    </div>
+                    <div class="space-y-3 max-h-96 overflow-y-auto">
+                        ${jobs.data.map(job => `
+                            <div class="p-4 bg-white rounded-lg border hover:shadow-md transition">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h5 class="font-semibold text-gray-800">${job.title}</h5>
+                                        <p class="text-sm text-gray-600">${job.department || 'N/A'}</p>
+                                        <div class="flex gap-3 mt-2 text-sm">
+                                            ${job.category ? `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded">${job.category.toUpperCase()}</span>` : ''}
+                                            ${job.scraping_method ? `<span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">${job.scraping_method}</span>` : ''}
+                                        </div>
+                                        ${job.last_date_to_apply ? `
+                                            <p class="text-sm text-red-600 mt-2">
+                                                <i class="fas fa-calendar mr-1"></i>Last Date: ${job.last_date_to_apply}
+                                            </p>
+                                        ` : ''}
+                                    </div>
+                                    ${job.source_url ? `
+                                        <a href="${job.source_url}" target="_blank" class="ml-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm">
+                                            <i class="fas fa-external-link-alt mr-1"></i>View
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Show test results modal
+        function showTestResults(result) {
+            const modal = document.getElementById('testResultsModal');
+            const content = document.getElementById('testResultsContent');
+
+            if (!modal || !content) return;
+
+            if (result.success) {
+                content.innerHTML = `
+                    <div class="mb-4 p-4 bg-green-50 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-green-800">
+                            <i class="fas fa-check-circle mr-2"></i>Test Successful
+                        </h4>
+                        <div class="text-sm text-green-700 grid grid-cols-2 gap-2">
+                            <p><strong>Method:</strong> ${result.method || 'N/A'}</p>
+                            <p><strong>Jobs Found:</strong> ${result.jobs?.length || 0}</p>
+                            <p><strong>Duration:</strong> ${result.duration_ms ? (result.duration_ms/1000).toFixed(2) + 's' : 'N/A'}</p>
+                        </div>
+                    </div>
+
+                    ${result.jobs && result.jobs.length > 0 ? `
+                        <h4 class="font-semibold mb-3">Sample Jobs Found:</h4>
+                        <div class="max-h-80 overflow-y-auto space-y-2">
+                            ${result.jobs.slice(0, 10).map(job => `
+                                <div class="p-3 bg-gray-50 rounded-lg border-l-4 border-purple-500">
+                                    <h5 class="font-medium text-gray-800">${job.title || 'Untitled'}</h5>
+                                    <p class="text-sm text-gray-600">${job.department || job.organization || 'N/A'}</p>
+                                    ${job.vacancy_count ? `<p class="text-sm"><strong>Vacancies:</strong> ${job.vacancy_count}</p>` : ''}
+                                    ${job.last_date_to_apply ? `<p class="text-sm text-red-600"><strong>Last Date:</strong> ${job.last_date_to_apply}</p>` : ''}
+                                    ${job.confidence_score ? `<p class="text-xs text-gray-500">Confidence: ${(job.confidence_score * 100).toFixed(0)}%</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${result.jobs.length > 10 ? `<p class="text-center text-gray-500 mt-2 text-sm">... and ${result.jobs.length - 10} more jobs</p>` : ''}
+                    ` : '<p class="text-gray-500 text-center py-4">No jobs found</p>'}
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-red-800">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Test Failed
+                        </h4>
+                        <p class="text-sm text-red-700">${result.error || 'Unknown error occurred'}</p>
+                        <p class="text-xs text-red-600 mt-2">The system will try alternative scraping methods automatically.</p>
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Start real-time job streaming (SSE)
+        function startJobStreaming() {
+            if (sseConnection) {
+                sseConnection.close();
+            }
+
+            try {
+                sseConnection = new EventSource('/api/jobs/stream');
+
+                sseConnection.onmessage = function(event) {
+                    try {
+                        const job = JSON.parse(event.data);
+                        showNewJobNotification(job);
+                    } catch (e) {
+                        console.error('Error parsing SSE data:', e);
+                    }
+                };
+
+                sseConnection.onerror = function(error) {
+                    console.error('SSE error:', error);
+                    sseConnection.close();
+
+                    // Retry after 5 seconds
+                    setTimeout(startJobStreaming, 5000);
+                };
+
+                console.log('Job streaming started');
+            } catch (error) {
+                console.error('Error starting SSE:', error);
+            }
+        }
+
+        // Show new job notification (slide-in)
+        function showNewJobNotification(job) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-white border-l-4 border-green-500 rounded-lg shadow-2xl p-4 max-w-md z-50 animate-slide-in';
+            notification.style.animation = 'slideIn 0.3s ease-out';
+
+            notification.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-briefcase text-green-500"></i>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="text-sm font-bold text-gray-800">New Job Found!</h4>
+                            <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm font-medium text-gray-700">${job.title || 'New Position'}</p>
+                        <p class="text-xs text-gray-500">${job.department || job.source_type || 'Government Sector'}</p>
+                        <div class="mt-2 flex gap-2">
+                            ${job.source_url ? `
+                                <a href="${job.source_url}" target="_blank" class="text-xs bg-purple-600 text-white px-3 py-1.5 rounded hover:bg-purple-700">
+                                    View Details
+                                </a>
+                            ` : ''}
+                            <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" class="text-xs text-gray-500 hover:text-gray-700">
+                                Dismiss
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => notification.remove(), 300);
+            }, 10000);
+        }
+
+        // Helper functions
+        function getStatusColor(status) {
+            const colors = {
+                'active': 'green-500',
+                'pending': 'yellow-500',
+                'failed': 'red-500',
+                'paused': 'gray-400'
+            };
+            return colors[status] || 'gray-400';
+        }
+
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'active': 'bg-green-100 text-green-800',
+                'pending': 'bg-yellow-100 text-yellow-800',
+                'failed': 'bg-red-100 text-red-800',
+                'paused': 'bg-gray-100 text-gray-800'
+            };
+            return classes[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'active': 'check-circle',
+                'pending': 'clock',
+                'failed': 'exclamation-circle',
+                'paused': 'pause-circle'
+            };
+            return icons[status] || 'circle';
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                'ssc': 'purple',
+                'upsc': 'green',
+                'ibps': 'blue',
+                'railway': 'orange',
+                'defence': 'red',
+                'teaching': 'teal',
+                'state': 'indigo',
+                'general': 'gray'
+            };
+            return colors[category] || 'gray';
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'ssc': 'building',
+                'upsc': 'landmark',
+                'ibps': 'university',
+                'railway': 'train',
+                'defence': 'shield-alt',
+                'teaching': 'chalkboard-teacher',
+                'state': 'map-marker-alt',
+                'general': 'globe'
+            };
+            return icons[category] || 'briefcase';
+        }
+
+        function formatTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const seconds = Math.floor((new Date() - date) / 1000);
+
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            if (seconds < 604800) return Math.floor(seconds / 86400) + 'd ago';
+            return date.toLocaleDateString();
+        }
+
+        function formatFrequency(seconds) {
+            if (seconds < 3600) return Math.floor(seconds / 60) + ' min';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours';
+            return Math.floor(seconds / 86400) + ' days';
+        }
+
+        // Close modal function
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Initialize TinyFish functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load public sources
+            loadPublicSources();
+
+            // Start real-time job streaming
+            startJobStreaming();
+
+            // Auto-refresh sources every 5 minutes
+            setInterval(loadPublicSources, 5 * 60 * 1000);
+        });
+
+        // Make functions globally accessible
+        window.loadPublicSources = loadPublicSources;
+        window.testPublicSource = testPublicSource;
+        window.viewSourceJobs = viewSourceJobs;
+        window.showTestResults = showTestResults;
+        window.startJobStreaming = startJobStreaming;
+        window.closeModal = closeModal;
+
     </script>
+
+    <!-- Add CSS animation for slide-in notifications -->
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <!-- Test Results Modal -->
+    <div id="testResultsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b sticky top-0 bg-white">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">
+                        <i class="fas fa-vial text-blue-600 mr-2"></i>
+                        Test Results
+                    </h3>
+                    <button onclick="closeModal('testResultsModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="testResultsContent" class="p-6">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Source Jobs Modal -->
+    <div id="sourceJobsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b sticky top-0 bg-white">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">
+                        <i class="fas fa-briefcase text-purple-600 mr-2"></i>
+                        Jobs from Source
+                    </h3>
+                    <button onclick="closeModal('sourceJobsModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="sourceJobsContent" class="p-6">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

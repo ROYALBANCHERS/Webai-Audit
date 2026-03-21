@@ -5,6 +5,7 @@ use App\Http\Controllers\AuditController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WebsiteMonitorController;
 use App\Http\Controllers\GovJobController;
+use App\Http\Controllers\PublicSourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,3 +103,24 @@ Route::prefix('monitor')->group(function () {
     Route::post('/{id}/check', [WebsiteMonitorController::class, 'checkChanges'])->name('monitor.check');
     Route::post('/{id}/toggle', [WebsiteMonitorController::class, 'toggle'])->name('monitor.toggle');
 });
+
+// Public Crawl Sources (TinyFish Integration) - No Authentication Required
+Route::prefix('sources')->group(function () {
+    // Public endpoints - anyone can access
+    Route::get('/', [PublicSourceController::class, 'index'])->name('sources.list');
+    Route::get('/statistics', [PublicSourceController::class, 'statistics'])->name('sources.statistics');
+    Route::get('/{id}', [PublicSourceController::class, 'show'])->name('sources.show');
+    Route::get('/{id}/jobs', [PublicSourceController::class, 'jobs'])->name('sources.jobs');
+    Route::post('/{id}/test', [PublicSourceController::class, 'test'])->name('sources.test');
+
+    // Admin endpoints - require X-Admin-Secret header
+    Route::post('/', [PublicSourceController::class, 'store'])->name('sources.create');
+    Route::put('/{id}', [PublicSourceController::class, 'update'])->name('sources.update');
+    Route::delete('/{id}', [PublicSourceController::class, 'destroy'])->name('sources.delete');
+    Route::post('/{id}/toggle', [PublicSourceController::class, 'toggle'])->name('sources.toggle');
+    Route::get('/{id}/logs', [PublicSourceController::class, 'logs'])->name('sources.logs');
+    Route::post('/crawl-all', [PublicSourceController::class, 'crawlAll'])->name('sources.crawl-all');
+});
+
+// Real-time job streaming (SSE)
+Route::get('/jobs/stream', [GovJobController::class, 'stream'])->name('jobs.stream');

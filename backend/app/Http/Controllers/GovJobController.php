@@ -299,4 +299,66 @@ class GovJobController extends Controller
             'data' => $result
         ]);
     }
+
+    /**
+     * Stream new jobs via Server-Sent Events (SSE)
+     */
+    public function stream(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        return response()->stream(function () {
+            $lastJobId = GovJob::latest('id')->first()?->id ?? 0;
+            $lastCheckTime = now();
+
+            while (true) {
+                try {
+                    // Check for new jobs added in the last minute
+                    $newJobs = GovJob::where('id', '>', $lastJobId)
+                        ->where('created_at', '>=', $lastCheckTime->subMinute())
+                        ->where('is_active', true)
+                        ->get();
+
+                    foreach ($newJobs as $job) {
+                        // Send SSE event
+                        echo "id: {$job->id}\n";
+                        echo "event: newJob\n";
+                        echo "data: " . json_encode([
+                            'id' => $job->id,
+                            'title' => $job->title,
+                            'department' => $job->department,
+                            'category' => $job->category,
+                            'source_url' => $job->source_url,
+                            'source_type' => $job->source_type,
+                            'last_date_to_apply' => $job->last_date_to_apply,
+                            'created_at' => $job->created_at->toIso8601String(),
+                        ]) . "\n\n";
+
+                        $lastJobId = $job->id;
+                    }
+
+                    // Flush output
+                    if (ob_get_level()) {
+                        ob_flush();
+                    }
+                    flush();
+
+                } catch (\Exception $e) {
+                    // Log error but continue streaming
+                    error_log("SSE stream error: " . $e->getMessage());
+                }
+
+                // Wait before checking again (5 seconds)
+                sleep(5);
+
+                // Check if connection is closed
+                if (connection_aborted()) {
+                    break;
+                }
+            }
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache',
+            'X-Accel-Buffering' => 'no',
+            'Connection' => 'keep-alive',
+        ]);
+    }
 }
