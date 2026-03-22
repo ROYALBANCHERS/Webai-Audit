@@ -581,100 +581,49 @@
             displayRealResults(data);
         }
 
-        // Analyze government website - REAL API CALL (kept for future use)
-        async function analyzeGovWebsite() {
-            const input = document.getElementById('govUrlInput').value.trim();
-            if (!input) {
-                alert('Please enter a government website URL');
-                return;
-            }
-
-            let url = input;
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
-
-            // Show loading
-            document.getElementById('loadingIndicator').classList.remove('hidden');
-            document.getElementById('defaultContent').classList.add('hidden');
-            document.getElementById('analysisResults').classList.add('hidden');
-
-            try {
-                // Z.AI Powered API - Multiple endpoints for reliability
-                const apiEndpoints = [
-                    `https://webai-audit.pages.dev/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`,
-                    `https://royalbanchers.github.io/Webai-Audit/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`
-                ];
-
-                let success = false;
-                for (const apiUrl of apiEndpoints) {
-                    try {
-                        const response = await fetch(apiUrl, { timeout: 15000 });
-                        const data = await response.json();
-
-                        if (data.success) {
-                            document.getElementById('loadingIndicator').classList.add('hidden');
-                            displayRealResults(data);
-                            success = true;
-                            break;
-                        }
-                    } catch (e) {
-                        continue; // Try next endpoint
-                    }
-                }
-
-                if (!success) {
-                    // Fallback to direct scraping
-                    await scrapeWithProxy(url);
-                }
-            } catch (error) {
-                console.error('API Error:', error);
-                // Try alternative method
-                await scrapeWithProxy(url);
-            }
-        }
-
         // Alternative scraping method with multiple proxies
         async function scrapeWithProxy(url) {
             const proxies = [
-                `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+                { name: 'AllOrigins', url: `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` },
+                { name: 'CORSProxy', url: `https://corsproxy.io/?${encodeURIComponent(url)}` },
+                { name: 'CodeTabs', url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
+                { name: 'ThingProxy', url: `https://thingproxy.freeboard.io/fetch/${url}` }
             ];
 
-            let success = false;
             let lastError = null;
 
-            for (const proxyUrl of proxies) {
+            for (const proxy of proxies) {
                 try {
-                    console.log('Trying proxy:', proxyUrl.substring(0, 50) + '...');
-                    const response = await fetch(proxyUrl, {
-                        signal: AbortSignal.timeout(10000) // 10 second timeout
+                    document.getElementById('loadingText').textContent = `Trying ${proxy.name} proxy...`;
+
+                    const response = await fetch(proxy.url, {
+                        signal: AbortSignal.timeout(15000) // 15 second timeout
                     });
 
-                    if (!response.ok) continue;
+                    if (!response.ok) {
+                        console.log(`${proxy.name} returned ${response.status}`);
+                        continue;
+                    }
 
                     const html = await response.text();
 
-                    if (html && html.length > 1000) {
+                    if (html && html.length > 1000 && !html.includes('<html') || html.includes('body')) {
+                        document.getElementById('loadingText').textContent = 'Parsing website content...';
                         const parsedData = parseGovWebsiteHTML(html, url);
                         document.getElementById('loadingIndicator').classList.add('hidden');
                         displayRealResults(parsedData);
-                        success = true;
-                        break;
+                        return;
                     }
                 } catch (error) {
-                    console.log('Proxy failed:', error.message);
+                    console.log(`${proxy.name} failed:`, error.message);
                     lastError = error;
                     continue;
                 }
             }
 
-            if (!success) {
-                // All proxies failed - show manual link option
-                document.getElementById('loadingIndicator').classList.add('hidden');
-                showManualLinkOption(url, lastError);
-            }
+            // All proxies failed - show pre-loaded data with message
+            document.getElementById('loadingText').textContent = 'Loading cached data...';
+            showManualLinkOption(url, lastError);
         }
 
         // Show manual link option when scraping fails - use pre-loaded data
@@ -711,7 +660,7 @@
                     name: domain.toUpperCase(),
                     score: 75,
                     notices: [
-                        { title: 'Click below to visit official website', link: url, date: 'Live' }
+                        { title: 'Visit official website for latest updates', link: url, date: 'Live' }
                     ],
                     exams: [
                         { name: 'Latest Notifications', link: url, posts: 'Check Official Site', date: 'Available Now' },
@@ -721,7 +670,7 @@
                 };
             }
 
-            document.getElementById('analysisResults').classList.remove('hidden');
+            document.getElementById('loadingIndicator').classList.add('hidden');
             displayRealResults(data);
 
             // Show info message
