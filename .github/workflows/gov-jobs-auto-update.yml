@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g cheerio axios
+          npm install cheerio axios
 
       - name: Create scraper script
         run: |
