@@ -1,16 +1,12 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Packages.composer"]
+nixPkgs = ["nodejs-18_x", "nodejs-18_x.pkgs.npm"]
 
 [phases.build]
-cmds = [
-    "cd backend && composer install --no-dev --optimize-autoloader",
-    "cd backend && php artisan key:generate"
-]
+cmds = ["npm install --production"]
 
 [start]
-cmd = "cd backend && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "node server.js"
 
 [variables]
 PORT = "8000"
-APP_ENV = "production"
-APP_DEBUG = "false"
+NODE_ENV = "production"

@@ -495,12 +495,16 @@
 
         // Call the real backend API
         async function callRealAPI(url) {
-            // Z.AI Powered API - Multiple endpoints for reliability
+            // Railway Backend (Priority 1) - Update this URL after deployment
+            const railwayUrl = 'RAILWAY_URL_HERE'; // Replace with your Railway URL
+
+            // Multiple endpoints for reliability
             const apiEndpoints = [
-                `https://webai-audit.vercel.app/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`,
-                `https://webai-audit.pages.dev/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`,
-                `https://royalbanchers.github.io/Webai-Audit/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`
-            ];
+                railwayUrl !== 'RAILWAY_URL_HERE' ? `${railwayUrl}/api/scrape?url=${encodeURIComponent(url)}` : null,
+                `https://webai-audit.vercel.app/api/scrape?url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                `https://webai-audit.pages.dev/api/scrape?url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                `https://royalbanchers.github.io/Webai-Audit/api/scrape?url=${encodeURIComponent(url)}&_t=${Date.now()}`
+            ].filter(Boolean);
 
             let lastError = null;
 
