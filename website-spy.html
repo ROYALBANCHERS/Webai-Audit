@@ -195,6 +195,88 @@
             }
         });
 
+        // Site-specific data for realistic demo
+        const siteSpecificData = {
+            'SSC': {
+                blogs: [
+                    { title: 'SSC CGL 2024-25 Tier II Admit Card Released', date: getRecentDate(1), link: 'https://ssc.gov.in' },
+                    { title: 'SSC GD Constable 2025 Medical Exam Schedule', date: getRecentDate(3), link: 'https://ssc.gov.in' },
+                    { title: 'SSC CHSL 2024-25 Tier I Result Declared', date: getRecentDate(7), link: 'https://ssc.gov.in' }
+                ],
+                pdfs: [
+                    { title: 'CGL 2024-25 Notice for Tier II', link: 'https://ssc.gov.in/sites/default/files/CGL_Tier2_Notice.pdf' },
+                    { title: 'SSC Exam Calendar 2025-26', link: 'https://ssc.gov.in/sites/default/files/Exam_Calendar_2025.pdf' },
+                    { title: 'GD Constable Medical Criteria', link: 'https://ssc.gov.in/sites/default/files/GD_Medical.pdf' }
+                ],
+                jobs: [
+                    { title: 'SSC CGL 2024-25 - 17727 Posts', date: getRecentDate(0) },
+                    { title: 'SSC CHSL 2024-25 - 3712 Posts', date: getRecentDate(5) },
+                    { title: 'SSC GD 2025 - 39481 Posts', date: getRecentDate(10) }
+                ],
+                pages: 284
+            },
+            'UPSC': {
+                blogs: [
+                    { title: 'Civil Services 2024 Mains Result Announced', date: getRecentDate(2), link: 'https://upsc.gov.in' },
+                    { title: 'CDS I 2025 Notification Released', date: getRecentDate(5), link: 'https://upsc.gov.in' },
+                    { title: 'IAS 2025 Prelims Exam Date Notification', date: getRecentDate(8), link: 'https://upsc.gov.in' }
+                ],
+                pdfs: [
+                    { title: 'Civil Services 2024 Mains Result PDF', link: 'https://upsc.gov.in/sites/default/files/CSE_Mains_Result.pdf' },
+                    { title: 'CDS I 2025 Detailed Notification', link: 'https://upsc.gov.in/sites/default/files/CDS1_2025.pdf' },
+                    { title: 'Annual Exam Programme 2025', link: 'https://upsc.gov.in/sites/default/files/Exam_Programme_2025.pdf' }
+                ],
+                jobs: [
+                    { title: 'Civil Services Exam 2025 - 1056 Vacancies', date: getRecentDate(0) },
+                    { title: 'CDS I 2025 - 457 Vacancies', date: getRecentDate(4) },
+                    { title: 'NDA I 2025 - 406 Vacancies', date: getRecentDate(12) }
+                ],
+                pages: 456
+            },
+            'IBPS': {
+                blogs: [
+                    { title: 'IBPS PO XV 2024-25 Mains Score Card Released', date: getRecentDate(1), link: 'https://ibps.in' },
+                    { title: 'IBPS Clerk XIV 2024-25 Provisional Allotment', date: getRecentDate(4), link: 'https://ibps.in' },
+                    { title: 'IBPS RRB XIII 2024-25 Final Result Declared', date: getRecentDate(9), link: 'https://ibps.in' }
+                ],
+                pdfs: [
+                    { title: 'PO XV Mains Score Card Notice', link: 'https://ibps.in/cwe/PO/XV/score_card_notice.pdf' },
+                    { title: 'Clerk XIV Allotment List', link: 'https://ibps.in/cwe/Clerk/XIV/allotment.pdf' },
+                    { title: 'RRB XIII Result Notification', link: 'https://ibps.in/cwe/RRB/XIII/result.pdf' }
+                ],
+                jobs: [
+                    { title: 'IBPS PO XV 2024-25 - 4454 Posts', date: getRecentDate(0) },
+                    { title: 'IBPS Clerk XIV 2024-25 - 6128 Posts', date: getRecentDate(6) },
+                    { title: 'IBPS RRB XIII 2024-25 - 8164 Posts', date: getRecentDate(11) }
+                ],
+                pages: 312
+            },
+            'RRB': {
+                blogs: [
+                    { title: 'RRB NTPC CEN 03/2024 Level 1 Result', date: getRecentDate(2), link: 'https://rrb.gov.in' },
+                    { title: 'RRB Group D 2024 Computer Based Test Date', date: getRecentDate(6), link: 'https://rrb.gov.in' },
+                    { title: 'RRB ALP 2024 Document Verification Notice', date: getRecentDate(10), link: 'https://rrb.gov.in' }
+                ],
+                pdfs: [
+                    { title: 'NTPC CEN 03/2024 Result PDF', link: 'https://rrb.gov.in/ntpc/result/CEN03_result.pdf' },
+                    { title: 'Group D Exam Schedule 2024', link: 'https://rrb.gov.in/gd/schedule.pdf' },
+                    { title: 'ALP Document Verification List', link: 'https://rrb.gov.in/alp/dv_list.pdf' }
+                ],
+                jobs: [
+                    { title: 'RRB NTPC 35277 Posts Result', date: getRecentDate(0) },
+                    { title: 'RRB Group D 13784 Posts', date: getRecentDate(7) },
+                    { title: 'RRB ALP 5696 Posts Notification', date: getRecentDate(14) }
+                ],
+                pages: 198
+            }
+        };
+
+        function getRecentDate(daysAgo) {
+            const d = new Date();
+            d.setDate(d.getDate() - daysAgo);
+            return d.toISOString().split('T')[0];
+        }
+
         // Add demo data
         function addDemoData() {
             const now = new Date();
@@ -205,6 +287,13 @@
             ];
 
             demoSites.forEach((site, index) => {
+                const siteData = siteSpecificData[site.name] || {
+                    blogs: [{ title: 'Latest Update', date: getRecentDate(1), link: site.url }],
+                    pdfs: [{ title: 'Notification', link: site.url + '/notice.pdf' }],
+                    jobs: [{ title: 'New Recruitment', date: getRecentDate(0) }],
+                    pages: 100
+                };
+
                 const target = {
                     id: Date.now() + index,
                     url: site.url,
@@ -212,28 +301,32 @@
                     interval: site.interval,
                     active: true,
                     lastCrawl: new Date(now - (index * 60 * 60 * 1000)).toISOString(),
-                    data: {
-                        blogs: [
-                            { title: 'SSC CGL 2025 Notification', date: new Date(now - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], link: site.url },
-                            { title: 'New Exam Schedule Released', date: new Date(now - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], link: site.url }
-                        ],
-                        pdfs: [
-                            { title: 'Official Notification 2025', link: site.url + '/notification.pdf' },
-                            { title: 'Exam Calendar', link: site.url + '/calendar.pdf' }
-                        ],
-                        jobs: [
-                            { title: 'CGL 2025 Recruitment', date: new Date(now - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
-                            { title: 'CHSL 2025 Notification', date: new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] }
-                        ],
-                        pages: 156
-                    },
+                    data: siteData,
                     previousData: null,
                     createdAt: new Date(now - (index * 5 * 24 * 60 * 60 * 1000)).toISOString()
                 };
 
                 spyTargets.push(target);
 
-                // Add history
+                // Add history with realistic summaries
+                const jobCount = siteData.jobs.length;
+                const blogCount = siteData.blogs.length;
+                const changes = {
+                    total: index === 0 ? jobCount + blogCount : index + 1,
+                    blogs: blogCount,
+                    pdfs: siteData.pdfs.length,
+                    jobs: jobCount
+                };
+
+                let summary = 'Routine check completed';
+                if (jobCount > 0 && blogCount > 0) {
+                    summary = `${jobCount} active recruitments, ${blogCount} new notices`;
+                } else if (jobCount > 0) {
+                    summary = `${jobCount} job updates found`;
+                } else if (blogCount > 0) {
+                    summary = `${blogCount} new notifications posted`;
+                }
+
                 crawlHistory.push({
                     id: Date.now() + index + 100,
                     targetId: target.id,
@@ -241,13 +334,8 @@
                     targetUrl: target.url,
                     timestamp: new Date(now - (index * 60 * 60 * 1000)).toISOString(),
                     data: JSON.parse(JSON.stringify(target.data)),
-                    changes: {
-                        total: index === 0 ? 2 : index % 2,
-                        blogs: index % 2,
-                        pdfs: index === 1 ? 1 : 0,
-                        jobs: index % 3
-                    },
-                    summary: index === 0 ? '2 new jobs, 1 new blog' : index % 2 ? 'New blog posted' : 'Routine check'
+                    changes: changes,
+                    summary: summary
                 });
             });
 
@@ -492,26 +580,119 @@ Include everything - notifications, jobs, documents, blog posts.`
             return { blogs: [], pdfs: [], jobs: [], pages: 0 };
         }
 
-        // Simulate Crawl
+        // Simulate Crawl with realistic site-specific data
         async function simulateCrawl(url) {
-            const hostname = new URL(url).hostname;
-            const isGov = hostname.includes('.gov') || hostname.includes('.gov.in');
+            const hostname = new URL(url).hostname.toLowerCase();
 
+            // Detect site type and return appropriate data
+            if (hostname.includes('ssc')) {
+                return {
+                    blogs: [
+                        { title: 'SSC CGL 2024-25 Tier II Admit Card Released', date: getRecentDate(0), link: url },
+                        { title: 'SSC GD 2025 Medical Exam Schedule Announced', date: getRecentDate(2), link: url },
+                        { title: 'SSC CHSL Tier I Result Published', date: getRecentDate(5), link: url }
+                    ],
+                    pdfs: [
+                        { title: 'CGL Tier II Admit Card Notice', link: url + '/notice/cgl-tier2-admitcard.pdf' },
+                        { title: 'GD Medical Exam Guidelines', link: url + 'notice/gd-medical.pdf' },
+                        { title: 'SSC Exam Calendar 2025-26', link: url + '/calendar/exam-2025.pdf' }
+                    ],
+                    jobs: [
+                        { title: 'SSC CGL 2024-25 - 17727 Vacancies', date: getRecentDate(0) },
+                        { title: 'SSC CHSL 2024-25 - 3712 Vacancies', date: getRecentDate(4) },
+                        { title: 'SSC GD 2025 - 39481 Vacancies', date: getRecentDate(8) }
+                    ],
+                    pages: Math.floor(Math.random() * 100) + 250
+                };
+            }
+
+            if (hostname.includes('upsc')) {
+                return {
+                    blogs: [
+                        { title: 'Civil Services 2024 Mains Result Declared', date: getRecentDate(0), link: url },
+                        { title: 'CDS I 2025 Notification Released', date: getRecentDate(3), link: url },
+                        { title: 'CAPF AC 2024 Interview Schedule', date: getRecentDate(6), link: url }
+                    ],
+                    pdfs: [
+                        { title: 'Civil Services Mains Result PDF', link: url + '/exams/cse-mains-result.pdf' },
+                        { title: 'CDS I 2025 Detailed Notification', link: url + '/exams/cds1-2025.pdf' },
+                        { title: 'UPSC Annual Calendar 2025', link: url + '/exams/calendar-2025.pdf' }
+                    ],
+                    jobs: [
+                        { title: 'Civil Services 2025 - 1056 Vacancies', date: getRecentDate(0) },
+                        { title: 'CDS I 2025 - 457 Vacancies', date: getRecentDate(5) },
+                        { title: 'NDA I 2025 - 406 Vacancies', date: getRecentDate(10) }
+                    ],
+                    pages: Math.floor(Math.random() * 100) + 400
+                };
+            }
+
+            if (hostname.includes('ibps')) {
+                return {
+                    blogs: [
+                        { title: 'IBPS PO XV Mains Score Card Available', date: getRecentDate(0), link: url },
+                        { title: 'IBPS Clerk XIV Provisional Allotment', date: getRecentDate(4), link: url },
+                        { title: 'IBPS RRB XIII Final Result Out', date: getRecentDate(7), link: url }
+                    ],
+                    pdfs: [
+                        { title: 'PO Mains Score Card Notice', link: url + '/cwe/PO/scorecard.pdf' },
+                        { title: 'Clerk Allotment List PDF', link: url + '/cwe/Clerk/allotment.pdf' },
+                        { title: 'RRB Result Notification', link: url + '/cwe/RRB/result.pdf' }
+                    ],
+                    jobs: [
+                        { title: 'IBPS PO XV - 4454 Vacancies', date: getRecentDate(0) },
+                        { title: 'IBPS Clerk XIV - 6128 Vacancies', date: getRecentDate(6) },
+                        { title: 'IBPS RRB XIII - 8164 Vacancies', date: getRecentDate(11) }
+                    ],
+                    pages: Math.floor(Math.random() * 100) + 300
+                };
+            }
+
+            if (hostname.includes('rrb')) {
+                return {
+                    blogs: [
+                        { title: 'RRB NTPC CEN 03/2024 Level 1 Result', date: getRecentDate(0), link: url },
+                        { title: 'RRB Group D CBT Exam Date Announced', date: getRecentDate(3), link: url },
+                        { title: 'RRB ALP Document Verification Notice', date: getRecentDate(8), link: url }
+                    ],
+                    pdfs: [
+                        { title: 'NTPC Level 1 Result PDF', link: url + '/ntpc/CEN03-result.pdf' },
+                        { title: 'Group D Exam Schedule', link: url + '/gd/schedule-2024.pdf' },
+                        { title: 'ALP DV List PDF', link: url + '/alp/dv-list.pdf' }
+                    ],
+                    jobs: [
+                        { title: 'RRB NTPC - 35277 Posts Result', date: getRecentDate(0) },
+                        { title: 'RRB Group D - 13784 Posts', date: getRecentDate(7) },
+                        { title: 'RRB ALP - 5696 Posts', date: getRecentDate(14) }
+                    ],
+                    pages: Math.floor(Math.random() * 100) + 200
+                };
+            }
+
+            // Generic government site fallback
+            const isGov = hostname.includes('.gov') || hostname.includes('.gov.in') || hostname.includes('.nic');
             return {
                 blogs: [
-                    { title: `${hostname} - Latest Update`, date: new Date().toISOString().split('T')[0], link: url },
-                    { title: 'New Announcement', date: new Date().toISOString().split('T')[0], link: url }
+                    { title: `${new URL(url).hostname} - Latest Notification`, date: getRecentDate(0), link: url },
+                    { title: 'New Announcement Posted', date: getRecentDate(2), link: url }
                 ],
                 pdfs: [
-                    { title: 'Official Notification', link: url + '/notification.pdf' },
-                    { title: 'Exam Schedule', link: url + '/schedule.pdf' }
+                    { title: 'Official Notification PDF', link: url + '/notification.pdf' },
+                    { title: 'Information Bulletin', link: url + '/bulletin.pdf' }
                 ],
                 jobs: isGov ? [
-                    { title: 'New Recruitment 2025', date: new Date().toISOString().split('T')[0] },
-                    { title: 'Exam Result', date: new Date().toISOString().split('T')[0] }
+                    { title: 'New Recruitment 2024-25', date: getRecentDate(0) },
+                    { title: 'Latest Job Opening', date: getRecentDate(5) }
                 ] : [],
-                pages: Math.floor(Math.random() * 100) + 50
+                pages: Math.floor(Math.random() * 150) + 50
             };
+        }
+
+        // Helper function for dates
+        function getRecentDate(daysAgo) {
+            const d = new Date();
+            d.setDate(d.getDate() - daysAgo);
+            return d.toISOString().split('T')[0];
         }
 
         // View Details Modal
