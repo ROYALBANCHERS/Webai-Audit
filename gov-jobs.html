@@ -112,7 +112,7 @@
     <div id="loadingIndicator" class="hidden max-w-3xl mx-auto py-8">
         <div class="flex flex-col items-center">
             <div class="loader"></div>
-            <p class="text-gray-600 mt-4">Analyzing website...</p>
+            <p id="loadingText" class="text-gray-600 mt-4">Analyzing website...</p>
         </div>
     </div>
 
@@ -464,8 +464,8 @@
             }, 300);
         }
 
-        // Main analyze function - non-async wrapper
-        function doAnalyze() {
+        // Main analyze function - Now calls REAL API
+        async function doAnalyze() {
             const input = document.getElementById('govUrlInput').value.trim();
             if (!input) {
                 alert('Please enter a government website URL');
@@ -479,13 +479,59 @@
 
             // Show loading immediately
             document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Fetching website content...';
             document.getElementById('defaultContent').classList.add('hidden');
             document.getElementById('analysisResults').classList.add('hidden');
 
-            // Use pre-loaded data directly (most reliable)
-            setTimeout(() => {
-                showPreLoadedData(url);
-            }, 500);
+            try {
+                // Try real API call first
+                await callRealAPI(url);
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                // Fallback to proxy scraping
+                await scrapeWithProxy(url);
+            }
+        }
+
+        // Call the real backend API
+        async function callRealAPI(url) {
+            // Z.AI Powered API - Multiple endpoints for reliability
+            const apiEndpoints = [
+                `https://webai-audit.vercel.app/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                `https://webai-audit.pages.dev/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                `https://royalbanchers.github.io/Webai-Audit/api/scrape?action=scrape&url=${encodeURIComponent(url)}&_t=${Date.now()}`
+            ];
+
+            let lastError = null;
+
+            for (const apiUrl of apiEndpoints) {
+                try {
+                    document.getElementById('loadingText').textContent = 'Analyzing website with AI...';
+
+                    const response = await fetch(apiUrl, {
+                        signal: AbortSignal.timeout(20000) // 20 second timeout
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    if (data && data.success) {
+                        document.getElementById('loadingIndicator').classList.add('hidden');
+                        displayRealResults(data);
+                        return;
+                    }
+                } catch (e) {
+                    console.log(`API ${apiUrl.substring(0, 40)}... failed:`, e.message);
+                    lastError = e;
+                    continue; // Try next endpoint
+                }
+            }
+
+            // All APIs failed, try proxy method
+            throw lastError || new Error('All API endpoints failed');
         }
 
         // Show pre-loaded data for known websites
