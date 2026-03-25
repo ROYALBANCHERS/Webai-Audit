@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Jobs Widget - Embed on Your Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .code-block { background: #1e293b; color: #e2e8f0; font-family: 'Courier New', monospace; }
+        .widget-preview { border: 2px dashed #667eea; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl">🔍</span>
+                    <span class="ml-2 text-xl font-bold text-gray-900">GovJobs Widget</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="text-purple-600 hover:text-purple-800">
+                        <i class="fas fa-home mr-1"></i>Home
+                    </a>
+                    <a href="website-spy.html" class="text-purple-600 hover:text-purple-800">
+                        <i class="fas fa-eye mr-1"></i>Spy
+                    </a>
+                    <a href="gov-jobs.html" class="text-purple-600 hover:text-purple-800">
+                        <i class="fas fa-briefcase mr-1"></i>Gov Jobs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">
+                <i class="fas fa-code mr-3"></i>Government Jobs Widget for Your Website
+            </h1>
+            <p class="text-xl mb-8">Embed live government job updates on ANY website with just one line of code</p>
+        </div>
+    </div>
+
+    <!-- Widget Generator -->
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Widget Configuration -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">
+                    <i class="fas fa-cog text-purple-600 mr-2"></i>Configure Your Widget
+                </h2>
+
+                <!-- Category Selection -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Job Categories</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-purple-50 cursor-pointer">
+                            <input type="checkbox" checked class="category-checkbox mr-2" value="ssc">
+                            <span>SSC</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-purple-50 cursor-pointer">
+                            <input type="checkbox" checked class="category-checkbox mr-2" value="upsc">
+                            <span>UPSC</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-purple-50 cursor-pointer">
+                            <input type="checkbox" checked class="category-checkbox mr-2" value="ibps">
+                            <span>Banking</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-purple-50 cursor-pointer">
+                            <input type="checkbox" checked class="category-checkbox mr-2" value="railway">
+                            <span>Railway</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-purple-50 cursor-pointer">
+                            <input type="checkbox" checked class="category-checkbox mr-2" value="defence">
+                            <span>Defence</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-purple-50 cursor-pointer">
+                            <input type="checkbox" checked class="category-checkbox mr-2" value="teaching">
+                            <span>Teaching</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Widget Style -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Widget Style</label>
+                    <select id="widgetStyle" class="w-full px-4 py-2 border rounded-md">
+                        <option value="modern">Modern Card</option>
+                        <option value="compact">Compact List</option>
+                        <option value="ticker">News Ticker</option>
+                        <option value="minimal">Minimal</option>
+                    </select>
+                </div>
+
+                <!-- Color Theme -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Color Theme</label>
+                    <div class="flex gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="theme" value="purple" checked class="hidden">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 border-4 border-transparent hover:border-gray-300 theme-option"></div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="theme" value="blue" class="hidden">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 border-4 border-transparent hover:border-gray-300 theme-option"></div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="theme" value="green" class="hidden">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 border-4 border-transparent hover:border-gray-300 theme-option"></div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="theme" value="red" class="hidden">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-pink-600 border-4 border-transparent hover:border-gray-300 theme-option"></div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="theme" value="dark" class="hidden">
+                            <div class="w-10 h-10 rounded-full bg-gray-800 border-4 border-transparent hover:border-gray-300 theme-option"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Number of Jobs -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Number of Jobs to Show</label>
+                    <input type="range" id="jobCount" min="3" max="20" value="10" class="w-full">
+                    <div class="text-center text-lg font-bold text-purple-600" id="jobCountDisplay">10 Jobs</div>
+                </div>
+
+                <!-- Auto-refresh -->
+                <div class="mb-6">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" checked id="autoRefresh" class="mr-2">
+                        <span>Auto-refresh every 1 hour</span>
+                    </label>
+                </div>
+
+                <!-- Generate Button -->
+                <button onclick="generateEmbedCode()" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold hover:opacity-90">
+                    <i class="fas fa-code mr-2"></i>Generate Embed Code
+                </button>
+            </div>
+
+            <!-- Preview & Code -->
+            <div class="space-y-6">
+                <!-- Live Preview -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-bold mb-4">
+                        <i class="fas fa-eye text-purple-600 mr-2"></i>Live Preview
+                    </h3>
+                    <div class="widget-preview rounded-lg p-4" id="widgetPreview">
+                        <div class="space-y-3">
+                            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-3 rounded-lg">
+                                <div class="font-bold">SSC CGL 2025</div>
+                                <div class="text-sm opacity-90">Last Date: 31 July 2025</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-3 rounded-lg">
+                                <div class="font-bold">UPSC IAS 2025</div>
+                                <div class="text-sm opacity-90">Last Date: 15 Feb 2025</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-3 rounded-lg">
+                                <div class="font-bold">IBPS PO XV</div>
+                                <div class="text-sm opacity-90">Last Date: 28 Aug 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Embed Code -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold">
+                            <i class="fas fa-code text-purple-600 mr-2"></i>Embed Code
+                        </h3>
+                        <button onclick="copyEmbedCode()" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200">
+                            <i class="fas fa-copy mr-1"></i>Copy
+                        </button>
+                    </div>
+                    <div class="code-block p-4 rounded-lg text-sm overflow-x-auto">
+                        <pre id="embedCode">&lt;!-- Government Jobs Widget --&gt;
+&lt;script src="https://royalbanchers.github.io/Webai-Audit/widget/gov-jobs-widget.js"
+        data-categories="ssc,upsc,ibps,railway,defence,teaching"
+        data-style="modern"
+        data-theme="purple"
+        data-count="10"&gt;&lt;/script&gt;
+&lt;div id="gov-jobs-widget"&gt;&lt;/div&gt;</pre>
+                    </div>
+                </div>
+
+                <!-- WordPress Instructions -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 class="font-bold text-blue-900 mb-2">
+                        <i class="fab fa-wordpress mr-2"></i>WordPress Users
+                    </h4>
+                    <p class="text-sm text-blue-800">Use a "Custom HTML" block in Gutenberg editor or "HTML" widget in Elementor to paste the code above.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Access Section -->
+        <div class="mt-12 bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-6">
+                <i class="fas fa-plug text-purple-600 mr-2"></i>API Access for Developers
+            </h2>
+            <p class="text-gray-600 mb-4">Developers can access our government jobs API directly:</p>
+            <div class="code-block p-4 rounded-lg text-sm overflow-x-auto">
+                <pre>GET https://royalbanchers.github.io/Webai-Audit/api/gov-jobs.json
+Returns latest government jobs with filtering options
+
+Parameters:
+  - category: ssc, upsc, ibps, railway, defence, teaching
+  - limit: number of results (default: 50)
+  - last_days: jobs from last N days
+
+Example Response:
+{
+  "success": true,
+  "jobs": [
+    {
+      "id": "ssc-cgl-2025",
+      "title": "SSC CGL 2025 Notification",
+      "organization": "SSC",
+      "category": "ssc",
+      "posts": "Group B & C",
+      "vacancies": "17727",
+      "lastDate": "2025-07-31",
+      "applyLink": "https://ssc.gov.in",
+      "notificationPdf": "...",
+      "updatedAt": "2025-01-15T10:30:00Z"
+    }
+  ]
+}</pre>
+            </div>
+        </div>
+
+        <!-- How it Works -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-6 text-center">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-code text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">1. Copy Code</h3>
+                    <p class="text-gray-600 text-sm">Configure your widget and copy the embed code</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-paste text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">2. Paste on Your Site</h3>
+                    <p class="text-gray-600 text-sm">Add the code to any page - works with WordPress, custom sites, more</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-sync text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">3. Auto Updates</h3>
+                    <p class="text-gray-600 text-sm">Jobs update automatically - no maintenance needed!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update job count display
+        document.getElementById('jobCount').addEventListener('input', function() {
+            document.getElementById('jobCountDisplay').textContent = this.value + ' Jobs';
+            generateEmbedCode();
+        });
+
+        // Theme selection
+        document.querySelectorAll('input[name="theme"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.theme-option').forEach(el => {
+                    el.classList.remove('border-gray-500');
+                    el.classList.add('border-transparent');
+                });
+                this.nextElementSibling.classList.remove('border-transparent');
+                this.nextElementSibling.classList.add('border-gray-500');
+                generateEmbedCode();
+            });
+        });
+
+        // Generate embed code
+        function generateEmbedCode() {
+            const categories = Array.from(document.querySelectorAll('.category-checkbox:checked'))
+                .map(cb => cb.value).join(',');
+            const style = document.getElementById('widgetStyle').value;
+            const theme = document.querySelector('input[name="theme"]:checked').value;
+            const count = document.getElementById('jobCount').value;
+            const autoRefresh = document.getElementById('autoRefresh').checked;
+
+            const code = `<!-- Government Jobs Widget -->
+<script src="https://royalbanchers.github.io/Webai-Audit/widget/gov-jobs-widget.js"
+        data-categories="${categories}"
+        data-style="${style}"
+        data-theme="${theme}"
+        data-count="${count}"
+        data-auto-refresh="${autoRefresh}"><\/script>
+<div id="gov-jobs-widget"></div>`;
+
+            document.getElementById('embedCode').textContent = code;
+            updatePreview();
+        }
+
+        // Update preview
+        function updatePreview() {
+            const theme = document.querySelector('input[name="theme"]:checked').value;
+            const count = document.getElementById('jobCount').value;
+
+            const gradients = {
+                purple: 'from-purple-500 to-indigo-600',
+                blue: 'from-blue-500 to-cyan-600',
+                green: 'from-green-500 to-emerald-600',
+                red: 'from-red-500 to-pink-600',
+                dark: 'from-gray-700 to-gray-900'
+            };
+
+            const gradient = gradients[theme];
+
+            const sampleJobs = [
+                { title: 'SSC CGL 2025', date: '31 July 2025' },
+                { title: 'UPSC IAS 2025', date: '15 Feb 2025' },
+                { title: 'IBPS PO XV', date: '28 Aug 2025' },
+                { title: 'Railway NTPC', date: '30 Sep 2025' },
+                { title: 'Army Agniveer', date: '22 Mar 2025' }
+            ];
+
+            let previewHTML = '<div class="space-y-3">';
+            for (let i = 0; i < Math.min(count, 5); i++) {
+                const job = sampleJobs[i % sampleJobs.length];
+                previewHTML += `
+                    <div class="bg-gradient-to-r ${gradient} text-white p-3 rounded-lg">
+                        <div class="font-bold">${job.title}</div>
+                        <div class="text-sm opacity-90">Last Date: ${job.date}</div>
+                    </div>`;
+            }
+            previewHTML += '</div>';
+
+            document.getElementById('widgetPreview').innerHTML = previewHTML;
+        }
+
+        // Copy embed code
+        function copyEmbedCode() {
+            const code = document.getElementById('embedCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Embed code copied! Paste it on your website.');
+            });
+        }
+
+        // Initialize
+        generateEmbedCode();
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-white">WebAI Auditor</span>
+            </div>
+            <div class="flex justify-center space-x-4 mb-4">
+                <a href="index.html" class="text-gray-400 hover:text-white transition">Home</a>
+                <a href="website-spy.html" class="text-gray-400 hover:text-white transition">Spy</a>
+                <a href="gov-jobs.html" class="text-gray-400 hover:text-white transition">Gov Jobs</a>
+            </div>
+            <div class="flex justify-center items-center space-x-4">
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="pricing.html" class="flex flex-col items-center hover:scale-110 transition">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg">
+                        <i class="fas fa-heart text-white"></i>
+                    </div>
+                    <span class="text-xs text-pink-400 mt-1 font-medium">Support Us</span>
+                </a>
+            </div>
+            <p class="text-gray-500 text-sm mt-4">&copy; 2024 WebAI Auditor. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

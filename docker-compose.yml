@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # Laravel Application
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: webai-auditor-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+      - ./storage:/var/www/html/storage/app
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_HOST=mysql
+      - DB_DATABASE=webai_auditor
+      - DB_USERNAME=webai
+      - DB_PASSWORD=secret
+      - SELENIUM_HOST=http://selenium:4444
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - selenium
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: webai-auditor-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=webai_auditor
+      - MYSQL_USER=webai
+      - MYSQL_PASSWORD=secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  # Selenium with Chrome
+  selenium:
+    image: selenium/standalone-chrome:latest
+    container_name: webai-auditor-selenium
+    restart: unless-stopped
+    ports:
+      - "4444:4444"
+    shm_size: 2gb
+    environment:
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_SCREEN_WIDTH=1920
+      - SE_SCREEN_HEIGHT=1080
+
+  # Nginx (optional, for production)
+  nginx:
+    image: nginx:alpine
+    container_name: webai-auditor-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+volumes:
+  mysql_data:

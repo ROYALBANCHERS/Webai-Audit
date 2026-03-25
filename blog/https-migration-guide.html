@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTPS Migration Guide for SEO | WebAI Auditor</title>
+    <meta name="description" content="Complete guide to migrating your website to HTTPS for better security and SEO rankings.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { transition: all 0.2s; }
+        .toc-link:hover { color: #3b82f6; padding-left: 8px; }
+        .checklist-item { transition: all 0.2s; }
+        .checklist-item:hover { transform: translateX(4px); }
+        html { scroll-behavior: smooth; }
+        .code-block { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px; overflow-x: auto; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-emerald-50 to-teal-50 py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold">Technical SEO</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-6 mb-4">
+                <span class="gradient-text">Complete HTTPS Migration Guide</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">Secure your site and boost SEO rankings</p>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <span><i class="far fa-clock mr-2"></i>30 min read</span>
+                <span><i class="far fa-calendar mr-2"></i>Updated Dec 28, 2024</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Introduction -->
+        <section class="mb-12">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Let's be real - HTTPS isn't optional anymore. Google made it a ranking factor back in 2014, and these days, browsers basically slap a "Not Secure" warning on any site that's still running on HTTP. Scary for visitors, right? But don't worry - migrating to HTTPS doesn't have to be a nightmare. This guide walks you through everything step by step, from picking the right SSL certificate to making sure your hard-earned rankings stay intact.
+            </p>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6"><i class="fas fa-list text-blue-600 mr-3"></i>Table of Contents</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="#why-https" class="toc-link text-gray-700 block py-1">Why HTTPS Matters</a>
+                <a href="#ssl-certificates" class="toc-link text-gray-700 block py-1">SSL Certificate Types</a>
+                <a href="#pre-migration" class="toc-link text-gray-700 block py-1">Pre-Migration Checklist</a>
+                <a href="#migration-steps" class="toc-link text-gray-700 block py-1">Migration Steps</a>
+                <a href="#htaccess" class="toc-link text-gray-700 block py-1">.htaccess Configuration</a>
+                <a href="#mixed-content" class="toc-link text-gray-700 block py-1">Mixed Content Issues</a>
+                <a href="#seo-considerations" class="toc-link text-gray-700 block py-1">SEO Considerations</a>
+                <a href="#testing" class="toc-link text-gray-700 block py-1">Testing & Validation</a>
+            </div>
+        </section>
+
+        <!-- Why HTTPS -->
+        <section id="why-https" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Why HTTPS Should Be on Your Radar</h2>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="text-4xl font-bold text-emerald-600 mb-2">1-5%</div>
+                    <p class="text-gray-600">Ranking boost for HTTPS sites</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">100%</div>
+                    <p class="text-gray-600">Of page 1 results use HTTPS</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="text-4xl font-bold text-red-600 mb-2">85%</div>
+                    <p class="text-gray-600">Users distrust non-secure sites</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-emerald-50 rounded-lg p-5 border-l-4 border-emerald-500">
+                    <h4 class="font-bold text-emerald-800 mb-3"><i class="fas fa-shield-alt mr-2"></i>Security Matters</h4>
+                    <p class="text-gray-700">HTTPS encrypts everything flowing between your visitors and your server. Translation: the good stuff stays private.</p>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
+                    <h4 class="font-bold text-blue-800 mb-3"><i class="fas fa-chart-line mr-2"></i>Search Rankings</h4>
+                    <p class="text-gray-700">Google's pretty clear about this - secure sites get a boost. In competitive niches, that edge can make a real difference.</p>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-5 border-l-4 border-purple-500">
+                    <h4 class="font-bold text-purple-800 mb-3"><i class="fas fa-lock mr-2"></i>User Trust</h4>
+                    <p class="text-gray-700">That little padlock in the browser bar? It signals safety. Without it, visitors get nervous - and bounce.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SSL Certificate Types -->
+        <section id="ssl-certificates" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Picking the Right SSL Certificate</h2>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-bold text-gray-700">Type</th>
+                            <th class="px-4 py-3 text-left font-bold text-gray-700">Best For</th>
+                            <th class="px-4 py-3 text-left font-bold text-gray-700">Cost</th>
+                            <th class="px-4 py-3 text-left font-bold text-gray-700">Validation</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-green-600">DV (Domain Validation)</td>
+                            <td class="px-4 py-3">Most websites, blogs</td>
+                            <td class="px-4 py-3">Free - $100/year</td>
+                            <td class="px-4 py-3">Automated</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-blue-600">OV (Organization Validation)</td>
+                            <td class="px-4 py-3">Business sites, e-commerce</td>
+                            <td class="px-4 py-3">$100 - $500/year</td>
+                            <td class="px-4 py-3">Business verification</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-purple-600">EV (Extended Validation)</td>
+                            <td class="px-4 py-3">Enterprise, financial</td>
+                            <td class="px-4 py-3">$200 - $1000/year</td>
+                            <td class="px-4 py-3">Strict verification</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-orange-600">Wildcard</td>
+                            <td class="px-4 py-3">Multiple subdomains</td>
+                            <td class="px-4 py-3">$100 - $1000/year</td>
+                            <td class="px-4 py-3">Varies</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="font-bold text-lg mb-4">Free SSL Certificate Providers</h4>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                    <h5 class="font-semibold mb-2">Let's Encrypt</h5>
+                    <p class="text-sm text-gray-600">Free, automated, open source</p>
+                    <a href="https://letsencrypt.org" target="_blank" class="text-blue-600 text-xs">letsencrypt.org</a>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                    <h5 class="font-semibold mb-2">Cloudflare SSL</h5>
+                    <p class="text-sm text-gray-600">Free with Cloudflare CDN</p>
+                    <a href="https://cloudflare.com" target="_blank" class="text-blue-600 text-xs">cloudflare.com</a>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                    <h5 class="font-semibold mb-2">ZeroSSL</h5>
+                    <p class="text-sm text-gray-600">Free for up to 90 days</p>
+                    <a href="https://zerossl.com" target="_blank" class="text-blue-600 text-xs">zerossl.com</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pre-Migration Checklist -->
+        <section id="pre-migration" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Before You Make the Move: Your Pre-Migration Checklist</h2>
+
+            <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-8">
+                <div class="space-y-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-5 h-5 text-emerald-500 rounded mr-3">
+                        <span>Back everything up - files AND database (trust us on this one)</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-5 h-5 text-emerald-500 rounded mr-3">
+                        <span>Crawl your current site so you know exactly what URLs you have</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-5 h-5 text-emerald-500 rounded mr-3">
+                        <span>Audit your internal links and fix any absolute URLs</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-5 h-5 text-emerald-500 rounded mr-3">
+                        <span>Check for any hardcoded HTTP links in canonical tags</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-5 h-5 text-emerald-500 rounded mr-3">
+                        <span>Update all third-party scripts to their HTTPS versions</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-5 h-5 text-emerald-500 rounded mr-3">
+                        <span>Double-check your hosting can handle SSL certificates</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Migration Steps -->
+        <section id="migration-steps" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Let's Do This: Your Migration Game Plan</h2>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center mr-3">1</span>
+                        Get That SSL Certificate Installed
+                    </h4>
+                    <p class="text-gray-600">Install your SSL certificate on your server. The good news? Most hosts nowadays offer one-click installation. Alternatively, you can use Let's Encrypt with Certbot - it's free and works like a charm.</p>
+                    <div class="code-block text-sm mt-4">
+                        <code class="text-gray-300"># Example: Install Certbot on Ubuntu</code><br>
+                        <code class="text-gray-300">sudo apt install certbot python3-certbot-nginx</code><br>
+                        <code class="text-gray-300">sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com</code>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center mr-3">2</span>
+                        Update Your Internal Links
+                    </h4>
+                    <p class="text-gray-600">Time to update all those internal links from HTTP to HTTPS. Pro tip: use relative URLs or protocol-relative URLs (//domain.com) whenever you can - makes life easier.</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center mr-3">3</span>
+                        Fix Your Canonical Tags
+                    </h4>
+                    <p class="text-gray-600">Make sure your canonical tags are pointing to the HTTPS version of your pages:</p>
+                    <div class="code-block text-sm mt-4">
+                        <code class="text-gray-300">&lt;link rel="canonical" href="https://example.com/page" /&gt;</code>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center mr-3">4</span>
+                        Set Up Those 301 Redirects
+                    </h4>
+                    <p class="text-gray-600">This one's important - redirect all your HTTP traffic to HTTPS. Using 301s (not 302s!) tells Google the move is permanent and preserves all that sweet SEO value you've built up.</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center mr-3">5</span>
+                        Let Google Know via Search Console
+                    </h4>
+                    <p class="text-gray-600">Add your new HTTPS property to Google Search Console, submit your sitemap, and use the Change of Address tool so Google knows what's up.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- .htaccess Configuration -->
+        <section id="htaccess" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">.htaccess Configuration</h2>
+            <p class="text-gray-700 mb-8">Add these rules to redirect HTTP to HTTPS:</p>
+
+            <div class="code-block text-sm">
+                <code class="text-green-400"># Redirect HTTP to HTTPS</code><br>
+                <code class="text-gray-300">RewriteEngine On</code><br>
+                <code class="text-gray-300">RewriteCond %{HTTPS} off</code><br>
+                <code class="text-gray-300">RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]</code><br><br>
+                <code class="text-green-400"># Redirect www to non-www (or vice versa)</code><br>
+                <code class="text-gray-300">RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]</code><br>
+                <code class="text-gray-300">RewriteRule ^(.*)$ https://%1/$1 [L,R=301]</code>
+            </div>
+        </section>
+
+        <!-- Mixed Content -->
+        <section id="mixed-content" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Fixing Mixed Content Issues</h2>
+            <p class="text-gray-700 mb-8">Mixed content occurs when HTTPS pages load HTTP resources, causing security warnings:</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-red-50 rounded-lg p-5">
+                    <h4 class="font-bold text-red-800 mb-3">Common Issues</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>HTTP images and videos</li>
+                        <li>HTTP scripts and stylesheets</li>
+                        <li>HTTP iframes</li>
+                        <li>HTTP AJAX requests</li>
+                        <li>Third-party widgets</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-5">
+                    <h4 class="font-bold text-green-800 mb-3">Solutions</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>Update all URLs to HTTPS</li>
+                        <li>Use protocol-relative URLs (//domain.com)</li>
+                        <li>Use Content Security Policy</li>
+                        <li>Update third-party embeds</li>
+                        <li>Test with browser DevTools</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block text-sm mt-6">
+                <code class="text-gray-300">&lt;!-- Use protocol-relative URLs --&gt;</code><br>
+                <code class="text-gray-300">&lt;script src="//cdn.example.com/script.js"&gt;&lt;/script&gt;</code><br><br>
+                <code class="text-gray-300">&lt;!-- Or use HTTPS explicitly --&gt;</code><br>
+                <code class="text-gray-300">&lt;script src="https://cdn.example.com/script.js"&gt;&lt;/script&gt;</code>
+            </div>
+        </section>
+
+        <!-- SEO Considerations -->
+        <section id="seo-considerations" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">SEO Considerations for Migration</h2>
+
+            <div class="space-y-4">
+                <div class="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
+                    <h4 class="font-bold text-blue-800 mb-3"><i class="fas fa-search mr-2"></i>Preserve Rankings</h4>
+                    <p class="text-gray-700">Use 301 redirects, not 302. This passes link equity and tells Google the move is permanent.</p>
+                </div>
+                <div class="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-3"><i class="fas fa-sitemap mr-2"></i>Sitemap Updates</h4>
+                    <p class="text-gray-700">Update your sitemap.xml to include HTTPS URLs. Submit to Google Search Console.</p>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-5 border-l-4 border-purple-500">
+                    <h4 class="font-bold text-purple-800 mb-3"><i class="fas fa-clock mr-2"></i>Timing Matters</h4>
+                    <p class="text-gray-700">Migrate during low-traffic periods. Monitor rankings closely for several weeks after migration.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testing -->
+        <section id="testing" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Testing & Validation</h2>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">SSL Checker Tools</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>SSL Labs Server Test</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Why No Padlock</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>SSL Shopper</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Browser Testing</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Check for security warnings</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Test on mobile devices</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Verify certificate validity</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl p-8 text-white text-center">
+            <h3 class="text-2xl font-bold mb-4">Check Your Site's SSL Status</h3>
+            <p class="mb-6 opacity-90">Analyze your HTTPS implementation with WebAI Auditor</p>
+            <a href="../index.html" class="inline-block bg-white text-emerald-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                Free Audit <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="technical-seo.html" class="text-gray-400 hover:text-white transition">Technical SEO</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

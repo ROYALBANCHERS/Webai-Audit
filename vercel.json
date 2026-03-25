@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/zai",
+      "dest": "/api/zai-scraper.js"
+    },
+    {
+      "src": "/api/scrape",
+      "dest": "/api/zai-scraper.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/zai-scraper.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+        .crossmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: shake 0.5s ease-out;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="features.html" class="text-gray-600 hover:text-gray-900">Features</a>
+                    <a href="tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="pricing.html" class="text-gray-600 hover:text-gray-900">Support Us</a>
+                    <a href="blog.html" class="text-gray-600 hover:text-gray-900">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Failure Content -->
+    <main class="py-20">
+        <div class="max-w-2xl mx-auto px-4">
+            <!-- Failure Card -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
+                <!-- Cross Mark -->
+                <div class="crossmark">
+                    <i class="fas fa-times text-white text-5xl"></i>
+                </div>
+
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+                    Payment Failed
+                </h1>
+
+                <p class="text-gray-600 mb-8">
+                    We're sorry, but your payment could not be processed. Please try again or contact support if the problem persists.
+                </p>
+
+                <!-- Error Details -->
+                <div class="bg-red-50 rounded-xl p-6 mb-8 text-left">
+                    <h3 class="font-semibold text-red-800 mb-3">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        What might have gone wrong?
+                    </h3>
+                    <ul class="text-sm text-red-700 space-y-2">
+                        <li><i class="fas fa-circle text-xs mr-2"></i>Payment was cancelled by you</li>
+                        <li><i class="fas fa-circle text-xs mr-2"></i>Insufficient funds in your account</li>
+                        <li><i class="fas fa-circle text-xs mr-2"></i>Transaction timed out</li>
+                        <li><i class="fas fa-circle text-xs mr-2"></i>Bank or UPI service issue</li>
+                    </ul>
+                </div>
+
+                <!-- Transaction Details -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8 text-left" id="transactionDetails">
+                    <h3 class="font-semibold text-gray-800 mb-4">Transaction Details</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Transaction ID</span>
+                            <span class="font-medium" id="txnId">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Status</span>
+                            <span class="font-medium text-red-600">Failed</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Date</span>
+                            <span class="font-medium" id="txnDate">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="pricing.html" class="gradient-bg text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 inline-flex items-center justify-center">
+                        <i class="fas fa-redo mr-2"></i> Try Again
+                    </a>
+                    <a href="contact.html" class="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 inline-flex items-center justify-center">
+                        <i class="fas fa-headset mr-2"></i> Contact Support
+                    </a>
+                </div>
+            </div>
+
+            <!-- Alternative Payment Methods -->
+            <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-xl font-bold mb-4 text-center">Still having trouble?</h2>
+                <p class="text-gray-600 text-center mb-6">
+                    You can support us through other means or reach out to us directly.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <a href="contact.html" class="text-center p-4 rounded-xl border border-gray-200 hover:border-blue-500 transition">
+                        <i class="fas fa-envelope text-blue-600 text-2xl mb-3"></i>
+                        <h3 class="font-semibold mb-1">Email Us</h3>
+                        <p class="text-sm text-gray-500">Get direct assistance</p>
+                    </a>
+                    <a href="index.html" class="text-center p-4 rounded-xl border border-gray-200 hover:border-blue-500 transition">
+                        <i class="fas fa-search text-blue-600 text-2xl mb-3"></i>
+                        <h3 class="font-semibold mb-1">Use Free Service</h3>
+                        <p class="text-sm text-gray-500">Our tool is 100% free!</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="tools.html" class="text-gray-400 hover:text-white">Tool Marketplace</a></li>
+                        <li><a href="create-tool.html" class="text-gray-400 hover:text-white">Create Tool</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li>
+                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white">Tech Detection</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const txnId = urlParams.get('txnId');
+
+        // Update transaction details
+        if (txnId) {
+            document.getElementById('txnId').textContent = txnId;
+        }
+        document.getElementById('txnDate').textContent = new Date().toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    </script>
+</body>
+</html>

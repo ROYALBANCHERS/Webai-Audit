@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical SEO Complete Guide 2024 | WebAI Auditor</title>
+    <meta name="description" content="Master technical SEO for better search rankings. Complete guide covering crawlability, indexing, site speed, and more.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { transition: all 0.2s; }
+        .toc-link:hover { color: #3b82f6; padding-left: 8px; }
+        .code-block { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px; overflow-x: auto; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-slate-50 to-zinc-50 py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="px-4 py-2 bg-slate-200 text-slate-700 rounded-full text-sm font-semibold">Technical SEO</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-6 mb-4">
+                <span class="gradient-text">Technical SEO Complete Guide</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">Master the foundation of search engine optimization</p>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <span><i class="far fa-clock mr-2"></i>60 min read</span>
+                <span><i class="far fa-calendar mr-2"></i>Updated Jan 18, 2025</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Introduction -->
+        <section class="mb-12">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Let's be honest: technical SEO isn't exactly the most glamorous part of search optimization. But here's the thing—it's absolutely foundational. You could have the most incredible content on the internet, but if your site can't be properly crawled, indexed, or rendered, you're basically invisible to Google. I've put together this comprehensive guide to walk you through everything from crawlability and indexing to site speed and structured data, so you can build a site that search engines actually want to rank.
+            </p>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6"><i class="fas fa-list text-blue-600 mr-3"></i>Table of Contents</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="#what-is-technical-seo" class="toc-link text-gray-700 block py-1">What is Technical SEO?</a>
+                <a href="#crawling-indexing" class="toc-link text-gray-700 block py-1">Crawling & Indexing</a>
+                <a href="#site-architecture" class="toc-link text-gray-700 block py-1">Site Architecture</a>
+                <a href="#url-structure" class="toc-link text-gray-700 block py-1">URL Structure</a>
+                <a href="#canonicalization" class="toc-link text-gray-700 block py-1">Canonicalization</a>
+                <a href="#redirects" class="toc-link text-gray-700 block py-1">Redirects</a>
+                <a href="#https-ssl" class="toc-link text-gray-700 block py-1">HTTPS & SSL</a>
+                <a href="#site-speed" class="toc-link text-gray-700 block py-1">Site Speed</a>
+                <a href="#core-web-vitals" class="toc-link text-gray-700 block py-1">Core Web Vitals</a>
+                <a href="#mobile-optimization" class="toc-link text-gray-700 block py-1">Mobile Optimization</a>
+                <a href="#structured-data" class="toc-link text-gray-700 block py-1">Structured Data</a>
+                <a href="#international-seo" class="toc-link text-gray-700 block py-1">International SEO</a>
+                <a href="#technical-audit" class="toc-link text-gray-700 block py-1">Technical Audit Checklist</a>
+            </div>
+        </section>
+
+        <!-- What is Technical SEO -->
+        <section id="what-is-technical-seo" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">So, What Exactly is Technical SEO?</h2>
+
+            <div class="bg-slate-100 rounded-xl p-6 mb-8">
+                <h4 class="font-bold text-slate-800 mb-4">Definition</h4>
+                <p class="text-gray-700">Think of technical SEO as the plumbing and electrical work of your website. It's everything happening behind the scenes that helps search engines discover, crawl, understand, and index your pages. While content SEO focuses on what users see, technical SEO is all about optimizing the infrastructure and foundation so Google can properly access and interpret your site.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-spider text-blue-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Crawlability</h4>
+                    <p class="text-gray-600 text-sm">Making it dead simple for search engines to discover and access your pages</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-database text-green-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Indexability</h4>
+                    <p class="text-gray-600 text-sm">Ensuring your pages actually make it into search engine databases</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-tachometer-alt text-purple-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Performance</h4>
+                    <p class="text-gray-600 text-sm">Optimizing speed, mobile-friendliness, and overall user experience</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Crawling & Indexing -->
+        <section id="crawling-indexing" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Crawling & Indexing: The Fundamentals</h2>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-robot text-blue-500 mr-3"></i>How Search Engines Actually Work
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">1</div>
+                            <div>
+                                <p class="font-medium">Crawling</p>
+                                <p class="text-sm text-gray-600">Google's bots (we call 'em spiders) scour the web, following links from page to page to discover content</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">2</div>
+                            <div>
+                                <p class="font-medium">Rendering</p>
+                                <p class="text-sm text-gray-600">The browser processes your HTML, CSS, and JavaScript to display the page properly</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">3</div>
+                            <div>
+                                <p class="font-medium">Indexing</p>
+                                <p class="text-sm text-gray-600">Google analyzes and stores your pages in their massive database</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 mr-4 font-bold">4</div>
+                            <div>
+                                <p class="font-medium">Ranking</p>
+                                <p class="text-sm text-gray-600">When someone searches, Google serves up the most relevant and high-quality pages</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4">Setting Up Your Robots.txt File</h4>
+                    <p class="text-gray-600 text-sm mb-4">The robots.txt file is like a bouncer for your site—it tells search engine crawlers which pages they can and can't access. Here's how to set it up properly:</p>
+                    <div class="code-block text-sm mb-4">
+                        <code class="text-gray-300">User-agent: *</code><br>
+                        <code class="text-gray-300">Allow: /</code><br>
+                        <code class="text-gray-300"></code><br>
+                        <code class="text-gray-300"># Disallow specific directories</code><br>
+                        <code class="text-gray-300">Disallow: /admin/</code><br>
+                        <code class="text-gray-300">Disallow: /private/</code><br>
+                        <code class="text-gray-300"></code><br>
+                        <code class="text-gray-300"># Sitemap location</code><br>
+                        <code class="text-gray-300">Sitemap: https://example.com/sitemap.xml</code>
+                    </div>
+                    <div class="bg-yellow-50 rounded-lg p-4 text-sm">
+                        <p class="text-yellow-800"><i class="fas fa-exclamation-triangle mr-2"></i><strong>Important:</strong> Keep in mind that robots.txt is publicly visible. If you've got truly sensitive info, don't rely on robots.txt—use proper authentication instead.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4">Meta Robots Tags</h4>
+                    <p class="text-gray-600 text-sm mb-4">Sometimes you need more control than robots.txt offers. That's where meta robots tags come in—they let you control indexing at the page level:</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-green-50 rounded-lg p-3">
+                            <code class="text-sm">&lt;meta name="robots" content="index, follow"&gt;</code>
+                            <p class="text-xs text-gray-600 mt-2">Default setting: Go ahead and index this page, and follow the links</p>
+                        </div>
+                        <div class="bg-red-50 rounded-lg p-3">
+                            <code class="text-sm">&lt;meta name="robots" content="noindex, nofollow"&gt;</code>
+                            <p class="text-xs text-gray-600 mt-2">Don't index this page or follow any links (useful for thank-you pages)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Site Architecture -->
+        <section id="site-architecture" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Site Architecture & Structure</h2>
+            <p class="text-gray-700 mb-8">Here's something a lot of people overlook: how your site is organized matters immensely. A well-structured site helps both users and search engines find what they're looking for without pulling their hair out.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <i class="fas fa-sitemap text-green-500 mr-2"></i>Keep It Flat
+                    </h4>
+                    <p class="text-sm text-gray-600 mb-3">The golden rule? Keep important pages within 3-4 clicks from your homepage. Nobody wants to click through seven levels of navigation to find what they need.</p>
+                    <div class="bg-green-50 rounded-lg p-3">
+                        <p class="text-xs"><strong>Best Practice:</strong> Homepage → Category → Product (simple and effective)</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <i class="fas fa-link text-blue-500 mr-2"></i>Internal Linking Matters
+                    </h4>
+                    <p class="text-sm text-gray-600 mb-3">Don't leave pages orphaned. Create contextual links between related pages to help both users and Google discover content.</p>
+                    <div class="bg-blue-50 rounded-lg p-3">
+                        <p class="text-xs"><strong>Best Practice:</strong> Use descriptive anchor text (not "click here")</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Breadcrumb Navigation</h4>
+                <p class="text-sm text-gray-600 mb-4">Breadcrumbs are those handy little trails that show users exactly where they are in your site hierarchy. Google loves 'em too:</p>
+                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <nav class="text-sm">
+                        <ol class="flex items-center space-x-2">
+                            <li><a href="#" class="text-blue-600 hover:underline">Home</a></li>
+                            <li><i class="fas fa-chevron-right text-gray-400 text-xs"></i></li>
+                            <li><a href="#" class="text-blue-600 hover:underline">Products</a></li>
+                            <li><i class="fas fa-chevron-right text-gray-400 text-xs"></i></li>
+                            <li><span class="text-gray-600">Category</span></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="code-block text-sm">
+                    <code class="text-gray-300">&lt;nav aria-label="Breadcrumb"&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&lt;ol itemscope itemtype="https://schema.org/BreadcrumbList"&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&lt;li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&lt;a itemprop="item" href="https://example.com/"&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&nbsp;&lt;span itemprop="name"&gt;Home&lt;/span&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&lt;/a&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&lt;/li&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&lt;/ol&gt;</code><br>
+                    <code class="text-gray-300">&lt;/nav&gt;</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- URL Structure -->
+        <section id="url-structure" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">URL Structure That Actually Works</h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-green-50 rounded-xl p-5 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-3"><i class="fas fa-check mr-2"></i>URLs Done Right</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>https://example.com/blog/seo-tips</li>
+                        <li>https://example.com/products/blue-running-shoes</li>
+                        <li>https://example.com/services/web-design</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 rounded-xl p-5 border-l-4 border-red-500">
+                    <h4 class="font-bold text-red-800 mb-3"><i class="fas fa-times mr-2"></i>URLs That Make Google Cringe</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>https://example.com/p=1234</li>
+                        <li>https://example.com/prod?id=456&cat=shoes</li>
+                        <li>https://example.com/BLUE_RUNNING_SHOES_2024</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">The URL Best Practices Cheat Sheet</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Stick to lowercase letters</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use hyphens to separate words</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Keep URLs short and sweet</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Include keywords naturally</li>
+                    </ul>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Avoid special characters</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Ditch unnecessary stop words</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Match URL to page title</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Always use HTTPS</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Canonicalization -->
+        <section id="canonicalization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Canonicalization: Avoiding Duplicate Content Issues</h2>
+            <p class="text-gray-700 mb-8">Duplicate content is a headache for Google. Canonical tags tell search engines which version of a page is the "official" one when you have multiple similar pages.</p>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">When Should You Use Canonical Tags?</h4>
+                <ul class="text-gray-700 space-y-2">
+                    <li><i class="fas fa-arrow-right text-blue-500 mr-2"></i>URL parameters (like ?sort=price or ?page=2)</li>
+                    <li><i class="fas fa-arrow-right text-blue-500 mr-2"></i>HTTP vs HTTPS versions of the same page</li>
+                    <li><i class="fas fa-arrow-right text-blue-500 mr-2"></i>WWW vs non-WWW versions</li>
+                    <li><i class="fas fa-arrow-right text-blue-500 mr-2"></i>Print-friendly versions of pages</li>
+                    <li><i class="fas fa-arrow-right text-blue-500 mr-2"></i>Syndicated or republished content</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">How to Implement Canonical Tags</h4>
+                <div class="code-block text-sm">
+                    <code class="text-gray-300">&lt;link rel="canonical" href="https://example.com/original-page" /&gt;</code>
+                </div>
+                <div class="mt-4 bg-blue-50 rounded-lg p-4">
+                    <p class="text-sm text-blue-800"><i class="fas fa-info-circle mr-2"></i><strong>Pro tip:</strong> It's actually best practice to include a self-referencing canonical tag on every page, even if there aren't any duplicates. Think of it as telling Google, "Yes, this is exactly the page I want you to rank."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Redirects -->
+        <section id="redirects" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Understanding Redirects (Without the Headache)</h2>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-green-50 rounded-xl p-5">
+                    <h4 class="font-bold text-green-800 mb-2">301 - Permanent</h4>
+                    <p class="text-sm text-gray-700 mb-2">This tells Google the page has moved for good.</p>
+                    <p class="text-xs text-gray-600">Passes about 90-99% of link equity</p>
+                    <p class="text-xs text-gray-600 mt-2"><strong>Use for:</strong> Site migrations, URL changes, restructuring</p>
+                </div>
+
+                <div class="bg-yellow-50 rounded-xl p-5">
+                    <h4 class="font-bold text-yellow-800 mb-2">302 - Temporary</h4>
+                    <p class="text-sm text-gray-700 mb-2">Hey Google, this is just for now.</p>
+                    <p class="text-xs text-gray-600">Doesn't pass link equity</p>
+                    <p class="text-xs text-gray-600 mt-2"><strong>Use for:</strong> A/B tests, maintenance pages, promotions</p>
+                </div>
+
+                <div class="bg-blue-50 rounded-xl p-5">
+                    <h4 class="font-bold text-blue-800 mb-2">Meta Refresh</h4>
+                    <p class="text-sm text-gray-700 mb-2">A page-level redirect (not recommended).</p>
+                    <p class="text-xs text-gray-600">Not great for SEO</p>
+                    <p class="text-xs text-gray-600 mt-2"><strong>Use for:</strong> Honestly? Almost never</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Setting Up 301 Redirects</h4>
+                <p class="text-sm text-gray-600 mb-3">Here's how to do it in .htaccess (if you're on Apache):</p>
+                <div class="code-block text-sm">
+                    <code class="text-gray-300">Redirect 301 /old-page.html https://example.com/new-page.html</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- HTTPS & SSL -->
+        <section id="https-ssl" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">HTTPS & SSL: Security That Boosts SEO</h2>
+
+            <div class="bg-green-50 rounded-xl p-6 mb-6 border border-green-200">
+                <h4 class="font-bold text-green-800 mb-4"><i class="fas fa-lock mr-2"></i>Why HTTPS is Non-Negotiable in 2024</h4>
+                <ul class="text-gray-700 space-y-2 text-sm">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Google explicitly uses HTTPS as a ranking signal (since 2014!)</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Chrome literally marks non-HTTPS sites as "Not Secure"—yikes</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Modern features like HTTP/2 and Service Workers require HTTPS</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Users trust secure sites more (wouldn't you?)</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Your HTTPS Migration Checklist</h4>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Grab an SSL certificate (Let's Encrypt gives them away for free)</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Install and configure the certificate on your server</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Update all those internal links to use HTTPS</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Set up 301 redirects from HTTP to HTTPS versions</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Update your canonical tags to point to HTTPS URLs</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Don't forget to update Google Search Console to the HTTPS version</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" class="mt-1 mr-3 text-green-500">
+                        <p class="text-sm">Update robots.txt and sitemap.xml with HTTPS URLs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Site Speed -->
+        <section id="site-speed" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Site Speed: Because Nobody Likes Waiting</h2>
+            <p class="text-gray-700 mb-8">Here's a stat that might shock you: page speed is officially a ranking factor for both desktop and mobile. If your site takes forever to load, you're not just annoying visitors—you're actively hurting your rankings.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Server-Side Optimizations</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-server text-blue-500 mr-2"></i>Invest in quality hosting (it's worth it)</li>
+                        <li><i class="fas fa-server text-blue-500 mr-2"></i>Enable Gzip compression</li>
+                        <li><i class="fas fa-server text-blue-500 mr-2"></i>Set up browser caching</li>
+                        <li><i class="fas fa-server text-blue-500 mr-2"></i>Use a CDN (Cloudflare is free to start)</li>
+                        <li><i class="fas fa-server text-blue-500 mr-2"></i>Optimize those database queries</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Frontend Optimizations</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-code text-green-500 mr-2"></i>Minify your CSS and JavaScript files</li>
+                        <li><i class="fas fa-code text-green-500 mr-2"></i>Defer non-critical JavaScript</li>
+                        <li><i class="fas fa-code text-green-500 mr-2"></i>Optimize images (WebP is your friend)</li>
+                        <li><i class="fas fa-code text-green-500 mr-2"></i>Lazy load images and videos</li>
+                        <li><i class="fas fa-code text-green-500 mr-2"></i>Remove unused CSS (you'd be surprised how much there is)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Browser Caching Configuration</h4>
+                <div class="code-block text-sm">
+                    <code class="text-gray-300">&lt;IfModule mod_expires.c&gt;</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresActive On</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresByType image/jpg "access plus 1 year"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresByType image/jpeg "access plus 1 year"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresByType image/gif "access plus 1 year"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresByType image/png "access plus 1 year"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresByType text/css "access plus 1 month"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;ExpiresByType application/javascript "access plus 1 month"</code><br>
+                    <code class="text-gray-300">&lt;/IfModule&gt;</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Web Vitals -->
+        <section id="core-web-vitals" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Core Web Vitals: Metrics That Actually Matter</h2>
+            <p class="text-gray-700 mb-8">Google's Core Web Vitals are specific measurements that, well, measure actual user experience. They're not just arbitrary numbers—they reflect how real humans experience your site.</p>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg">Largest Contentful Paint (LCP)</h4>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">Loading</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">This measures how long it takes for the main content of your page to actually appear. You know that frustrating wait when nothing loads? Yeah, that's what LCP measures.</p>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div class="bg-green-50 rounded-lg p-3">
+                            <p class="text-green-600 font-bold">Good</p>
+                            <p class="text-xs">&lt; 2.5s</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-3">
+                            <p class="text-yellow-600 font-bold">Needs Work</p>
+                            <p class="text-xs">2.5s - 4s</p>
+                        </div>
+                        <div class="bg-red-50 rounded-lg p-3">
+                            <p class="text-red-600 font-bold">Poor</p>
+                            <p class="text-xs">&gt; 4s</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4"><strong>How to fix it:</strong> Optimize those hero images, preload important resources, and get rid of anything that blocks rendering</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg">First Input Delay (FID)</h4>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">Interactivity</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Ever clicked something on a website and... nothing happened? That's what FID measures—the delay between when a user interacts and when the browser actually responds.</p>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div class="bg-green-50 rounded-lg p-3">
+                            <p class="text-green-600 font-bold">Good</p>
+                            <p class="text-xs">&lt; 100ms</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-3">
+                            <p class="text-yellow-600 font-bold">Needs Work</p>
+                            <p class="text-xs">100ms - 300ms</p>
+                        </div>
+                        <div class="bg-red-50 rounded-lg p-3">
+                            <p class="text-red-600 font-bold">Poor</p>
+                            <p class="text-xs">&gt; 300ms</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4"><strong>How to fix it:</strong> Cut down on JavaScript execution time, break up long tasks, and consider using web workers</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg">Cumulative Layout Shift (CLS)</h4>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">Visual Stability</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">You know when you're about to click a button and suddenly the page shifts and you click something else? That's exactly what CLS measures—how stable your page is while loading.</p>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div class="bg-green-50 rounded-lg p-3">
+                            <p class="text-green-600 font-bold">Good</p>
+                            <p class="text-xs">&lt; 0.1</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-3">
+                            <p class="text-yellow-600 font-bold">Needs Work</p>
+                            <p class="text-xs">0.1 - 0.25</p>
+                        </div>
+                        <div class="bg-red-50 rounded-lg p-3">
+                            <p class="text-red-600 font-bold">Poor</p>
+                            <p class="text-xs">&gt; 0.25</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4"><strong>How to fix it:</strong> Always include size attributes on images and videos, reserve space for ads, and don't insert content above existing content</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile Optimization -->
+        <section id="mobile-optimization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Mobile Optimization: Can't Ignore It Anymore</h2>
+
+            <div class="bg-purple-50 rounded-xl p-6 mb-6 border border-purple-200">
+                <h4 class="font-bold text-purple-800 mb-4"><i class="fas fa-mobile-alt mr-2"></i>Mobile-First Indexing is Here</h4>
+                <p class="text-gray-700 mb-3">Here's the reality: Google primarily uses the mobile version of your site for indexing and ranking. If your mobile site sucks, your rankings will too.</p>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Make sure mobile content matches desktop content</li>
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Don't forget structured data on mobile pages</li>
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Ensure images and videos work on mobile</li>
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Test with Google's Mobile-Friendly Test tool</li>
+                </ul>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 text-center">
+                    <h4 class="font-bold mb-2">Responsive Design</h4>
+                    <p class="text-sm text-gray-600">One site that adapts to all screen sizes</p>
+                    <p class="text-xs text-green-600 mt-2"><i class="fas fa-check mr-1"></i>This is the way to go</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 text-center">
+                    <h4 class="font-bold mb-2">Dynamic Serving</h4>
+                    <p class="text-sm text-gray-600">Different HTML based on device</p>
+                    <p class="text-xs text-yellow-600 mt-2"><i class="fas fa-minus mr-1"></i>Can get complicated</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 text-center">
+                    <h4 class="font-bold mb-2">Separate URLs</h4>
+                    <p class="text-sm text-gray-600">m.example.com for mobile</p>
+                    <p class="text-xs text-red-600 mt-2"><i class="fas fa-times mr-1"></i>Honestly, avoid this</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Structured Data -->
+        <section id="structured-data" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Structured Data That Gets You Noticed</h2>
+            <p class="text-gray-700 mb-8">Schema markup is like giving Google a cheat sheet for understanding your content. Done right, it can lead to those fancy rich results that really stand out in SERPs.</p>
+
+            <div class="grid md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-article text-blue-500 text-2xl mb-2"></i>
+                    <p class="text-sm font-medium">Article</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-shopping-cart text-green-500 text-2xl mb-2"></i>
+                    <p class="text-sm font-medium">Product</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-star text-yellow-500 text-2xl mb-2"></i>
+                    <p class="text-sm font-medium">Review</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-question-circle text-purple-500 text-2xl mb-2"></i>
+                    <p class="text-sm font-medium">FAQ</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">JSON-LD Implementation (Recommended)</h4>
+                <div class="code-block text-sm mb-4">
+                    <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                    <code class="text-gray-300">{</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"@context": "https://schema.org",</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"@type": "Article",</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"headline": "Your Article Title",</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"image": "https://example.com/image.jpg",</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"author": {</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&nbsp;"@type": "Person",</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&nbsp;"name": "Author Name"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;},</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"publisher": {</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&nbsp;"@type": "Organization",</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;&nbsp;&nbsp;"name": "Your Company"</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;},</code><br>
+                    <code class="text-gray-300">&nbsp;&nbsp;"datePublished": "2024-01-15"</code><br>
+                    <code class="text-gray-300">}</code><br>
+                    <code class="text-gray-300">&lt;/script&gt;</code>
+                </div>
+                <p class="text-sm text-gray-600"><strong>Don't forget to validate:</strong> Use Google's Rich Results Test and Schema Markup Validator to make sure you didn't mess anything up.</p>
+            </div>
+        </section>
+
+        <!-- International SEO -->
+        <section id="international-seo" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">International SEO: Going Global?</h2>
+            <p class="text-gray-700 mb-8">If you're targeting audiences in different countries or speaking different languages, you need to handle international SEO properly. Otherwise, you might end up with duplicate content issues or serving the wrong version to the wrong audience.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Hreflang Tags Explained</h4>
+                    <p class="text-sm text-gray-600 mb-4">These tags tell Google which language and region each version of your page is targeting:</p>
+                    <div class="code-block text-xs">
+                        <code class="text-gray-300">&lt;link rel="alternate" hreflang="en" href="https://example.com/" /&gt;</code><br>
+                        <code class="text-gray-300">&lt;link rel="alternate" hreflang="en-GB" href="https://example.com/en-gb/" /&gt;</code><br>
+                        <code class="text-gray-300">&lt;link rel="alternate" hreflang="en-US" href="https://example.com/en-us/" /&gt;</code><br>
+                        <code class="text-gray-300">&lt;link rel="alternate" hreflang="es" href="https://example.com/es/" /&gt;</code><br>
+                        <code class="text-gray-300">&lt;link rel="alternate" hreflang="x-default" href="https://example.com/" /&gt;</code>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">URL Structure Options</h4>
+                    <ul class="text-sm text-gray-700 space-y-3">
+                        <li>
+                            <p class="font-medium text-green-600">ccTLDs (Best Choice)</p>
+                            <p class="text-gray-600">example.fr, example.de—signals clear geographic targeting</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-blue-600">Subdirectories (Solid Option)</p>
+                            <p class="text-gray-600">example.com/fr/, example.com/de/—easy to manage</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-yellow-600">Subdomains (Works, But...)</p>
+                            <p class="text-gray-600">fr.example.com, de.example.com—more complex setup</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Audit Checklist -->
+        <section id="technical-audit" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Your Technical SEO Audit Checklist</h2>
+            <p class="text-gray-700 mb-8">Ready to audit your site? Here's a comprehensive checklist to work through. Grab a coffee—this might take a while.</p>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">The Complete Technical Audit Checklist</h4>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="font-medium mb-3">Crawling & Indexing</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check if robots.txt is accessible and working</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Verify XML sitemap exists and is submitted</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check for crawl errors in Google Search Console</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Review the index coverage report</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-3">Site Architecture</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Audit internal link structure</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Verify breadcrumb navigation is implemented</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Review URL structure for issues</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check for orphan pages (no internal links)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-3">Performance</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Run PageSpeed Insights (desktop & mobile)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check Core Web Vitals scores</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Verify mobile-friendliness across pages</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Test actual site speed from different locations</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-3">On-Page Elements</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Audit title tags for duplicates and length</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Review meta descriptions</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Verify canonical tags are properly implemented</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check heading structure (H1-H6)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-3">Security & HTTPS</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Verify SSL certificate is valid</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check for mixed content issues</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Verify HTTPS redirects are in place</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-3">Structured Data</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Test schema markup with validation tools</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Check for syntax errors</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Validate rich results are appearing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="bg-gradient-to-r from-slate-700 to-zinc-700 rounded-xl p-8 text-white text-center">
+            <h3 class="text-2xl font-bold mb-4">Ready to Run a Technical SEO Audit?</h3>
+            <p class="mb-6 opacity-90">Let WebAI Auditor analyze your site's technical health and find issues you didn't even know you had</p>
+            <a href="../index.html" class="inline-block bg-white text-slate-700 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                Free Audit <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="technical-seo.html" class="text-gray-400 hover:text-white transition">Technical SEO</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

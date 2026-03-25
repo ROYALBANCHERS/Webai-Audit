@@ -1,0 +1,38 @@
+{
+    "name": "webai/auditor-php",
+    "type": "project",
+    "description": "PHP Website Auditor - Laravel-based website analysis tool",
+    "keywords": ["laravel", "auditor", "seo", "web-crawler", "tech-stack-detection"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "guzzlehttp/guzzle": "^7.8",
+        "laravel/framework": "^11.0",
+        "symfony/css-selector": "^7.4",
+        "symfony/dom-crawler": "^7.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "laravel/tinker": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "minimum-stability": "stable",
+        "prefer-stable": true
+    }
+}

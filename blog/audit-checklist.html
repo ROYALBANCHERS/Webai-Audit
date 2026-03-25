@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Audit Checklist: Complete Guide 2024 | WebAI Auditor</title>
+    <meta name="description" content="Comprehensive website audit checklist covering technical SEO, on-page optimization, performance, accessibility, and more. Ensure your website is optimized for search engines and users.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { scroll-margin-top: 100px; }
+        .checklist-item.completed { opacity: 0.6; text-decoration: line-through; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <article class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="mb-12">
+            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">Checklist</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-4 mb-4">
+                <span class="gradient-text">Website Audit Checklist: The Complete Guide for 2024</span>
+            </h1>
+            <p class="text-xl text-gray-500 mt-4">
+                A comprehensive checklist to ensure your website is optimized for search engines and users
+            </p>
+            <div class="flex items-center gap-6 mt-6 text-gray-400 text-sm">
+                <span><i class="far fa-calendar mr-2"></i>Updated December 2024</span>
+                <span><i class="far fa-clock mr-2"></i>30 min read</span>
+            </div>
+        </header>
+
+        <!-- Table of Contents -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-10">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-list text-green-600 mr-3"></i>Table of Contents
+            </h2>
+            <ul class="space-y-2">
+                <li><a href="#intro" class="toc-link text-green-600 hover:text-green-800">Why Website Audits Matter</a></li>
+                <li><a href="#technical-seo" class="toc-link text-green-600 hover:text-green-800">Technical SEO Essentials</a></li>
+                <li><a href="#on-page-seo" class="toc-link text-green-600 hover:text-green-800">On-Page SEO Elements</a></li>
+                <li><a href="#content" class="toc-link text-green-600 hover:text-green-800">Content Quality Audit</a></li>
+                <li><a href="#performance" class="toc-link text-green-600 hover:text-green-800">Performance & Speed</a></li>
+                <li><a href="#mobile" class="toc-link text-green-600 hover:text-green-800">Mobile Optimization</a></li>
+                <li><a href="#security" class="toc-link text-green-600 hover:text-green-800">Security & HTTPS</a></li>
+                <li><a href="#ux" class="toc-link text-green-600 hover:text-green-800">User Experience</a></li>
+                <li><a href="#accessibility" class="toc-link text-green-600 hover:text-green-800">Accessibility</a></li>
+                <li><a href="#local-seo" class="toc-link text-green-600 hover:text-green-800">Local SEO</a></li>
+            </ul>
+        </div>
+
+        <!-- Introduction -->
+        <section id="intro" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Why Website Audits Matter</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Think of a website audit like a regular health checkup for your site. Just like you wouldn't go years without seeing a doctor, your website needs regular checkups to stay in top shape. This checklist will help you catch issues before they become serious problems.
+            </p>
+
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 border border-green-100 my-8">
+                <h3 class="font-bold text-lg mb-4 flex items-center">
+                    <i class="fas fa-clipboard-check text-green-500 mr-3"></i>How Often Should You Audit?
+                </h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="text-center p-4 bg-white rounded-lg">
+                        <div class="text-2xl font-bold text-green-600 mb-2">Monthly</div>
+                        <p class="text-gray-600 text-sm">Quick content refresh, check backlinks</p>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-lg">
+                        <div class="text-2xl font-bold text-blue-600 mb-2">Quarterly</div>
+                        <p class="text-gray-600 text-sm">Technical SEO, speed review</p>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-lg">
+                        <div class="text-2xl font-bold text-purple-600 mb-2">Annually</div>
+                        <p class="text-gray-600 text-sm">Full comprehensive audit</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical SEO -->
+        <section id="technical-seo" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Technical SEO Essentials</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Technical SEO isn't the most glamorous part of SEO, but it's the foundation everything else builds on. Think of it as the plumbing in your house—not exciting, but pretty important if you want things to work. Let's make sure everything is set up correctly.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>XML Sitemap</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Sitemap.xml exists and is accessible</li>
+                        <li>• All important pages are included</li>
+                        <li>• Submitted to Google Search Console and Bing Webmaster Tools</li>
+                        <li>• Last modified dates are accurate</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Robots.txt Configuration</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Robots.txt file exists</li>
+                        <li>• Not blocking important pages</li>
+                        <li>• Sitemap location specified</li>
+                        <li>• Crawl delay configured if needed</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Canonical Tags</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• All pages have self-referencing canonicals</li>
+                        <li>• Duplicate content has proper canonicals</li>
+                        <li>• HTTP/HTTPS canonicals are consistent</li>
+                        <li>• WWW/non-WWW canonicals are consistent</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Schema Markup</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Organization schema implemented</li>
+                        <li>• Product/Service schema where applicable</li>
+                        <li>• Article/Blog schema for content</li>
+                        <li>• LocalBusiness schema for local businesses</li>
+                        <li>• No schema validation errors</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Meta Robots Tags</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Important pages are indexable</li>
+                        <li>• Thank you pages are noindex</li>
+                        <li>• Admin/hidden pages are properly blocked</li>
+                        <li>• No unnecessary noindex tags</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>URL Structure</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• URLs are descriptive and keyword-rich</li>
+                        <li>• URLs use hyphens to separate words</li>
+                        <li>• URLs are lowercase consistently</li>
+                        <li>• No unnecessary parameters or session IDs</li>
+                        <li>• URLs are as short as possible while descriptive</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- On-Page SEO -->
+        <section id="on-page-seo" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">On-Page SEO Elements</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Every page on your site is an opportunity to rank for something valuable. These on-page elements help search engines understand what each page is about and why it deserves to show up in search results. Go through this checklist for key pages on your site.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Title Tags</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Unique title tag on each page (50-60 characters)</li>
+                        <li>• Primary keyword near the beginning</li>
+                        <li>• Compelling description that encourages clicks</li>
+                        <li>• Brand name included where appropriate</li>
+                        <li>• No duplicate title tags across the site</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Meta Descriptions</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Unique meta description on each page (150-160 characters)</li>
+                        <li>• Includes primary keyword naturally</li>
+                        <li>• Compelling call-to-action included</li>
+                        <li>• Accurately describes page content</li>
+                        <li>• No duplicate meta descriptions</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Heading Structure (H1-H6)</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• One H1 tag per page (typically matches or similar to title)</li>
+                        <li>• H2 tags used for main sections</li>
+                        <li>• H3-H6 used in hierarchical order</li>
+                        <li>• Headings include relevant keywords</li>
+                        <li>• No skipped heading levels</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Internal Links</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Descriptive anchor text (not "click here")</li>
+                        <li>• No broken internal links</li>
+                        <li>• Important pages linked from homepage</li>
+                        <li>• Contextual internal links within content</li>
+                        <li>• Reasonable number of links per page (not excessive)</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>External Links</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• No broken external links</li>
+                        <li>• Links point to authoritative, relevant sites</li>
+                        <li>• External links open in new tab where appropriate</li>
+                        <li>• No spammy or low-quality outbound links</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Image Optimization</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• All images have descriptive alt text</li>
+                        <li>• Decorative images have empty alt attributes</li>
+                        <li>• Image file names are descriptive</li>
+                        <li>• Images are compressed and optimized</li>
+                        <li>• Responsive images (srcset) used where appropriate</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content -->
+        <section id="content" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Content Quality Audit</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Here's the truth: content is still king in SEO. But not just any content—Google wants to see content that actually helps people. Use this section to make sure your content is up to snuff and truly serving your audience.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Content Quality</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Content is original and not duplicated</li>
+                        <li>• Content provides value and answers user questions</li>
+                        <li>• Content is comprehensive and covers the topic thoroughly</li>
+                        <li>• Content is accurate and up-to-date</li>
+                        <li>• Content is easy to read and understand</li>
+                        <li>• Proper grammar and spelling throughout</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Content Formatting</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Short paragraphs (2-3 sentences)</li>
+                        <li>• Bullet points and numbered lists used</li>
+                        <li>• Bold and italic used for emphasis</li>
+                        <li>• Adequate white space</li>
+                        <li>• Subheadings break up content</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Multimedia Content</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Relevant images enhance content</li>
+                        <li>• Videos embedded where appropriate</li>
+                        <li>• Infographics for complex information</li>
+                        <li>• All media files load quickly</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Content Freshness</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Last updated date visible on content</li>
+                        <li>• Old content regularly reviewed and updated</li>
+                        <li>• Outdated information removed or corrected</li>
+                        <li>• New statistics and data added when available</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance -->
+        <section id="performance" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Performance & Speed</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Speed matters. Like, really matters. People are impatient, and Google knows it. If your site takes forever to load, visitors will bounce before seeing what you have to offer. Let's make sure your site is fast and efficient.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Core Web Vitals</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• LCP (Largest Contentful Paint) under 2.5 seconds</li>
+                        <li>• INP (Interaction to Next Paint) under 200ms</li>
+                        <li>• CLS (Cumulative Layout Shift) under 0.1</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Image Optimization</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Images compressed and in modern formats (WebP)</li>
+                        <li>• Lazy loading implemented for below-fold images</li>
+                        <li>• Image dimensions specified to prevent layout shift</li>
+                        <li>• Responsive images with srcset</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Code Optimization</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• CSS minified</li>
+                        <li>• JavaScript minified</li>
+                        <li>• Unused CSS removed</li>
+                        <li>• Critical CSS inlined</li>
+                        <li>• Non-critical JavaScript deferred</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Caching</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Browser caching configured with appropriate headers</li>
+                        <li>• Server-side caching implemented</li>
+                        <li>• CDN configured for static assets</li>
+                        <li>• Cache invalidation strategy in place</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Server Performance</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• TTFB (Time to First Byte) under 600ms</li>
+                        <li>• Server response time optimized</li>
+                        <li>• Database queries optimized</li>
+                        <li>• Gzip/Brotli compression enabled</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile -->
+        <section id="mobile" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Mobile Optimization</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Here's a key insight: Google looks at your mobile version first now. That means if your mobile site is hard to use, your rankings will suffer regardless of how great your desktop site is. Let's make sure mobile visitors have a great experience.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Responsive Design</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Site works on all screen sizes</li>
+                        <li>• Viewport meta tag configured</li>
+                        <li>• Touch-friendly navigation</li>
+                        <li>• Content accessible without horizontal scrolling</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Mobile Usability</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Text readable without zooming (16px minimum)</li>
+                        <li>• Touch targets at least 48x48 pixels</li>
+                        <li>• Adequate spacing between interactive elements</li>
+                        <li>• No intrusive interstitials</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Mobile Speed</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Mobile page loads under 3 seconds</li>
+                        <li>• Mobile Core Web Vitals in "Good" range</li>
+                        <li>• Images optimized for mobile</li>
+                        <li>• No unnecessary scripts on mobile</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security -->
+        <section id="security" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Security & HTTPS</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Security isn't just about protecting your site—it's also an SEO factor. Google gives HTTPS sites a slight ranking boost, and visitors trust secure sites more. If you're not using HTTPS yet, this should be a priority.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>SSL Certificate</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Valid SSL certificate installed</li>
+                        <li>• No mixed content warnings</li>
+                        <li>• HTTP redirects to HTTPS</li>
+                        <li>• Certificate not expired</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Security Headers</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• HSTS header implemented</li>
+                        <li>• X-Frame-Options header set</li>
+                        <li>• X-Content-Type-Options header set</li>
+                        <li>• Content-Security-Policy configured</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- UX -->
+        <section id="ux" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">User Experience</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Google cares a lot about how people interact with your site. If visitors stick around, explore multiple pages, and actually find what they're looking for, Google takes that as a positive signal. Let's make sure your site is a joy to use.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Navigation</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Clear and intuitive navigation menu</li>
+                        <li>• Breadcrumb navigation on inner pages</li>
+                        <li>• Search functionality works well</li>
+                        <li>• Footer contains important links</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>404 Pages</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Custom 404 page exists</li>
+                        <li>• 404 page helps users find what they're looking for</li>
+                        <li>• Navigation options on 404 page</li>
+                        <li>• Links to homepage and popular content</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Page Design</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Consistent design across pages</li>
+                        <li>• Readable fonts and colors</li>
+                        <li>• Adequate contrast ratio</li>
+                        <li>• No distracting elements (auto-play videos, popups)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility -->
+        <section id="accessibility" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Accessibility</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Making your site accessible isn't just the right thing to do—it also helps SEO. Accessible sites tend to be well-structured, easy to navigate, and compatible with screen readers, which search engines appreciate. Plus, you're opening your content to a wider audience.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Visual Accessibility</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Color contrast ratio meets WCAG AA standards (4.5:1)</li>
+                        <li>• Text resizable without breaking layout</li>
+                        <li>• Color not the only way to convey information</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Screen Reader Compatibility</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• All images have appropriate alt text</li>
+                        <li>• Form labels are properly associated</li>
+                        <li>• Skip links provided for navigation</li>
+                        <li>• Proper heading hierarchy for screen readers</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Keyboard Accessibility</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• All functionality accessible via keyboard</li>
+                        <li>• Visible focus indicators</li>
+                        <li>• Logical tab order</li>
+                        <li>• No keyboard traps</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Local SEO -->
+        <section id="local-seo" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Local SEO (for Local Businesses)</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                If you run a local business, this section is for you. Local SEO helps you show up when people nearby search for what you offer. It's one of the most effective ways to drive customers who are ready to buy.
+            </p>
+
+            <div class="space-y-4">
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Google Business Profile</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Profile claimed and verified</li>
+                        <li>• Accurate NAP (Name, Address, Phone)</li>
+                        <li>• Business hours listed</li>
+                        <li>• Photos uploaded</li>
+                        <li>• Reviews responded to</li>
+                        <li>• Regular posts and updates</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Local Citations</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• Consistent NAP across all directories</li>
+                        <li>• Listed in major local directories</li>
+                        <li>• Industry-specific directories claimed</li>
+                    </ul>
+                </div>
+                <div class="checklist-item bg-white rounded-xl p-6 shadow-sm border border-gray-200" onclick="this.classList.toggle('completed')">
+                    <h4 class="font-semibold mb-2 flex items-center cursor-pointer">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-green-600">
+                        <span>Local Schema Markup</span>
+                    </h4>
+                    <ul class="text-gray-600 text-sm ml-8 space-y-1">
+                        <li>• LocalBusiness schema implemented</li>
+                        <li>• Geo coordinates included</li>
+                        <li>• Opening hours specified</li>
+                        <li>• Service area defined</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-8 text-center text-white my-12">
+            <h2 class="text-2xl font-bold mb-4">Automate Your Website Audits</h2>
+            <p class="text-white/80 mb-6">Let WebAI Auditor automatically check all these items and more</p>
+            <a href="../index.html" class="inline-block bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Run Free Audit
+            </a>
+        </div>
+
+        <!-- Related Articles -->
+        <div class="border-t border-gray-200 pt-12">
+            <h2 class="text-2xl font-bold mb-6">Related Articles</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <a href="technical-seo.html" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition">
+                    <span class="text-purple-600 text-sm font-semibold">TECHNICAL</span>
+                    <h3 class="font-bold mt-2">Technical SEO Guide</h3>
+                    <p class="text-gray-500 text-sm mt-2">Master technical SEO fundamentals</p>
+                </a>
+                <a href="page-speed.html" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition">
+                    <span class="text-blue-600 text-sm font-semibold">SPEED</span>
+                    <h3 class="font-bold mt-2">Page Speed Optimization</h3>
+                    <p class="text-gray-500 text-sm mt-2">Improve your website loading time</p>
+                </a>
+                <a href="mobile-seo.html" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition">
+                    <span class="text-green-600 text-sm font-semibold">MOBILE</span>
+                    <h3 class="font-bold mt-2">Mobile-First SEO</h3>
+                    <p class="text-gray-500 text-sm mt-2">Optimize for mobile-first indexing</p>
+                </a>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Professional website analysis tool for SEO, performance, and tech stack detection.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../features.html" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="../pricing.html" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="../pricing.html" class="text-gray-400 hover:text-white transition">Get Started</a></li>
+                        <li><a href="../audit-results.html" class="text-gray-400 hover:text-white transition">Sample Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
+                        <li><a href="tech-stack.html" class="text-gray-400 hover:text-white transition">Tech Detection</a></li>
+                        <li><a href="competitor-analysis.html" class="text-gray-400 hover:text-white transition">Competitor Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="../privacy.html" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="../terms.html" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

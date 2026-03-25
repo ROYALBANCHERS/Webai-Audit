@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Alerts Subscription - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .tag-input { display: flex; flex-wrap: gap-2; padding: 8px; border: 1px solid #d1d5db; border-radius: 8px; min-height: 48px; }
+        .tag-input:focus-within { border-color: #667eea; ring: 2px; }
+        .tag-item { background: #667eea; color: white; padding: 4px 10px; border-radius: 20px; font-size: 14px; display: flex; align-items: center; gap: 4px; }
+        .tag-item button { background: none; border: none; color: white; cursor: pointer; padding: 0; }
+        .category-card { transition: all 0.2s ease; }
+        .category-card.selected { border-color: #667eea; background: #f5f3ff; }
+        .category-card input:checked + label { color: #667eea; }
+        .toggle-switch { position: relative; width: 52px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: 0.3s; border-radius: 28px; }
+        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: 0.3s; border-radius: 50%; }
+        .toggle-switch input:checked + .toggle-slider { background-color: #667eea; }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-chart-line text-2xl text-purple-600"></i>
+                        <span class="ml-2 text-xl font-bold text-gray-900">WebAI Auditor</span>
+                    </a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-gray-600 hover:text-purple-600 transition">Home</a>
+                        <a href="features.html" class="text-gray-600 hover:text-purple-600 transition">Features</a>
+                        <a href="gov-jobs.html" class="text-gray-600 hover:text-purple-600 transition">Government Jobs</a>
+                        <a href="tools.html" class="text-gray-600 hover:text-purple-600 transition">Tools</a>
+                        <a href="blog.html" class="text-gray-600 hover:text-purple-600 transition">Blog</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="gov-jobs.html" class="text-gray-600 hover:text-purple-600 transition">
+                        <i class="fas fa-briefcase mr-1"></i> Browse Jobs
+                    </a>
+                    <a href="dashboard.html" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+                        <i class="fas fa-user mr-1"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Personalized Job Alerts</h1>
+            <p class="text-purple-100 text-lg">
+                Never miss a government job opportunity! Set your preferences and get notified when jobs matching your criteria are posted.
+            </p>
+        </div>
+    </section>
+
+    <!-- Subscription Form Section -->
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Status Card -->
+            <div id="statusCard" class="bg-white rounded-xl shadow-lg p-6 mb-8 flex items-center justify-between">
+                <div class="flex items-center">
+                    <div id="statusIcon" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-bell-slash text-gray-400 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="statusTitle" class="text-lg font-semibold text-gray-900">No Active Subscription</h3>
+                        <p id="statusText" class="text-gray-500 text-sm">Complete your preferences to start receiving job alerts</p>
+                    </div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="subscriptionToggle" onchange="toggleSubscription()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Subscription Form -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Set Your Job Preferences</h2>
+
+                <form id="subscriptionForm" onsubmit="saveSubscription(event)">
+                    <!-- Keywords Section -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-3">
+                            <i class="fas fa-search mr-2 text-purple-600"></i>Keywords
+                        </label>
+                        <p class="text-gray-500 text-sm mb-3">Add keywords related to jobs you're interested in (e.g., "Clerk", "Manager", "Engineer")</p>
+                        <div class="tag-input" id="keywordTags" onclick="document.getElementById('keywordInput').focus()">
+                            <input type="text" id="keywordInput" class="flex-1 outline-none min-w-[120px]" placeholder="Type and press Enter to add">
+                        </div>
+                    </div>
+
+                    <!-- Categories Section -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-3">
+                            <i class="fas fa-folder mr-2 text-purple-600"></i>Job Categories
+                        </label>
+                        <p class="text-gray-500 text-sm mb-3">Select the categories you're interested in</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="SSC" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-file-alt text-2xl text-blue-600 mb-2"></i>
+                                <div class="font-medium">SSC</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="Banking" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-university text-2xl text-yellow-600 mb-2"></i>
+                                <div class="font-medium">Banking</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="Railway" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-train text-2xl text-indigo-600 mb-2"></i>
+                                <div class="font-medium">Railway</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="UPSC" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-landmark text-2xl text-pink-600 mb-2"></i>
+                                <div class="font-medium">UPSC</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="Teaching" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-chalkboard-teacher text-2xl text-green-600 mb-2"></i>
+                                <div class="font-medium">Teaching</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="Defense" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-shield-alt text-2xl text-red-600 mb-2"></i>
+                                <div class="font-medium">Defense</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="Police" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-user-shield text-2xl text-gray-600 mb-2"></i>
+                                <div class="font-medium">Police</div>
+                            </label>
+                            <label class="category-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer text-center">
+                                <input type="checkbox" name="categories" value="Engineering" class="sr-only" onchange="updateCategoryCard(this)">
+                                <i class="fas fa-cogs text-2xl text-cyan-600 mb-2"></i>
+                                <div class="font-medium">Engineering</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Departments Section -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-3">
+                            <i class="fas fa-building mr-2 text-purple-600"></i>Departments
+                        </label>
+                        <p class="text-gray-500 text-sm mb-3">Add specific departments you're interested in (e.g., "SSC", "IBPS")</p>
+                        <div class="tag-input" id="departmentTags" onclick="document.getElementById('departmentInput').focus()">
+                            <input type="text" id="departmentInput" class="flex-1 outline-none min-w-[120px]" placeholder="Type and press Enter to add">
+                        </div>
+                    </div>
+
+                    <!-- Qualifications Section -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-3">
+                            <i class="fas fa-graduation-cap mr-2 text-purple-600"></i>Qualification
+                        </label>
+                        <p class="text-gray-500 text-sm mb-3">Select your highest qualification</p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="qualifications" value="10th" class="w-5 h-5 text-purple-600 rounded">
+                                <span class="ml-2">10th Pass</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="qualifications" value="12th" class="w-5 h-5 text-purple-600 rounded">
+                                <span class="ml-2">12th Pass</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="qualifications" value="Graduate" class="w-5 h-5 text-purple-600 rounded">
+                                <span class="ml-2">Graduate</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="qualifications" value="Post Graduate" class="w-5 h-5 text-purple-600 rounded">
+                                <span class="ml-2">Post Graduate</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="qualifications" value="Engineering" class="w-5 h-5 text-purple-600 rounded">
+                                <span class="ml-2">Engineering/Technical</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Notification Methods -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-3">
+                            <i class="fas fa-bell mr-2 text-purple-600"></i>Notification Methods
+                        </label>
+                        <p class="text-gray-500 text-sm mb-3">Choose how you want to receive job alerts</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="notifications" value="email" checked class="w-5 h-5 text-purple-600 rounded">
+                                <i class="fas fa-envelope text-xl text-gray-600 ml-3 mr-3"></i>
+                                <div>
+                                    <div class="font-medium">Email Notifications</div>
+                                    <div class="text-sm text-gray-500">Receive daily job digest emails</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="notifications" value="push" class="w-5 h-5 text-purple-600 rounded">
+                                <i class="fas fa-mobile-alt text-xl text-gray-600 ml-3 mr-3"></i>
+                                <div>
+                                    <div class="font-medium">Push Notifications</div>
+                                    <div class="text-sm text-gray-500">Get instant browser notifications</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 opacity-50">
+                                <input type="checkbox" name="notifications" value="sms" disabled class="w-5 h-5 text-purple-600 rounded">
+                                <i class="fas fa-sms text-xl text-gray-600 ml-3 mr-3"></i>
+                                <div>
+                                    <div class="font-medium">SMS Alerts</div>
+                                    <div class="text-sm text-gray-500">Coming soon</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button type="submit" class="flex-1 bg-purple-600 text-white py-4 rounded-lg hover:bg-purple-700 transition font-semibold text-lg">
+                            <i class="fas fa-save mr-2"></i>Save Preferences
+                        </button>
+                        <button type="button" onclick="loadSubscription()" class="px-8 py-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition font-semibold">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-12">How Job Alerts Work</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sliders-h text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">1. Set Your Preferences</h3>
+                    <p class="text-gray-600">Choose your job categories, keywords, and qualifications to customize your alerts.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-robot text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">2. We Find Matches</h3>
+                    <p class="text-gray-600">Our system continuously crawls government job websites and finds jobs matching your criteria.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bell text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">3. Get Notified</h3>
+                    <p class="text-gray-600">Receive instant alerts via email or push notifications when matching jobs are found.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fas fa-chart-line text-2xl text-purple-500"></i>
+                    <span class="ml-2 text-xl font-bold text-white">WebAI Auditor</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="hover:text-white transition">Home</a>
+                    <a href="gov-jobs.html" class="hover:text-white transition">Government Jobs</a>
+                    <a href="contact.html" class="hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-full opacity-0 transition-all duration-300 z-50">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span id="toastMessage">Preferences saved successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE = 'http://localhost:8000/api';
+
+        // State
+        let subscriptionData = {
+            keywords: [],
+            categories: [],
+            departments: [],
+            qualifications: [],
+            notification_methods: ['email'],
+            is_active: true
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubscription();
+            setupTagInputs();
+        });
+
+        // Setup Tag Inputs
+        function setupTagInputs() {
+            // Keyword tags
+            setupTagInput('keywordInput', 'keywordTags', 'keywords');
+
+            // Department tags
+            setupTagInput('departmentInput', 'departmentTags', 'departments');
+        }
+
+        function setupTagInput(inputId, containerId, dataKey) {
+            const input = document.getElementById(inputId);
+            const container = document.getElementById(containerId);
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const value = this.value.trim();
+                    if (value && !subscriptionData[dataKey].includes(value)) {
+                        subscriptionData[dataKey].push(value);
+                        renderTags(containerId, dataKey, inputId);
+                        this.value = '';
+                    }
+                }
+            });
+        }
+
+        function renderTags(containerId, dataKey, inputId) {
+            const container = document.getElementById(containerId);
+            const input = document.getElementById(inputId);
+
+            // Remove existing tags (keep input)
+            container.querySelectorAll('.tag-item').forEach(tag => tag.remove());
+
+            // Add tags
+            subscriptionData[dataKey].forEach((tag, index) => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag-item';
+                tagEl.innerHTML = `${tag} <button type="button" onclick="removeTag('${dataKey}', ${index}, '${containerId}', '${inputId}')">&times;</button>`;
+                container.insertBefore(tagEl, input);
+            });
+        }
+
+        function removeTag(dataKey, index, containerId, inputId) {
+            subscriptionData[dataKey].splice(index, 1);
+            renderTags(containerId, dataKey, inputId);
+        }
+
+        // Update Category Card
+        function updateCategoryCard(checkbox) {
+            const card = checkbox.closest('.category-card');
+            if (checkbox.checked) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        }
+
+        // Load Subscription
+        async function loadSubscription() {
+            try {
+                // Get token from localStorage (adjust as per your auth implementation)
+                const token = localStorage.getItem('auth_token');
+
+                if (!token) {
+                    showAuthRequired();
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE}/gov-jobs/subscription`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    subscriptionData = {
+                        keywords: data.data.keywords || [],
+                        categories: data.data.categories || [],
+                        departments: data.data.departments || [],
+                        qualifications: data.data.qualifications || [],
+                        notification_methods: data.data.notification_methods || ['email'],
+                        is_active: data.data.is_active !== undefined ? data.data.is_active : true
+                    };
+
+                    populateForm();
+                    updateStatusUI();
+                }
+            } catch (error) {
+                console.error('Failed to load subscription:', error);
+                // Show default form
+            }
+        }
+
+        function populateForm() {
+            // Populate keywords
+            renderTags('keywordTags', 'keywords', 'keywordInput');
+
+            // Populate departments
+            renderTags('departmentTags', 'departments', 'departmentInput');
+
+            // Populate categories
+            document.querySelectorAll('input[name="categories"]').forEach(checkbox => {
+                checkbox.checked = subscriptionData.categories.includes(checkbox.value);
+                updateCategoryCard(checkbox);
+            });
+
+            // Populate qualifications
+            document.querySelectorAll('input[name="qualifications"]').forEach(checkbox => {
+                checkbox.checked = subscriptionData.qualifications.includes(checkbox.value);
+            });
+
+            // Populate notification methods
+            document.querySelectorAll('input[name="notifications"]').forEach(checkbox => {
+                checkbox.checked = subscriptionData.notification_methods.includes(checkbox.value);
+            });
+
+            // Update toggle
+            document.getElementById('subscriptionToggle').checked = subscriptionData.is_active;
+        }
+
+        function updateStatusUI() {
+            const statusIcon = document.getElementById('statusIcon');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusText = document.getElementById('statusText');
+
+            if (subscriptionData.is_active) {
+                statusIcon.className = 'w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4';
+                statusIcon.innerHTML = '<i class="fas fa-bell text-green-600 text-xl"></i>';
+                statusTitle.textContent = 'Subscription Active';
+                statusText.textContent = 'You will receive job alerts based on your preferences';
+            } else {
+                statusIcon.className = 'w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4';
+                statusIcon.innerHTML = '<i class="fas fa-pause-circle text-yellow-600 text-xl"></i>';
+                statusTitle.textContent = 'Subscription Paused';
+                statusText.textContent = 'Your alerts are currently paused';
+            }
+        }
+
+        function showAuthRequired() {
+            document.getElementById('statusTitle').textContent = 'Authentication Required';
+            document.getElementById('statusText').innerHTML = '<a href="login.html" class="text-purple-600 hover:underline">Please login</a> to set up job alerts';
+        }
+
+        // Save Subscription
+        async function saveSubscription(event) {
+            event.preventDefault();
+
+            // Collect form data
+            subscriptionData.categories = Array.from(document.querySelectorAll('input[name="categories"]:checked')).map(el => el.value);
+            subscriptionData.qualifications = Array.from(document.querySelectorAll('input[name="qualifications"]:checked')).map(el => el.value);
+            subscriptionData.notification_methods = Array.from(document.querySelectorAll('input[name="notifications"]:checked')).map(el => el.value);
+
+            // Validate
+            if (subscriptionData.keywords.length === 0 &&
+                subscriptionData.categories.length === 0 &&
+                subscriptionData.departments.length === 0) {
+                showToast('Please select at least one preference', 'error');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('auth_token');
+
+                const response = await fetch(`${API_BASE}/gov-jobs/subscribe`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(subscriptionData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Preferences saved successfully!', 'success');
+                    updateStatusUI();
+                } else {
+                    showToast(data.message || 'Failed to save preferences', 'error');
+                }
+            } catch (error) {
+                console.error('Failed to save subscription:', error);
+                showToast('Failed to save preferences. Please try again.', 'error');
+            }
+        }
+
+        // Toggle Subscription
+        async function toggleSubscription() {
+            const isActive = document.getElementById('subscriptionToggle').checked;
+
+            try {
+                const token = localStorage.getItem('auth_token');
+
+                const response = await fetch(`${API_BASE}/gov-jobs/subscription/toggle`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    subscriptionData.is_active = isActive;
+                    updateStatusUI();
+                    showToast(isActive ? 'Subscription activated' : 'Subscription paused', 'success');
+                }
+            } catch (error) {
+                console.error('Failed to toggle subscription:', error);
+                document.getElementById('subscriptionToggle').checked = !isActive;
+                showToast('Failed to update subscription status', 'error');
+            }
+        }
+
+        // Show Toast
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toast.className = `fixed bottom-4 right-4 ${type === 'error' ? 'bg-red-600' : 'bg-green-600'} text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 z-50`;
+            toastMessage.textContent = message;
+
+            toast.classList.remove('translate-y-full', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-full', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

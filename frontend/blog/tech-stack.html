@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Guide to Technology Stack Detection | WebAI Auditor</title>
+    <meta name="description" content="Learn how to detect and analyze technology stacks. Discover frameworks, libraries, CMS, analytics tools, and server technologies powering any website.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { transition: all 0.2s; }
+        .toc-link:hover { color: #3b82f6; padding-left: 8px; }
+        .tech-card { transition: all 0.3s ease; }
+        .tech-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); }
+        .code-block { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .detection-method { border-left: 4px solid #3b82f6; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-green-50 to-blue-50 py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold">Technology</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-6 mb-4">
+                <span class="gradient-text">Complete Guide to Technology Stack Detection</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">Discover what tools and frameworks power any website</p>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <span><i class="far fa-clock mr-2"></i>25 min read</span>
+                <span><i class="far fa-calendar mr-2"></i>Updated Dec 12, 2024</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Introduction -->
+        <section class="mb-12">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Technology stack detection is the process of identifying the technologies, frameworks, libraries, and tools that power a website. This information is incredibly valuable for competitive analysis, hiring decisions, benchmarking, and understanding industry trends. With <a href="../index.html" class="text-blue-600 hover:underline">WebAI Auditor</a>, you can automatically detect hundreds of technologies in seconds.
+            </p>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6"><i class="fas fa-list text-blue-600 mr-3"></i>Table of Contents</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="#what-is-tech-stack" class="toc-link text-gray-700 block py-1">What is a Technology Stack?</a>
+                <a href="#detection-methods" class="toc-link text-gray-700 block py-1">Detection Methods</a>
+                <a href="#frontend-detection" class="toc-link text-gray-700 block py-1">Frontend Technologies</a>
+                <a href="#backend-detection" class="toc-link text-gray-700 block py-1">Backend Technologies</a>
+                <a href="#cms-detection" class="toc-link text-gray-700 block py-1">CMS Detection</a>
+                <a href="#analytics-detection" class="toc-link text-gray-700 block py-1">Analytics & Tracking</a>
+                <a href="#cdn-detection" class="toc-link text-gray-700 block py-1">CDN Detection</a>
+                <a href="#server-detection" class="toc-link text-gray-700 block py-1">Server Detection</a>
+                <a href="#framework-detection" class="toc-link text-gray-700 block py-1">Framework Detection</a>
+                <a href="#tools" class="toc-link text-gray-700 block py-1">Detection Tools</a>
+                <a href="#best-practices" class="toc-link text-gray-700 block py-1">Best Practices</a>
+                <a href="#conclusion" class="toc-link text-gray-700 block py-1">Conclusion</a>
+            </div>
+        </section>
+
+        <!-- What is a Technology Stack -->
+        <section id="what-is-tech-stack" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">What is a Technology Stack?</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                A technology stack (or tech stack) is the combination of software, programming languages, frameworks, and tools used to build and run a website or web application. Understanding a website's tech stack reveals insights into:
+            </p>
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-blue-50 rounded-lg p-6">
+                    <h4 class="font-bold text-blue-800 mb-3"><i class="fas fa-chart-line mr-2"></i>Competitive Intelligence</h4>
+                    <p class="text-gray-700 text-sm">See what technologies your competitors use and find opportunities to differentiate</p>
+                </div>
+                <div class="bg-green-50 rounded-lg p-6">
+                    <h4 class="font-bold text-green-800 mb-3"><i class="fas fa-users mr-2"></i>Hiring Decisions</h4>
+                    <p class="text-gray-700 text-sm">Know what skills to look for when hiring developers for similar projects</p>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-6">
+                    <h4 class="font-bold text-purple-800 mb-3"><i class="fas fa-exchange-alt mr-2"></i>Technology Migration</h4>
+                    <p class="text-gray-700 text-sm">Plan migrations by understanding what's working for others in your industry</p>
+                </div>
+                <div class="bg-orange-50 rounded-lg p-6">
+                    <h4 class="font-bold text-orange-800 mb-3"><i class="fas fa-bug mr-2"></i>Troubleshooting</h4>
+                    <p class="text-gray-700 text-sm">Diagnose issues by understanding the underlying technologies</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detection Methods -->
+        <section id="detection-methods" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Detection Methods</h2>
+            <p class="text-gray-700 mb-8">There are several ways to detect the technologies used by a website:</p>
+
+            <div class="space-y-6">
+                <div class="detection-method bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3"><i class="fas fa-code text-blue-600 mr-2"></i>1. HTML Source Analysis</h4>
+                    <p class="text-gray-700 mb-4">Examining the HTML source code reveals script tags, meta tags, CSS classes, and other indicators:</p>
+                    <div class="code-block text-sm mb-4">
+                        <code class="text-green-400">&lt;!-- React detection --&gt;</code><br>
+                        <code class="text-gray-300">&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</code><br><br>
+                        <code class="text-green-400">&lt;!-- jQuery detection --&gt;</code><br>
+                        <code class="text-gray-300">&lt;script src="https://code.jquery.com/jquery-3.7.1.min.js"&gt;&lt;/script&gt;</code><br><br>
+                        <code class="text-green-400">&lt;!-- WordPress generator meta --&gt;</code><br>
+                        <code class="text-gray-300">&lt;meta name="generator" content="WordPress 6.4.2" /&gt;</code>
+                    </div>
+                </div>
+
+                <div class="detection-method bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3"><i class="fas fa-server text-green-600 mr-2"></i>2. HTTP Headers Analysis</h4>
+                    <p class="text-gray-700 mb-4">Server headers reveal backend technologies:</p>
+                    <div class="code-block text-sm mb-4">
+                        <code class="text-green-400"># Server header reveals web server</code><br>
+                        <code class="text-gray-300">Server: nginx/1.18.0</code><br>
+                        <code class="text-gray-300">Server: cloudflare</code><br><br>
+                        <code class="text-green-400"># X-Powered-By reveals framework/language</code><br>
+                        <code class="text-gray-300">X-Powered-By: PHP/8.2.0</code><br>
+                        <code class="text-gray-300">X-Powered-By: Express</code>
+                    </div>
+                </div>
+
+                <div class="detection-method bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3"><i class="fas fa-palette text-purple-600 mr-2"></i>3. CSS Class Detection</h4>
+                    <p class="text-gray-700 mb-4">CSS frameworks use unique class naming patterns:</p>
+                    <div class="code-block text-sm mb-4">
+                        <code class="text-green-400">&lt;!-- Tailwind CSS classes --&gt;</code><br>
+                        <code class="text-gray-300">&lt;div class="flex justify-center items-center p-4 rounded-lg"&gt;</code><br><br>
+                        <code class="text-green-400">&lt;!-- Bootstrap classes --&gt;</code><br>
+                        <code class="text-gray-300">&lt;div class="container row col-md-6 btn-primary"&gt;</code>
+                    </div>
+                </div>
+
+                <div class="detection-method bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3"><i class="fas fa-globe text-orange-600 mr-2"></i>4. Cookies Analysis</h4>
+                    <p class="text-gray-700 mb-4">Cookie names can reveal technologies and services:</p>
+                    <div class="code-block text-sm mb-4">
+                        <code class="text-green-400"># PHP sessions</code><br>
+                        <code class="text-gray-300">PHPSESSID=abc123</code><br><br>
+                        <code class="text-green-400"># Cloudflare cookies</code><br>
+                        <code class="text-gray-300">__cf_bm=xyz789</code><br><br>
+                        <code class="text-green-400"># Google Analytics</code><br>
+                        <code class="text-gray-300">_ga=GA1.2.123456789.1234567890</code>
+                    </div>
+                </div>
+
+                <div class="detection-method bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3"><i class="fas fa-fingerprint text-red-600 mr-2"></i>5. JavaScript Object Detection</h4>
+                    <p class="text-gray-700 mb-4">Global objects and functions reveal loaded libraries:</p>
+                    <div class="code-block text-sm mb-4">
+                        <code class="text-green-400">// Check for React</code><br>
+                        <code class="text-gray-300">typeof React !== 'undefined'</code><br><br>
+                        <code class="text-green-400">// Check for Vue</code><br>
+                        <code class="text-gray-300">typeof Vue !== 'undefined'</code><br><br>
+                        <code class="text-green-400">// Check for jQuery</code><br>
+                        <code class="text-gray-300">typeof $ !== 'undefined' || typeof jQuery !== 'undefined'</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frontend Technologies -->
+        <section id="frontend-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Frontend Technologies</h2>
+            <p class="text-gray-700 mb-8">Frontend technologies control what users see and interact with in their browsers:</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fab fa-react text-blue-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">React</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Meta's JavaScript library for building user interfaces</p>
+                    <div class="code-block text-xs">
+                        <code class="text-green-400">data-reactroot</code><br>
+                        <code class="text-gray-300">_reactRootID</code><br>
+                        <code class="text-gray-300">react-dom.production.min.js</code>
+                    </div>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fab fa-vuejs text-green-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">Vue.js</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Progressive JavaScript framework</p>
+                    <div class="code-block text-xs">
+                        <code class="text-green-400">data-v-*</code><br>
+                        <code class="text-gray-300">vue.runtime.min.js</code><br>
+                        <code class="text-gray-300">__vue__</code>
+                    </div>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fab fa-angular text-red-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">Angular</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Google's full-featured framework</p>
+                    <div class="code-block text-xs">
+                        <code class="text-green-400">ng-version=</code><br>
+                        <code class="text-gray-300">_ngcontent_</code><br>
+                        <code class="text-gray-300">angular.min.js</code>
+                    </div>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fab fa-js text-yellow-600 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">Next.js</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">React framework for production</p>
+                    <div class="code-block text-xs">
+                        <code class="text-green-400">__NEXT_DATA__</code><br>
+                        <code class="text-gray-300">next/</code><br>
+                        <code class="text-gray-300">_next/static</code>
+                    </div>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-bolt text-purple-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">Svelte</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Compile-time framework</p>
+                    <div class="code-block text-xs">
+                        <code class="text-green-400">svelte-</code><br>
+                        <code class="text-gray-300">__svelte</code><br>
+                        <code class="text-gray-300">svelte/internal</code>
+                    </div>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-code text-gray-600 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">jQuery</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Classic JavaScript library</p>
+                    <div class="code-block text-xs">
+                        <code class="text-green-400">typeof $ !== 'undefined'</code><br>
+                        <code class="text-gray-300">jquery.min.js</code><br>
+                        <code class="text-gray-300">jQuery.fn.jquery</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Backend Technologies -->
+        <section id="backend-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Backend Technologies</h2>
+            <p class="text-gray-700 mb-8">Backend technologies power the server-side logic:</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-php text-indigo-500 text-3xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">PHP</h4>
+                    <p class="text-gray-600 text-sm">X-Powered-By: PHP</p>
+                    <p class="text-gray-500 text-xs mt-2">.php files, PHPSESSID cookie</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-node-js text-green-500 text-3xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Node.js</h4>
+                    <p class="text-gray-600 text-sm">X-Powered-By: Express</p>
+                    <p class="text-gray-500 text-xs mt-2">socket.io, package.json</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-python text-yellow-600 text-3xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Python</h4>
+                    <p class="text-gray-600 text-sm">Server: Python</p>
+                    <p class="text-gray-500 text-xs mt-2">Django, Flask patterns</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gem text-red-500 text-3xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Ruby</h4>
+                    <p class="text-gray-600 text-sm">X-Powered-By: Phusion Passenger</p>
+                    <p class="text-gray-500 text-xs mt-2">Rails session cookies</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-java text-orange-500 text-3xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Java</h4>
+                    <p class="text-gray-600 text-sm">Server: Apache-Coyote</p>
+                    <p class="text-gray-500 text-xs mt-2">JSESSIONID cookie</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-rocket text-cyan-500 text-3xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Go</h4>
+                    <p class="text-gray-600 text-sm">Server: Go-http-server</p>
+                    <p class="text-gray-500 text-xs mt-2">Gorilla sessions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CMS Detection -->
+        <section id="cms-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">CMS Detection</h2>
+            <p class="text-gray-700 mb-8">Content Management Systems power millions of websites. Here's how to detect them:</p>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left font-bold text-gray-700">CMS</th>
+                            <th class="px-6 py-4 text-left font-bold text-gray-700">Detection Signs</th>
+                            <th class="px-6 py-4 text-left font-bold text-gray-700">Market Share</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">WordPress</td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded">/wp-content/</code>
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded ml-2">wp-*.min.js</code>
+                            </td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">43%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">Shopify</td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded">cdn.shopify.com</code>
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded ml-2">Shopify.theme</code>
+                            </td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">4.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">Wix</td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded">wix-static.com</code>
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded ml-2">X-Wix-</code>
+                            </td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">2.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">Squarespace</td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded">static.squarespace.com</code>
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded ml-2">squarespace:</code>
+                            </td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">1.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">Drupal</td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded">/sites/default/</code>
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded ml-2">drupal.js</code>
+                            </td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">1.2%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">Joomla</td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded">/administrator/</code>
+                                <code class="text-sm bg-gray-100 px-2 py-1 rounded ml-2">joomla.js</code>
+                            </td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">1.0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Analytics & Tracking -->
+        <section id="analytics-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Analytics & Tracking Detection</h2>
+            <p class="text-gray-700 mb-8">Understanding what analytics tools competitors use provides valuable insights:</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="tech-card bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-bar text-blue-500"></i>
+                        </div>
+                        <h4 class="font-bold">Google Analytics</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">UA-, G-, or GT- tracking IDs</p>
+                    <p class="text-gray-500 text-xs mt-2">gtag.js, analytics.js</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fab fa-facebook text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold">Facebook Pixel</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">_fbp cookie</p>
+                    <p class="text-gray-500 text-xs mt-2">connect.facebook.net</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-fire text-yellow-500"></i>
+                        </div>
+                        <h4 class="font-bold">Hotjar</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">hjid, hjSession cookies</p>
+                    <p class="text-gray-500 text-xs mt-2">static.hotjar.com</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-wave-square text-purple-500"></i>
+                        </div>
+                        <h4 class="font-bold">Mixpanel</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">mp_* cookies</p>
+                    <p class="text-gray-500 text-xs mt-2">mxpnl.com</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-green-500"></i>
+                        </div>
+                        <h4 class="font-bold">Amplitude</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">amp_* cookies</p>
+                    <p class="text-gray-500 text-xs mt-2">amplitude.com</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-share-alt text-indigo-500"></i>
+                        </div>
+                        <h4 class="font-bold">Segment</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">ajs_* cookies</p>
+                    <p class="text-gray-500 text-xs mt-2">cdn.segment.io</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CDN Detection -->
+        <section id="cdn-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">CDN Detection</h2>
+            <p class="text-gray-700 mb-8">Content Delivery Networks improve performance globally. Here's how to detect them:</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-cloud text-orange-500 mr-3"></i>Cloudflare
+                    </h4>
+                    <ul class="space-y-2 text-gray-600 text-sm">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>cf-ray header</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>__cf_bm cookie</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>cloudflareinsights.com</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Server: cloudflare</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fab fa-aws text-yellow-600 mr-3"></i>AWS CloudFront
+                    </h4>
+                    <ul class="space-y-2 text-gray-600 text-sm">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>x-amz-cf-id header</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>cloudfront.net</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>x-amz-cf-pop header</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Server: CloudFront</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-bolt text-red-500 mr-3"></i>Fastly
+                    </h4>
+                    <ul class="space-y-2 text-gray-600 text-sm">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Fastly-Soft-Shadows</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Fastly-FF</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>x-served-by</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>x-amz-request-id</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-shield-alt text-blue-500 mr-3"></i>Akamai
+                    </h4>
+                    <ul class="space-y-2 text-gray-600 text-sm">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>akamaized.net</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>akamaihd.net</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>x-akamai-transformed</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>True-Cookie header</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Server Detection -->
+        <section id="server-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Server Detection</h2>
+            <p class="text-gray-700 mb-8">Web server software can be identified through headers and response characteristics:</p>
+
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8">
+                <h4 class="font-bold text-xl mb-6">Common Web Servers</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-white rounded-lg p-4">
+                        <h5 class="font-bold text-green-600">Nginx</h5>
+                        <code class="text-sm text-gray-600">Server: nginx/1.18.0</code>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <h5 class="font-bold text-red-600">Apache</h5>
+                        <code class="text-sm text-gray-600">Server: Apache/2.4.41</code>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <h5 class="font-bold text-blue-600">IIS</h5>
+                        <code class="text-sm text-gray-600">Server: Microsoft-IIS/10.0</code>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <h5 class="font-bold text-purple-600">Caddy</h5>
+                        <code class="text-sm text-gray-600">Server: Caddy</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Framework Detection -->
+        <section id="framework-detection" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">CSS Framework Detection</h2>
+            <p class="text-gray-700 mb-8">CSS frameworks leave distinct patterns in class names and HTML structure:</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-css3-alt text-purple-600 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">Tailwind CSS</h4>
+                    <p class="text-gray-600 text-sm">Utility classes like flex, p-4, rounded-lg, text-center</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-bootstrap text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">Bootstrap</h4>
+                    <p class="text-gray-600 text-sm">container, row, col-md-*, navbar, btn-primary</p>
+                </div>
+
+                <div class="tech-card bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-layer-group text-red-600 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">Material UI</h4>
+                    <p class="text-gray-600 text-sm">MuiBox-root, MuiButton-root, jss*</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detection Tools -->
+        <section id="tools" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Detection Tools & Resources</h2>
+            <p class="text-gray-700 mb-8">While you can manually inspect code, automated tools are faster and more comprehensive:</p>
+
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white text-center mb-8">
+                <h3 class="text-2xl font-bold mb-4">Automated Detection with WebAI Auditor</h3>
+                <p class="mb-6 opacity-90">Instantly detect hundreds of technologies with our powerful analysis tool</p>
+                <a href="../index.html" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                    Try Free Analysis <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4"><i class="fas fa-terminal text-gray-600 mr-2"></i>Command Line Tools</h4>
+                    <ul class="space-y-3 text-gray-600">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm">curl -I https://example.com</code></li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm">dig example.com ANY</code></li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm">wget -S example.com</code></li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4"><i class="fas fa-tools text-gray-600 mr-2"></i>Browser Extensions</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-puzzle-piece text-blue-500 mr-2"></i>Wappalyzer</li>
+                        <li><i class="fas fa-puzzle-piece text-blue-500 mr-2"></i>BuiltWith Technology Profiler</li>
+                        <li><i class="fas fa-puzzle-piece text-blue-500 mr-2"></i>Library Sniffer</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section id="best-practices" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Best Practices for Tech Stack Analysis</h2>
+
+            <div class="space-y-6">
+                <div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500">
+                    <h4 class="font-bold text-blue-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Combine Multiple Methods</h4>
+                    <p class="text-gray-700">No single detection method is 100% accurate. Combine header analysis, source inspection, and behavioral patterns for best results.</p>
+                </div>
+
+                <div class="bg-green-50 rounded-xl p-6 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-2"><i class="fas fa-sync mr-2"></i>Regular Updates</h4>
+                    <p class="text-gray-700">Technology stacks evolve quickly. Tools and detection patterns must be regularly updated to keep up with new versions and frameworks.</p>
+                </div>
+
+                <div class="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-500">
+                    <h4 class="font-bold text-purple-800 mb-2"><i class="fas fa-user-shield mr-2"></i>Privacy & Ethics</h4>
+                    <p class="text-gray-700">Only use tech stack detection for legitimate purposes like competitive analysis, research, or troubleshooting. Respect website security measures.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Conclusion</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Technology stack detection is a powerful skill for competitive analysis, technical research, and strategic decision-making. By understanding what technologies competitors use, you can make informed decisions about your own tech stack, identify potential vulnerabilities, and discover new tools that could benefit your projects.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-8">
+                <a href="../index.html" class="text-blue-600 font-semibold hover:underline">WebAI Auditor</a> automates this process, scanning hundreds of technology indicators in seconds and providing comprehensive reports on frontend, backend, CMS, analytics, and server technologies.
+            </p>
+        </section>
+
+        <!-- Related Articles -->
+        <section class="bg-gray-100 rounded-xl p-8 mb-12">
+            <h3 class="text-xl font-bold mb-6">Related Articles</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="seo-guide.html" class="bg-white rounded-lg p-4 hover:shadow-md transition">
+                    <h4 class="font-bold text-blue-600">Complete SEO Guide 2024</h4>
+                    <p class="text-gray-600 text-sm">Master modern SEO techniques</p>
+                </a>
+                <a href="competitor-analysis.html" class="bg-white rounded-lg p-4 hover:shadow-md transition">
+                    <h4 class="font-bold text-blue-600">Competitor Analysis</h4>
+                    <p class="text-gray-600 text-sm">Analyze your competition effectively</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Professional website analysis tool for SEO, performance, and tech stack detection.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-github text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../features.html" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="../pricing.html" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="../pricing.html" class="text-gray-400 hover:text-white transition">Get Started</a></li>
+                        <li><a href="../audit-results.html" class="text-gray-400 hover:text-white transition">Sample Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
+                        <li><a href="competitor-analysis.html" class="text-gray-400 hover:text-white transition">Competitor Analysis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Tech Stack Detection</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="../privacy.html" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="../terms.html" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

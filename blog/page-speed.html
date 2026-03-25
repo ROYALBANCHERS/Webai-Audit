@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Speed Optimization: Complete Guide for 2024 | WebAI Auditor</title>
+    <meta name="description" content="Master page speed optimization techniques. Learn how to improve Core Web Vitals, reduce load times, and boost SEO rankings with proven strategies.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { scroll-margin-top: 100px; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <article class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="mb-12">
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">Guides</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-4 mb-4">
+                <span class="gradient-text">Page Speed Optimization: The Complete Guide for 2024</span>
+            </h1>
+            <p class="text-xl text-gray-500 mt-4">
+                Proven strategies to improve website loading times and boost search rankings
+            </p>
+            <div class="flex items-center gap-6 mt-6 text-gray-400 text-sm">
+                <span><i class="far fa-calendar mr-2"></i>Updated December 2024</span>
+                <span><i class="far fa-clock mr-2"></i>22 min read</span>
+            </div>
+        </header>
+
+        <!-- Table of Contents -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-10">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-list text-purple-600 mr-3"></i>Table of Contents
+            </h2>
+            <ul class="space-y-2">
+                <li><a href="#intro" class="toc-link text-purple-600 hover:text-purple-800">Why Page Speed Matters</a></li>
+                <li><a href="#measurement" class="toc-link text-purple-600 hover:text-purple-800">Measuring Page Speed</a></li>
+                <li><a href="#image-optimization" class="toc-link text-purple-600 hover:text-purple-800">Image Optimization</a></li>
+                <li><a href="#code-optimization" class="toc-link text-purple-600 hover:text-purple-800">HTML, CSS & JavaScript Optimization</a></li>
+                <li><a href="#caching" class="toc-link text-purple-600 hover:text-purple-800">Browser & Server Caching</a></li>
+                <li><a href="#cdn" class="toc-link text-purple-600 hover:text-purple-800">CDN Implementation</a></li>
+                <li><a href="#server" class="toc-link text-purple-600 hover:text-purple-800">Server-Side Optimization</a></li>
+                <li><a href="#lazy-loading" class="toc-link text-purple-600 hover:text-purple-800">Lazy Loading Strategies</a></li>
+                <li><a href="#fonts" class="toc-link text-purple-600 hover:text-purple-800">Font Optimization</a></li>
+                <li><a href="#monitoring" class="toc-link text-purple-600 hover:text-purple-800">Ongoing Monitoring</a></li>
+            </ul>
+        </div>
+
+        <!-- Introduction -->
+        <section id="intro" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Why Page Speed Matters</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Let's be real: nobody has patience for slow websites anymore. We're all used to instant gratification, and when a page takes forever to load, you can practically hear visitors clicking away. Page speed isn't just some technical metric—it directly affects whether people stick around, buy stuff, or bail before seeing what you offer. Plus, Google cares about it. A lot. So there's that too.
+            </p>
+
+            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 border border-purple-100 my-8">
+                <h3 class="font-bold text-lg mb-4 flex items-center">
+                    <i class="fas fa-tachometer-alt text-purple-500 mr-3"></i>The Impact of Page Speed
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-chart-line text-green-500 mr-3"></i>
+                            <span class="text-gray-700">53% of visitors leave if page takes >3s to load</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-dollar-sign text-green-500 mr-3"></i>
+                            <span class="text-gray-700">1s delay reduces conversions by 7%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-search text-green-500 mr-3"></i>
+                            <span class="text-gray-700">Speed is a Google ranking factor</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-mobile-alt text-blue-500 mr-3"></i>
+                            <span class="text-gray-700">Mobile users expect even faster loads</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-heart text-red-500 mr-3"></i>
+                            <span class="text-gray-700">Fast sites improve brand perception</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-globe text-purple-500 mr-3"></i>
+                            <span class="text-gray-700">Global users need CDN optimization</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-4">Speed Metrics That Matter</h3>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">&lt;2.5s</div>
+                    <p class="text-gray-500 text-sm">LCP (Largest Contentful Paint)</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">&lt;200ms</div>
+                    <p class="text-gray-500 text-sm">INP (Interaction to Next Paint)</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">&lt;0.1</div>
+                    <p class="text-gray-500 text-sm">CLS (Cumulative Layout Shift)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Measurement -->
+        <section id="measurement" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Measuring Page Speed</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Here's the thing about optimization—you can't improve what you don't measure. Before you go making changes, you need to know where you're starting from. Think of it like stepping on a scale before starting a fitness program. These tools will give you the honest truth about how your site's performing.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">Essential Speed Testing Tools</h3>
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fab fa-google text-blue-500 mr-3"></i>Google PageSpeed Insights
+                    </h4>
+                    <p class="text-gray-600 text-sm">Provides lab data from Lighthouse and field data from real users. Scores from 0-100 for mobile and desktop separately.</p>
+                    <a href="https://pagespeed.web.dev" target="_blank" class="text-blue-600 text-sm hover:underline">pagespeed.web.dev</a>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-tools text-purple-500 mr-3"></i>Google Lighthouse
+                    </h4>
+                    <p class="text-gray-600 text-sm">Built into Chrome DevTools. Run comprehensive audits including performance, accessibility, and SEO.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-chart-bar text-green-500 mr-3"></i>WebPageTest
+                    </h4>
+                    <p class="text-gray-600 text-sm">Advanced testing with multiple locations, browsers, and connection speeds. Detailed waterfall charts.</p>
+                    <a href="https://www.webpagetest.org" target="_blank" class="text-blue-600 text-sm hover:underline">webpagetest.org</a>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-globe text-orange-500 mr-3"></i>GTmetrix
+                    </h4>
+                    <p class="text-gray-600 text-sm">Comprehensive analysis with historical tracking and video playback of page loads.</p>
+                    <a href="https://gtmetrix.com" target="_blank" class="text-blue-600 text-sm hover:underline">gtmetrix.com</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Optimization -->
+        <section id="image-optimization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Image Optimization</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Want to know the biggest speed killer on most websites? It's images, hands down. Those beautiful photos and graphics are usually the heaviest things on your pages. The good news? Optimizing them is often the quickest way to see real performance gains. We're talking night-and-day improvements when you do this right.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">1. Use Modern Image Formats</h3>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <div class="text-2xl font-bold text-green-600 mb-2">25-35%</div>
+                        <p class="text-sm text-gray-600">Smaller than JPEG/PNG</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <div class="text-2xl font-bold text-blue-600 mb-2">WebP</div>
+                        <p class="text-sm text-gray-600">Best for photos</p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg text-center">
+                        <div class="text-2xl font-bold text-purple-600 mb-2">AVIF</div>
+                        <p class="text-sm text-gray-600">Next-gen format</p>
+                    </div>
+                </div>
+                <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code>&lt;picture&gt;
+  &lt;source srcset="image.avif" type="image/avif"&gt;
+  &lt;source srcset="image.webp" type="image/webp"&gt;
+  &lt;img src="image.jpg" alt="Description"&gt;
+&lt;/picture&gt;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">2. Compress Images</h3>
+            <div class="space-y-4 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">Lossy Compression</h4>
+                    <p class="text-gray-600 text-sm mb-3">For photos and complex images. Use tools like:</p>
+                    <ul class="text-gray-600 text-sm space-y-1">
+                        <li>• <a href="https://squoosh.app" class="text-blue-600 hover:underline">Squoosh</a> - Browser-based tool</li>
+                        <li>• <a href="https://tinypng.com" class="text-blue-600 hover:underline">TinyPNG</a> - Online compressor</li>
+                        <li>• ImageOptim - Mac desktop app</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">Lossless Compression</h4>
+                    <p class="text-gray-600 text-sm mb-3">For graphics and simple images:</p>
+                    <ul class="text-gray-600 text-sm space-y-1">
+                        <li>• PNG with tools like pngquant</li>
+                        <li>• SVG for icons and illustrations</li>
+                        <li>• Consider SVG sprites for multiple icons</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">3. Responsive Images with srcset</h3>
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                <p class="text-blue-700 mb-4">Serve different image sizes based on the user's device:</p>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;img srcset="small.jpg 400w,
+             medium.jpg 800w,
+             large.jpg 1200w"
+     sizes="(max-width: 600px) 400px,
+            (max-width: 1200px) 800px,
+            1200px"
+     src="medium.jpg"
+     alt="Responsive image"&gt;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4 mt-6">4. Lazy Loading Images</h3>
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                <p class="text-green-700 mb-4">Defer loading off-screen images until needed:</p>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- Native lazy loading (supported in modern browsers) --&gt;
+&lt;img src="image.jpg" loading="lazy" alt="Description"&gt;
+
+&lt;!-- Or use the loading attribute with a low-quality placeholder --&gt;
+&lt;img src="placeholder.jpg"
+     data-src="full-image.jpg"
+     loading="lazy"
+     alt="Description"&gt;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4 mt-6">5. Image Dimensions</h3>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <p class="text-gray-600 mb-3">Always specify width and height to prevent layout shift:</p>
+                <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code>&lt;img src="image.jpg"
+     width="800"
+     height="600"
+     alt="Description"&gt;</code></pre>
+            </div>
+        </section>
+
+        <!-- Code Optimization -->
+        <section id="code-optimization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">HTML, CSS & JavaScript Optimization</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Your code might be working, but is it working as efficiently as it could? All those extra spaces, comments, and unnecessary lines add up—literally. Cleaning up your HTML, CSS, and JavaScript isn't just about being tidy; it's about shaving off precious bytes that make your site feel snappier.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">1. Minification</h3>
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 text-blue-600">HTML</h4>
+                    <p class="text-gray-600 text-sm">Remove whitespace, comments, and unnecessary characters.</p>
+                    <p class="text-xs text-gray-400 mt-2">Tools: html-minifier</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 text-purple-600">CSS</h4>
+                    <p class="text-gray-600 text-sm">Minify and remove unused CSS rules.</p>
+                    <p class="text-xs text-gray-400 mt-2">Tools: cssnano, PurgeCSS</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 text-green-600">JavaScript</h4>
+                    <p class="text-gray-600 text-sm">Minify and tree-shake unused code.</p>
+                    <p class="text-xs text-gray-400 mt-2">Tools: Terser, Rollup</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">2. Defer Non-Critical JavaScript</h3>
+            <div class="bg-purple-50 rounded-xl p-6 border border-purple-200 mb-6">
+                <p class="text-purple-700 mb-4">Use defer and async attributes strategically:</p>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- Async: Load independently, execute when ready --&gt;
+&lt;script async src="analytics.js"&gt;&lt;/script&gt;
+
+&lt;!-- Defer: Load in background, execute after HTML parsing --&gt;
+&lt;script defer src="main.js"&gt;&lt;/script&gt;
+
+&lt;!-- Critical inline CSS for above-the-fold content --&gt;
+&lt;style&gt;
+  /* Critical CSS goes here */
+&lt;/style&gt;
+
+&lt;!-- Load full stylesheet asynchronously --&gt;
+&lt;link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"&gt;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">3. Critical CSS</h3>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <p class="text-gray-600 mb-3">Extract and inline CSS needed for above-the-fold content:</p>
+                <ul class="text-gray-600 space-y-2 text-sm">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Identify above-the-fold styles</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Inline critical CSS in &lt;head&gt;</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Load remaining CSS asynchronously</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Tools: Critical, Penthouse</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Caching -->
+        <section id="caching" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Browser & Server Caching</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Here's something cool about caching: it makes returning visitors feel like your site is suddenly supercharged. By storing files locally on their devices, you skip a lot of the loading dance on subsequent visits. It's like giving your site a head start every time someone comes back for more.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">Browser Caching Headers</h3>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <p class="text-gray-600 mb-4">Set proper cache headers for static assets:</p>
+                <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code># Apache .htaccess
+&lt;IfModule mod_expires.c&gt;
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+&lt;/IfModule&gt;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">Cache-Control Best Practices</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                    <h4 class="font-bold text-green-800 mb-3">Static Assets</h4>
+                    <p class="text-green-700 text-sm mb-2">Use long cache durations with versioning:</p>
+                    <code class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded">Cache-Control: public, max-age=31536000, immutable</code>
+                </div>
+                <div class="bg-yellow-50 rounded-xl p-6 border border-yellow-200">
+                    <h4 class="font-bold text-yellow-800 mb-3">HTML Content</h4>
+                    <p class="text-yellow-700 text-sm mb-2">Short cache or no-cache for frequently updated content:</p>
+                    <code class="text-xs text-yellow-600 bg-yellow-100 px-2 py-1 rounded">Cache-Control: public, max-age=0, must-revalidate</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- CDN -->
+        <section id="cdn" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Content Delivery Network (CDN)</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                A CDN distributes your content across servers worldwide, reducing latency for users regardless of their location.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">Popular CDN Options</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-cloud text-orange-500 mr-3"></i>Cloudflare
+                    </h4>
+                    <p class="text-gray-600 text-sm">Free plan available. Easy setup with automatic optimization features including minification, rocket loader, and image optimization.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fab fa-aws text-yellow-600 mr-3"></i>AWS CloudFront
+                    </h4>
+                    <p class="text-gray-600 text-sm">Pay-as-you-go pricing. Excellent integration with other AWS services. Global edge network.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-bolt text-purple-500 mr-3"></i>Fastly
+                    </h4>
+                    <p class="text-gray-600 text-sm">Enterprise-grade CDN with excellent edge computing capabilities. Used by many high-traffic sites.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-server text-blue-500 mr-3"></i>KeyCDN
+                    </h4>
+                    <p class="text-gray-600 text-sm">Developer-friendly CDN with transparent pricing and good performance. Easy setup process.</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">CDN Implementation Tips</h3>
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">1. Cache Static Assets</h4>
+                    <p class="text-gray-600 text-sm">Serve images, CSS, JavaScript, and fonts through the CDN</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">2. Enable HTTP/2</h4>
+                    <p class="text-gray-600 text-sm">Modern CDNs support HTTP/2 for multiplexing and header compression</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">3. Use CDN for Third-Party Scripts</h4>
+                    <p class="text-gray-600 text-sm">Many libraries (jQuery, Bootstrap) are available through public CDNs</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Server Optimization -->
+        <section id="server" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Server-Side Optimization</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Your server configuration significantly impacts initial load times and Time to First Byte (TTFB).
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">1. Enable Compression</h3>
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200 mb-6">
+                <p class="text-blue-700 mb-4">Use Brotli or Gzip compression to reduce file sizes:</p>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code># Apache with Brotli
+&lt;IfModule mod_brotli.c&gt;
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css text/javascript application/javascript application/json
+&lt;/IfModule&gt;
+
+# Nginx with Gzip
+gzip on;
+gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
+gzip_min_length 1000;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">2. Database Optimization</h3>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <p class="text-gray-600 mb-3">For dynamic sites, optimize database queries:</p>
+                <ul class="text-gray-600 space-y-2 text-sm">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Add indexes to frequently queried columns</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Use EXPLAIN to analyze query performance</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Implement query caching</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Consider read replicas for high-traffic sites</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">3. HTTP/2 and HTTP/3</h3>
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                <p class="text-green-700 mb-4">Modern protocols significantly improve performance:</p>
+                <ul class="text-green-700 space-y-2">
+                    <li><i class="fas fa-check text-green-600 mr-2"></i><strong>HTTP/2:</strong> Multiplexing, header compression, server push</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i><strong>HTTP/3 (QUIC):</strong> Improved performance over unreliable networks</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i><strong>TLS 1.3:</strong> Faster handshake for secure connections</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Lazy Loading -->
+        <section id="lazy-loading" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Lazy Loading Strategies</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Lazy loading defers the loading of resources until they're needed, significantly improving initial page load times.
+            </p>
+
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">Native Lazy Loading</h4>
+                    <p class="text-gray-600 text-sm mb-3">Built into modern browsers:</p>
+                    <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code>&lt;img src="image.jpg" loading="lazy" alt="..."&gt;
+&lt;iframe src="video.html" loading="lazy"&gt;&lt;/iframe&gt;</code></pre>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">JavaScript Lazy Loading</h4>
+                    <p class="text-gray-600 text-sm mb-3">Intersection Observer API for custom implementations:</p>
+                    <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code>const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      observer.unobserve(img);
+    }
+  });
+});
+
+document.querySelectorAll('img[data-src]').forEach(img => {
+  observer.observe(img);
+});</code></pre>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">Lazy Load Videos</h4>
+                    <p class="text-gray-600 text-sm">Load only the video thumbnail initially, then load the full video on click.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Font Optimization -->
+        <section id="fonts" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Font Optimization</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Web fonts can significantly impact page load time. Optimize them to maintain design quality while improving performance.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">Font Loading Strategies</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">font-display: swap</h4>
+                    <p class="text-gray-600 text-sm mb-3">Show text immediately with fallback font:</p>
+                    <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code>@font-face {
+  font-family: 'Custom Font';
+  src: url('font.woff2') format('woff2');
+  font-display: swap;
+}</code></pre>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2">Preload Critical Fonts</h4>
+                    <p class="text-gray-600 text-sm mb-3">Load important fonts early:</p>
+                    <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto"><code>&lt;link rel="preload"
+      as="font"
+      href="critical.woff2"
+      type="font/woff2"
+      crossorigin&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">Font Format Optimization</h3>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <p class="text-gray-600 mb-3">Use WOFF2 for best compression:</p>
+                <ul class="text-gray-600 space-y-2 text-sm">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>WOFF2: 30% smaller than WOFF</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Subset fonts to include only needed characters</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Consider system fonts for body text</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Variable fonts for multiple weights in one file</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Monitoring -->
+        <section id="monitoring" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Ongoing Monitoring</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Performance optimization is an ongoing process. Continuously monitor and improve your site's speed.
+            </p>
+
+            <h3 class="text-xl font-bold mb-4">Monitoring Tools</h3>
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-chart-line text-blue-500 mr-3"></i>Google Search Console
+                    </h4>
+                    <p class="text-gray-600 text-sm">Monitor Core Web Vitals for real user data. identifies pages with performance issues.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-tachometer-alt text-green-500 mr-3"></i>Web Vitals JavaScript Library</h4>
+                    <p class="text-gray-600 text-sm">Add to your site to measure real-user Core Web Vitals and send to analytics.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <i class="fas fa-bell text-purple-500 mr-3"></i>Speed Alerts</h4>
+                    <p class="text-gray-600 text-sm">Set up monitoring to alert you when performance degrades. Tools: Pingdom, Uptrends, StatusCake.</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4 mt-6">Optimization Checklist</h3>
+            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 border border-purple-100">
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt1">
+                        <label for="opt1" class="text-gray-700">Images compressed and in WebP format</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt2">
+                        <label for="opt2" class="text-gray-700">CSS and JavaScript minified</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt3">
+                        <label for="opt3" class="text-gray-700">Browser caching configured</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt4">
+                        <label for="opt4" class="text-gray-700">CDN implemented</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt5">
+                        <label for="opt5" class="text-gray-700">Lazy loading enabled for images</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt6">
+                        <label for="opt6" class="text-gray-700">Fonts optimized with font-display: swap</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt7">
+                        <label for="opt7" class="text-gray-700">HTTP/2 enabled on server</label>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="mr-3 h-5 w-5 text-purple-600" id="opt8">
+                        <label for="opt8" class="text-gray-700">Compression enabled (Brotli/Gzip)</label>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-center text-white my-12">
+            <h2 class="text-2xl font-bold mb-4">Analyze Your Page Speed Today</h2>
+            <p class="text-white/80 mb-6">Get actionable insights to improve your website's performance and Core Web Vitals</p>
+            <a href="../index.html" class="inline-block bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Run Free Speed Audit
+            </a>
+        </div>
+
+        <!-- Related Articles -->
+        <div class="border-t border-gray-200 pt-12">
+            <h2 class="text-2xl font-bold mb-6">Related Articles</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <a href="core-web-vitals.html" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition">
+                    <span class="text-purple-600 text-sm font-semibold">PERFORMANCE</span>
+                    <h3 class="font-bold mt-2">Core Web Vitals Guide</h3>
+                    <p class="text-gray-500 text-sm mt-2">Master Google's performance metrics</p>
+                </a>
+                <a href="mobile-seo.html" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition">
+                    <span class="text-green-600 text-sm font-semibold">MOBILE</span>
+                    <h3 class="font-bold mt-2">Mobile-First SEO</h3>
+                    <p class="text-gray-500 text-sm mt-2">Optimize for mobile performance</p>
+                </a>
+                <a href="technical-seo.html" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition">
+                    <span class="text-blue-600 text-sm font-semibold">TECHNICAL</span>
+                    <h3 class="font-bold mt-2">Technical SEO Guide</h3>
+                    <p class="text-gray-500 text-sm mt-2">Master technical SEO fundamentals</p>
+                </a>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Professional website analysis tool for SEO, performance, and tech stack detection.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../features.html" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="../pricing.html" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="../pricing.html" class="text-gray-400 hover:text-white transition">Get Started</a></li>
+                        <li><a href="../audit-results.html" class="text-gray-400 hover:text-white transition">Sample Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
+                        <li><a href="tech-stack.html" class="text-gray-400 hover:text-white transition">Tech Detection</a></li>
+                        <li><a href="competitor-analysis.html" class="text-gray-400 hover:text-white transition">Competitor Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="../privacy.html" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="../terms.html" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

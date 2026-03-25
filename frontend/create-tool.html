@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Tool - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="my-tools.html" class="text-gray-600 hover:text-gray-900">My Tools</a>
+                    <a href="create-tool.html" class="px-4 py-2 gradient-bg text-white rounded-lg">Create Tool</a>
+                    <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer">
+                        <i class="fas fa-user text-gray-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold mb-2">Create Your Custom Tool</h1>
+            <p class="text-gray-600">Build and publish your own SEO/Analysis tools. Share with the community!</p>
+        </div>
+
+        <!-- Tool Builder -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <!-- Progress Steps -->
+            <div class="border-b border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center text-white font-bold">1</div>
+                        <span class="ml-3 font-semibold">Basic Info</span>
+                    </div>
+                    <div class="flex-1 h-1 bg-gray-200 mx-4"><div class="h-1 gradient-bg w-0 transition-all" id="progress1"></div></div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold">2</div>
+                        <span class="ml-3 text-gray-500">Tool Logic</span>
+                    </div>
+                    <div class="flex-1 h-1 bg-gray-200 mx-4"><div class="h-1 gradient-bg w-0 transition-all" id="progress2"></div></div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold">3</div>
+                        <span class="ml-3 text-gray-500">Preview & Publish</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Basic Info -->
+            <div class="p-6" id="step1">
+                <h2 class="text-xl font-bold mb-6">Basic Information</h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tool Name *</label>
+                        <input type="text" id="toolName" placeholder="e.g., Advanced Keyword Analyzer" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+                        <textarea id="toolDescription" rows="3" placeholder="Describe what your tool does..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                            <select id="toolCategory" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Select category</option>
+                                <option value="seo">SEO Tools</option>
+                                <option value="analytics">Analytics</option>
+                                <option value="performance">Performance</option>
+                                <option value="content">Content</option>
+                                <option value="security">Security</option>
+                                <option value="social">Social Media</option>
+                                <option value="ecommerce">E-commerce</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                            <select id="toolIcon" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="fa-tools">Tools</option>
+                                <option value="fa-search">Search</option>
+                                <option value="fa-chart-bar">Chart</option>
+                                <option value="fa-code">Code</option>
+                                <option value="fa-cog">Settings</option>
+                                <option value="fa-bolt">Lightning</option>
+                                <option value="fa-magic">Magic</option>
+                                <option value="fa-rocket">Rocket</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Color Theme</label>
+                        <div class="flex space-x-4">
+                            <button type="button" class="w-10 h-10 rounded-full bg-blue-500 ring-2 ring-offset-2 ring-blue-500"></button>
+                            <button type="button" class="w-10 h-10 rounded-full bg-green-500"></button>
+                            <button type="button" class="w-10 h-10 rounded-full bg-purple-500"></button>
+                            <button type="button" class="w-10 h-10 rounded-full bg-orange-500"></button>
+                            <button type="button" class="w-10 h-10 rounded-full bg-red-500"></button>
+                            <button type="button" class="w-10 h-10 rounded-full bg-teal-500"></button>
+                            <button type="button" class="w-10 h-10 rounded-full bg-indigo-500"></button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tool Image (Optional)</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                            <p class="text-gray-500">Drag & drop an image or click to upload</p>
+                            <p class="text-xs text-gray-400 mt-1">Recommended: 400x300px, PNG or JPG</p>
+                            <input type="file" id="toolImage" class="hidden" accept="image/*">
+                            <button type="button" onclick="document.getElementById('toolImage').click()" class="mt-4 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Choose File</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-end">
+                    <button onclick="nextStep(2)" class="px-8 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                        Next Step <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Tool Logic -->
+            <div class="p-6 hidden" id="step2">
+                <h2 class="text-xl font-bold mb-6">Tool Configuration</h2>
+
+                <!-- Tool Type Selection -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-4">Tool Type</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border-2 border-blue-500 rounded-lg p-4 cursor-pointer bg-blue-50">
+                            <input type="radio" name="toolType" value="api" checked class="hidden">
+                            <i class="fas fa-plug text-blue-600 text-2xl mb-2"></i>
+                            <h3 class="font-semibold">API Integration</h3>
+                            <p class="text-sm text-gray-500">Connect to external API</p>
+                        </div>
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-300">
+                            <input type="radio" name="toolType" value="code" class="hidden">
+                            <i class="fas fa-code text-gray-600 text-2xl mb-2"></i>
+                            <h3 class="font-semibold">Custom Code</h3>
+                            <p class="text-sm text-gray-500">Write JavaScript code</p>
+                        </div>
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-300">
+                            <input type="radio" name="toolType" value="form" class="hidden">
+                            <i class="fas fa-wpforms text-gray-600 text-2xl mb-2"></i>
+                            <h3 class="font-semibold">Form Builder</h3>
+                            <p class="text-sm text-gray-500">Create input forms</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Fields Configuration -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Input Fields</label>
+                        <button type="button" onclick="addInputField()" class="text-blue-600 hover:text-blue-700">
+                            <i class="fas fa-plus mr-1"></i>Add Field
+                        </button>
+                    </div>
+                    <div id="inputFields" class="space-y-4">
+                        <div class="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
+                            <input type="text" placeholder="Field Label" value="URL to Analyze" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">
+                            <select class="px-4 py-2 border border-gray-300 rounded-lg">
+                                <option>Text</option>
+                                <option>URL</option>
+                                <option>Email</option>
+                                <option>Number</option>
+                                <option>Textarea</option>
+                            </select>
+                            <button type="button" class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Configuration (for API type) -->
+                <div class="mb-6" id="apiConfig">
+                    <label class="block text-sm font-medium text-gray-700 mb-4">API Configuration</label>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">API Endpoint</label>
+                            <input type="text" placeholder="https://api.example.com/analyze" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">HTTP Method</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                                <option>GET</option>
+                                <option>POST</option>
+                                <option>PUT</option>
+                                <option>DELETE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Authentication (Optional)</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                                <option>None</option>
+                                <option>API Key</option>
+                                <option>Bearer Token</option>
+                                <option>Basic Auth</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Editor (for Custom Code type) -->
+                <div class="mb-6 hidden" id="codeConfig">
+                    <label class="block text-sm font-medium text-gray-700 mb-4">Custom JavaScript Code</label>
+                    <div class="bg-gray-900 rounded-lg p-4">
+                        <pre class="text-green-400 text-sm"><code>// Write your tool logic here
+async function executeTool(input) {
+    // input contains the form data
+    const url = input.url;
+
+    // Your analysis logic
+    const result = await analyze(url);
+
+    return {
+        score: result.score,
+        issues: result.issues,
+        recommendations: result.tips
+    };
+}
+
+// Example: fetch and analyze
+async function analyze(url) {
+    // Your code here
+    return { score: 85, issues: [], tips: [] };
+}</code></pre>
+                        <textarea id="customCode" rows="15" class="w-full bg-transparent text-green-400 font-mono text-sm focus:outline-none mt-2" placeholder="// Write your JavaScript code here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Output Configuration -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-4">Output Format</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="border-2 border-blue-500 rounded-lg p-4 text-center bg-blue-50 cursor-pointer">
+                            <i class="fas fa-table text-blue-600 text-xl mb-2"></i>
+                            <p class="text-sm">Table</p>
+                        </div>
+                        <div class="border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer hover:border-gray-300">
+                            <i class="fas fa-chart-bar text-gray-600 text-xl mb-2"></i>
+                            <p class="text-sm">Chart</p>
+                        </div>
+                        <div class="border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer hover:border-gray-300">
+                            <i class="fas fa-list text-gray-600 text-xl mb-2"></i>
+                            <p class="text-sm">List</p>
+                        </div>
+                        <div class="border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer hover:border-gray-300">
+                            <i class="fas fa-file-alt text-gray-600 text-xl mb-2"></i>
+                            <p class="text-sm">JSON</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button onclick="prevStep(1)" class="px-8 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50">
+                        <i class="fas fa-arrow-left mr-2"></i> Previous
+                    </button>
+                    <button onclick="nextStep(3)" class="px-8 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                        Next Step <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Preview & Publish -->
+            <div class="p-6 hidden" id="step3">
+                <h2 class="text-xl font-bold mb-6">Preview & Publish</h2>
+
+                <!-- Tool Preview -->
+                <div class="bg-gray-50 rounded-xl p-8 mb-6">
+                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="h-32 gradient-bg flex items-center justify-center">
+                            <i class="fas fa-tools text-white text-5xl"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2" id="previewName">Your Tool Name</h3>
+                            <p class="text-gray-500 text-sm mb-4" id="previewDescription">Tool description will appear here...</p>
+                            <div class="flex items-center justify-between text-sm mb-4">
+                                <span class="text-gray-400"><i class="fas fa-eye mr-1"></i>0 uses</span>
+                                <span class="text-yellow-500"><i class="fas fa-star mr-1"></i>0.0</span>
+                            </div>
+                            <button class="w-full py-2 gradient-bg text-white rounded-lg font-semibold">Use Tool</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publishing Options -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-semibold">Publish to Marketplace</p>
+                            <p class="text-sm text-gray-500">Make your tool available to all users</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="publishToggle" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-semibold">Allow Rating & Reviews</p>
+                            <p class="text-sm text-gray-500">Let users rate and review your tool</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-semibold">Free Tool</p>
+                            <p class="text-sm text-gray-500">Offer your tool for free to all users</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button onclick="prevStep(2)" class="px-8 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50">
+                        <i class="fas fa-arrow-left mr-2"></i> Previous
+                    </button>
+                    <button onclick="publishTool()" class="px-8 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                        <i class="fas fa-rocket mr-2"></i> Publish Tool
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Sidebar -->
+        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <h3 class="font-bold text-blue-900 mb-4"><i class="fas fa-lightbulb mr-2"></i>Tool Building Tips</h3>
+            <ul class="space-y-2 text-blue-800 text-sm">
+                <li><i class="fas fa-check mr-2"></i>Keep your tool focused on one specific task</li>
+                <li><i class="fas fa-check mr-2"></i>Use clear, descriptive names for input fields</li>
+                <li><i class="fas fa-check mr-2"></i>Provide helpful error messages</li>
+                <li><i class="fas fa-check mr-2"></i>Test your tool before publishing</li>
+                <li><i class="fas fa-check mr-2"></i>Write clear documentation in the description</li>
+                <li><i class="fas fa-check mr-2"></i>Use APIs that have good uptime and speed</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="tools.html" class="text-gray-400 hover:text-white">Tool Marketplace</a></li>
+                        <li><a href="audit-results.html" class="text-gray-400 hover:text-white">Sample Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li>
+                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white">Tech Detection</a></li>
+                        <li><a href="blog/competitor-analysis.html" class="text-gray-400 hover:text-white">Competitor Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            document.getElementById('step' + currentStep).classList.add('hidden');
+            document.getElementById('step' + step).classList.remove('hidden');
+
+            // Update progress indicators
+            for (let i = 1; i < step; i++) {
+                document.getElementById('progress' + i).style.width = '100%';
+            }
+
+            // Update step indicators
+            const stepCircles = document.querySelectorAll('[class*="w-10 h-10"][class*="rounded-full"]');
+            stepCircles.forEach((circle, index) => {
+                if (index < step) {
+                    circle.classList.remove('bg-gray-200', 'text-gray-500');
+                    circle.classList.add('gradient-bg', 'text-white');
+                }
+            });
+
+            // Update preview on step 3
+            if (step === 3) {
+                const name = document.getElementById('toolName').value || 'Your Tool Name';
+                const desc = document.getElementById('toolDescription').value || 'Tool description will appear here...';
+                document.getElementById('previewName').textContent = name;
+                document.getElementById('previewDescription').textContent = desc;
+            }
+
+            currentStep = step;
+        }
+
+        function prevStep(step) {
+            document.getElementById('step' + currentStep).classList.add('hidden');
+            document.getElementById('step' + step).classList.remove('hidden');
+            currentStep = step;
+        }
+
+        function addInputField() {
+            const container = document.getElementById('inputFields');
+            const newField = document.createElement('div');
+            newField.className = 'flex items-center space-x-4 bg-gray-50 p-4 rounded-lg';
+            newField.innerHTML = `
+                <input type="text" placeholder="Field Label" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">
+                <select class="px-4 py-2 border border-gray-300 rounded-lg">
+                    <option>Text</option>
+                    <option>URL</option>
+                    <option>Email</option>
+                    <option>Number</option>
+                    <option>Textarea</option>
+                </select>
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(newField);
+        }
+
+        function publishTool() {
+            const toolData = {
+                name: document.getElementById('toolName').value,
+                description: document.getElementById('toolDescription').value,
+                category: document.getElementById('toolCategory').value,
+                icon: document.getElementById('toolIcon').value,
+                publish: document.getElementById('publishToggle').checked
+            };
+
+            // Send to backend
+            fetch('http://localhost:8000/api/tools/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(toolData)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Tool published successfully!');
+                    window.location.href = 'my-tools.html';
+                }
+            });
+        }
+
+        // Tool type selection
+        document.querySelectorAll('[name="toolType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('apiConfig').classList.toggle('hidden', this.value !== 'api');
+                document.getElementById('codeConfig').classList.toggle('hidden', this.value !== 'code');
+            });
+        });
+    </script>
+</body>
+</html>

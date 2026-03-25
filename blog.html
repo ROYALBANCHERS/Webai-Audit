@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - SEO, Marketing & Technology Guides | WebAI Auditor</title>
+    <meta name="description" content="Expert articles on SEO, digital marketing, web development, and technology. Learn how to improve your website with WebAI Auditor's comprehensive guides.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .blog-card { transition: all 0.3s ease; }
+        .blog-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+        .category-tag { transition: all 0.2s; }
+        .category-tag:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 transition">Home</a>
+                    <a href="index.html#features" class="text-gray-600 hover:text-gray-900 transition">Features</a>
+                    <a href="index.html#pricing" class="text-gray-600 hover:text-gray-900 transition">Pricing</a>
+                    <a href="blog.html" class="text-blue-600 font-semibold">Blog</a>
+                    <a href="pricing.html" class="px-4 py-2 gradient-bg text-white rounded-lg font-medium text-sm hover:opacity-90 transition">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Blog & Resources</span>
+                </h1>
+                <p class="text-gray-500 text-lg max-w-2xl mx-auto">
+                    Learn about SEO, website optimization, tech stacks, and competitor analysis
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Filter -->
+    <section class="py-8 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button class="category-filter active px-6 py-2 rounded-full bg-blue-600 text-white font-medium" data-category="all">All Posts</button>
+                <button class="category-filter px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200" data-category="seo">SEO</button>
+                <button class="category-filter px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200" data-category="tech">Technology</button>
+                <button class="category-filter px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200" data-category="analysis">Analysis</button>
+                <button class="category-filter px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200" data-category="guides">Guides</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google AdSense - Horizontal Banner on Blog Page -->
+    <section class="py-6 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-center">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="horizontal"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Posts will be loaded dynamically -->
+            </div>
+
+            <!-- Google AdSense - In-Feed Ad -->
+            <div class="flex justify-center my-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center mt-12">
+                <button id="loadMoreBtn" class="px-8 py-3 border-2 border-gray-300 rounded-lg font-medium text-gray-700 hover:border-blue-600 hover:text-blue-600 transition">
+                    Load More Articles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16 gradient-bg">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">
+                Stay Updated with Latest Tips
+            </h2>
+            <p class="text-white/80 mb-8">
+                Get the latest SEO tips, tech stack updates, and analysis guides delivered to your inbox.
+            </p>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+                <button type="submit" class="px-8 py-3 bg-white text-gray-800 rounded-lg font-semibold hover:bg-gray-100 transition">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Professional website analysis tool for SEO, performance, and tech stack detection.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-github text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="pricing.html" class="flex flex-col items-center hover:scale-110 transition">
+                            <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg"><i class="fas fa-heart text-white"></i></div>
+                            <span class="text-xs text-pink-400 mt-1 font-medium">Support Us</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-white transition">Get Started</a></li>
+                        <li><a href="audit-results.html" class="text-gray-400 hover:text-white transition">Sample Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
+                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white transition">Tech Detection</a></li>
+                        <li><a href="blog/competitor-analysis.html" class="text-gray-400 hover:text-white transition">Competitor Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2025 WebAI Auditor. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Terms</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const posts = [
+            { id: 1, title: 'WebAI Auditor: The Complete Guide to AI-Powered Website Analysis', excerpt: 'Discover how WebAI Auditor revolutionizes website analysis with AI-powered insights for SEO, performance, tech stack detection, and competitive intelligence.', date: 'Jan 16, 2025', category: 'tech', image: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', url: 'blog/webai-auditor-complete-guide.html' },
+            { id: 2, title: 'Digital Marketing Complete Guide 2025', excerpt: 'Master digital marketing with our comprehensive guide covering SEO, social media, content marketing, paid advertising, and analytics strategies.', date: 'Jan 15, 2025', category: 'guides', image: 'linear-gradient(135deg, #8b5cf6, #a855f7)', url: 'blog/digital-marketing-complete-guide.html' },
+            { id: 3, title: 'Email Marketing Complete Guide', excerpt: 'Learn email marketing strategies that convert, from building your list to automation, personalization, and measuring success.', date: 'Jan 15, 2025', category: 'guides', image: 'linear-gradient(135deg, #ec4899, #f43f5e)', url: 'blog/email-marketing-complete-guide.html' },
+            { id: 4, title: 'SEO Audit Checklist 2025', excerpt: 'Complete SEO audit checklist for 2025 covering technical SEO, on-page optimization, content analysis, and link building.', date: 'Jan 14, 2025', category: 'seo', image: 'linear-gradient(135deg, #10b981, #3b82f6)', url: 'blog/seo-audit-checklist-2025.html' },
+            { id: 5, title: 'AI-Powered Website Auditing: The Complete Guide for 2025', excerpt: 'Discover how artificial intelligence is revolutionizing website analysis, from automated SEO audits to intelligent tech stack detection.', date: 'Jan 15, 2025', category: 'tech', image: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', url: 'blog/ai-powered-website-auditing-complete-guide.html' },
+            { id: 6, title: 'Tech Stack Detection for Competitive Intelligence', excerpt: 'Master tech stack detection to gain deep competitive intelligence, identify market opportunities, and make strategic technology decisions.', date: 'Jan 14, 2025', category: 'analysis', image: 'linear-gradient(135deg, #8b5cf6, #a855f7)', url: 'blog/tech-stack-detection-competitive-intelligence.html' },
+            { id: 7, title: 'Ultimate Website Performance Optimization Guide 2025', excerpt: 'Master website performance optimization with proven strategies, Core Web Vitals, and techniques for lightning-fast websites.', date: 'Jan 13, 2025', category: 'guides', image: 'linear-gradient(135deg, #10b981, #3b82f6)', url: 'blog/ultimate-website-performance-optimization-guide.html' },
+            { id: 8, title: 'Complete SEO Guide for 2025', excerpt: 'Master modern SEO techniques with our comprehensive guide covering on-page, off-page, and technical SEO.', date: 'Dec 15, 2024', category: 'seo', image: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', url: 'blog/seo-guide.html' },
+            { id: 9, title: 'How to Detect Technology Stacks', excerpt: 'Learn how to identify the technologies, frameworks, and tools that power any website.', date: 'Dec 12, 2024', category: 'tech', image: 'linear-gradient(135deg, #10b981, #3b82f6)', url: 'blog/tech-stack.html' },
+            { id: 10, title: 'Competitor Analysis Made Easy', excerpt: 'Discover your competitors\' strategies and find opportunities to outrank them in search results.', date: 'Dec 10, 2024', category: 'analysis', image: 'linear-gradient(135deg, #f59e0b, #ef4444)', url: 'blog/competitor-analysis.html' },
+            { id: 11, title: 'Page Speed Optimization Tips', excerpt: 'Improve your website loading time with these proven performance optimization techniques.', date: 'Dec 8, 2024', category: 'guides', image: 'linear-gradient(135deg, #8b5cf6, #ec4899)', url: 'blog/page-speed.html' },
+            { id: 12, title: 'Understanding Core Web Vitals', excerpt: 'Google\'s Core Web Vitals are crucial for SEO. Learn what they are and how to optimize them.', date: 'Dec 5, 2024', category: 'seo', image: 'linear-gradient(135deg, #3b82f6, #10b981)', url: 'blog/core-web-vitals.html' },
+            { id: 13, title: 'Mobile-First SEO Strategy', excerpt: 'With mobile searches dominating, learn how to optimize your website for mobile-first indexing.', date: 'Dec 3, 2024', category: 'seo', image: 'linear-gradient(135deg, #ec4899, #8b5cf6)', url: 'blog/mobile-seo.html' },
+            { id: 14, title: 'React vs Vue vs Angular in 2024', excerpt: 'A comprehensive comparison of the top JavaScript frameworks for modern web development.', date: 'Nov 30, 2024', category: 'tech', image: 'linear-gradient(135deg, #06b6d4, #3b82f6)', url: 'blog/frameworks-comparison.html' },
+            { id: 15, title: 'Website Audit Checklist', excerpt: 'Use this comprehensive checklist to ensure your website is optimized for search engines and users.', date: 'Nov 28, 2024', category: 'guides', image: 'linear-gradient(135deg, #10b981, #059669)', url: 'blog/audit-checklist.html' },
+            { id: 16, title: 'Local SEO: Complete Guide', excerpt: 'Boost your local business visibility with these essential local SEO strategies.', date: 'Nov 25, 2024', category: 'seo', image: 'linear-gradient(135deg, #f59e0b, #d97706)', url: 'blog/local-seo.html' },
+            { id: 17, title: 'Technical SEO for Beginners', excerpt: 'Get started with technical SEO and learn how to optimize your website\'s structure and performance.', date: 'Nov 22, 2024', category: 'guides', image: 'linear-gradient(135deg, #6366f1, #8b5cf6)', url: 'blog/technical-seo.html' },
+            { id: 18, title: 'E-commerce SEO Best Practices', excerpt: 'Drive more sales with these SEO strategies specifically designed for online stores.', date: 'Nov 20, 2024', category: 'seo', image: 'linear-gradient(135deg, #ec4899, #f43f5e)', url: 'blog/ecommerce-seo.html' },
+            { id: 19, title: 'Content Marketing for SEO', excerpt: 'Learn how to create content that ranks well and drives organic traffic to your website.', date: 'Nov 18, 2024', category: 'seo', image: 'linear-gradient(135deg, #14b8a6, #06b6d4)', url: 'blog/content-seo.html' },
+            { id: 20, title: 'Technical SEO Complete Guide', excerpt: 'Master the foundation of search engine optimization with crawlability, indexing, site speed, and more.', date: 'Nov 15, 2024', category: 'guides', image: 'linear-gradient(135deg, #6366f1, #8b5cf6)', url: 'blog/technical-seo-guide.html' },
+            { id: 21, title: 'Keyword Research Complete Guide', excerpt: 'Discover the best keywords for your website with our comprehensive keyword research guide.', date: 'Nov 12, 2024', category: 'seo', image: 'linear-gradient(135deg, #f59e0b, #ef4444)', url: 'blog/keyword-research-complete-guide.html' },
+            { id: 22, title: 'Link Building Guide', excerpt: 'Build quality backlinks and boost your SEO with proven link building strategies.', date: 'Nov 10, 2024', category: 'seo', image: 'linear-gradient(135deg, #10b981, #3b82f6)', url: 'blog/link-building-guide.html' },
+            { id: 23, title: 'On-Page SEO Complete Guide', excerpt: 'Optimize your pages for search engines with our comprehensive on-page SEO guide.', date: 'Nov 8, 2024', category: 'seo', image: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', url: 'blog/on-page-seo-complete-guide.html' },
+            { id: 24, title: 'Advanced SEO Techniques', excerpt: 'Take your SEO to the next level with advanced strategies and tactics used by professionals.', date: 'Nov 5, 2024', category: 'seo', image: 'linear-gradient(135deg, #8b5cf6, #ec4899)', url: 'blog/advanced-seo-techniques.html' },
+            { id: 25, title: 'Backlink Building Strategies', excerpt: 'Learn effective backlink building strategies to boost your website authority and rankings.', date: 'Nov 3, 2024', category: 'seo', image: 'linear-gradient(135deg, #10b981, #059669)', url: 'blog/backlink-building-strategies.html' },
+            { id: 26, title: 'Content Marketing Guide', excerpt: 'Create compelling content that drives traffic, engagement, and conversions.', date: 'Nov 1, 2024', category: 'guides', image: 'linear-gradient(135deg, #f59e0b, #d97706)', url: 'blog/content-marketing-guide.html' },
+            { id: 27, title: 'Content Marketing & SEO', excerpt: 'Combine content marketing with SEO for maximum impact and organic growth.', date: 'Oct 29, 2024', category: 'seo', image: 'linear-gradient(135deg, #14b8a6, #06b6d4)', url: 'blog/content-marketing-seo.html' },
+            { id: 28, title: 'Google Analytics Guide', excerpt: 'Master Google Analytics 4 and learn how to track and analyze your website traffic.', date: 'Oct 27, 2024', category: 'guides', image: 'linear-gradient(135deg, #f59e0b, #ef4444)', url: 'blog/google-analytics-guide.html' },
+            { id: 29, title: 'HTTPS Migration Guide', excerpt: 'Secure your website and boost SEO with our complete HTTPS migration guide.', date: 'Oct 25, 2024', category: 'guides', image: 'linear-gradient(135deg, #10b981, #3b82f6)', url: 'blog/https-migration-guide.html' },
+            { id: 30, title: 'Image Optimization Guide', excerpt: 'Optimize your images for faster loading and better SEO performance.', date: 'Oct 23, 2024', category: 'guides', image: 'linear-gradient(135deg, #8b5cf6, #ec4899)', url: 'blog/image-optimization.html' },
+            { id: 31, title: 'Internal Linking Guide', excerpt: 'Improve your site structure and SEO with strategic internal linking.', date: 'Oct 21, 2024', category: 'seo', image: 'linear-gradient(135deg, #3b82f6, #10b981)', url: 'blog/internal-linking-guide.html' },
+            { id: 32, title: 'Keyword Research Guide', excerpt: 'Find the right keywords to target for your SEO campaigns.', date: 'Oct 19, 2024', category: 'seo', image: 'linear-gradient(135deg, #f59e0b, #d97706)', url: 'blog/keyword-research-guide.html' },
+            { id: 33, title: 'Local SEO Guide', excerpt: 'Dominate local search results and attract more local customers.', date: 'Oct 17, 2024', category: 'seo', image: 'linear-gradient(135deg, #10b981, #059669)', url: 'blog/local-seo-guide.html' },
+            { id: 34, title: 'Meta Tags Guide', excerpt: 'Optimize your meta tags for better click-through rates and search rankings.', date: 'Oct 15, 2024', category: 'seo', image: 'linear-gradient(135deg, #ec4899, #f43f5e)', url: 'blog/meta-tags-guide.html' },
+            { id: 35, title: 'Mobile-First SEO', excerpt: 'Optimize your website for mobile-first indexing and mobile users.', date: 'Oct 13, 2024', category: 'seo', image: 'linear-gradient(135deg, #8b5cf6, #a855f7)', url: 'blog/mobile-first-seo.html' },
+            { id: 36, title: 'On-Page SEO Checklist', excerpt: 'Quick checklist for optimizing your pages for search engines.', date: 'Oct 11, 2024', category: 'guides', image: 'linear-gradient(135deg, #3b82f6, #6366f1)', url: 'blog/on-page-seo-checklist.html' },
+            { id: 37, title: 'Schema Markup Guide', excerpt: 'Implement structured data to help search engines understand your content better.', date: 'Oct 9, 2024', category: 'tech', image: 'linear-gradient(135deg, #06b6d4, #3b82f6)', url: 'blog/schema-markup-guide.html' },
+            { id: 38, title: 'Video SEO Guide', excerpt: 'Optimize your videos for search engines and increase visibility.', date: 'Oct 7, 2024', category: 'seo', image: 'linear-gradient(135deg, #ef4444, #f43f5e)', url: 'blog/video-seo.html' },
+            { id: 39, title: 'Voice Search Optimization', excerpt: 'Prepare your website for the rise of voice search and voice assistants.', date: 'Oct 5, 2024', category: 'seo', image: 'linear-gradient(135deg, #8b5cf6, #ec4899)', url: 'blog/voice-search-optimization.html' },
+            { id: 40, title: 'XML Sitemap Guide', excerpt: 'Create and submit XML sitemaps to help search engines crawl your site better.', date: 'Oct 3, 2024', category: 'guides', image: 'linear-gradient(135deg, #10b981, #059669)', url: 'blog/xml-sitemap-guide.html' },
+            { id: 41, title: 'E-commerce SEO Detailed Guide', excerpt: 'Comprehensive SEO guide specifically for online stores and e-commerce websites.', date: 'Oct 1, 2024', category: 'seo', image: 'linear-gradient(135deg, #ec4899, #f43f5e)', url: 'blog/ecommerce-seo-detailed.html' },
+        ];
+
+        let currentPage = 1;
+        const postsPerPage = 12;
+        let currentCategory = 'all';
+
+        function renderPosts() {
+            const filtered = currentCategory === 'all' ? posts : posts.filter(p => p.category === currentCategory);
+            const displayPosts = filtered.slice(0, currentPage * postsPerPage);
+
+            const container = document.getElementById('blogGrid');
+            container.innerHTML = displayPosts.map(post => `
+                <article class="blog-card bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
+                    <div class="h-48" style="background: ${post.image}"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold uppercase">${post.category}</span>
+                            <span class="text-gray-400 text-sm">${post.date}</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 hover:text-blue-600">
+                            <a href="${post.url}">${post.title}</a>
+                        </h3>
+                        <p class="text-gray-500 text-sm mb-4">${post.excerpt}</p>
+                        <a href="${post.url}" class="text-blue-600 hover:text-blue-800 font-medium text-sm inline-flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </article>
+            `).join('');
+
+            // Hide load more if all posts shown
+            document.getElementById('loadMoreBtn').style.display = displayPosts.length >= filtered.length ? 'none' : 'inline-block';
+        }
+
+        // Category filters
+        document.querySelectorAll('.category-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-filter').forEach(b => {
+                    b.classList.remove('active', 'bg-blue-600', 'text-white');
+                    b.classList.add('bg-gray-100', 'text-gray-700');
+                });
+                btn.classList.add('active', 'bg-blue-600', 'text-white');
+                btn.classList.remove('bg-gray-100', 'text-gray-700');
+
+                currentCategory = btn.dataset.category;
+                currentPage = 1;
+                renderPosts();
+            });
+        });
+
+        // Load more
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            currentPage++;
+            renderPosts();
+        });
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>

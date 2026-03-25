@@ -1,0 +1,8 @@
+# After creating repository on GitHub, run these commands:
+
+cd C:\Users\Shamiksha\webai-auditor-php
+git remote rename origin old-origin
+git remote add origin https://github.com/YOUR_USERNAME/webai-seo-blog.git
+git push -u origin master
+
+# Replace YOUR_USERNAME with your actual GitHub username

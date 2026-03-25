@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical SEO Complete Guide 2024 | WebAI Auditor</title>
+    <meta name="description" content="Master technical SEO with our comprehensive guide. Covering crawling, indexing, site architecture, XML sitemaps, robots.txt, and more. Free tools included.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}.prose h2{font-size:1.5rem;font-weight:700;margin-top:2rem;margin-bottom:1rem}.prose h3{font-size:1.25rem;font-weight:600;margin-top:1.5rem;margin-bottom:0.75rem}.prose p{margin-bottom:1rem;line-height:1.75}.prose ul{list-style:disc;margin-left:1.5rem;margin-bottom:1rem}.prose ol{list-style:decimal;margin-left:1.5rem;margin-bottom:1rem}.prose li{margin-bottom:0.5rem}.prose pre{background:#1f2937;color:#e5e7eb;padding:1rem;border-radius:0.5rem;overflow-x:auto}.prose code{background:#f3f4f6;padding:0.125rem 0.25rem;border-radius:0.25rem}.prose table{width:100%;border-collapse:collapse;margin:1rem 0}.prose th{background:#f3f4f6;padding:0.5rem;font-weight:600}.prose td{border:1px solid #e5e7eb;padding:0.5rem}</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="../index.html" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="../features.html" class="text-gray-600 hover:text-gray-900">Features</a>
+                    <a href="../tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="../blog.html" class="text-gray-900 font-semibold">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <article class="max-w-4xl mx-auto px-4 py-12">
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm">
+                <li><a href="../blog.html" class="text-blue-600 hover:underline">Blog</a></li>
+                <li class="text-gray-400">/</li>
+                <li class="text-gray-600">Technical SEO Guide</li>
+            </ol>
+        </nav>
+
+        <header class="mb-12">
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Technical SEO</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-4 mb-6">
+                <span class="gradient-text">Technical SEO: The Complete Guide for 2024</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">
+                Master technical SEO from fundamentals to advanced techniques. Learn how to optimize your website's infrastructure for search engines and users alike.
+            </p>
+        </header>
+
+        <div class="prose max-w-none">
+            <section class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">Table of Contents</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#intro" class="text-blue-600 hover:underline">1. What is Technical SEO?</a></li>
+                    <li><a href="#crawling" class="text-blue-600 hover:underline">2. Website Crawling & Indexing</a></li>
+                    <li><a href="#architecture" class="text-blue-600 hover:underline">3. Site Architecture & Structure</a></li>
+                    <li><a href="#sitemaps" class="text-blue-600 hover:underline">4. XML Sitemaps</a></li>
+                    <li><a href="#robots" class="text-blue-600 hover:underline">5. Robots.txt Configuration</a></li>
+                    <li><a href="#https" class="text-blue-600 hover:underline">6. HTTPS & SSL Implementation</a></li>
+                    <li><a href="#canonical" class="text-blue-600 hover:underline">7. Canonical URLs & Duplicate Content</a></li>
+                    <li><a href="#hreflang" class="text-blue-600 hover:underline">8. Hreflang & International SEO</a></li>
+                    <li><a href="#javascript" class="text-blue-600 hover:underline">9. JavaScript SEO</a></li>
+                    <li><a href="#redirects" class="text-blue-600 hover:underline">10. Redirects & URL Changes</a></li>
+                    <li><a href="#structured" class="text-blue-600 hover:underline">11. Structured Data & Schema Markup</a></li>
+                    <li><a href="#errors" class="text-blue-600 hover:underline">12. Common Technical SEO Errors</a></li>
+                </ol>
+            </section>
+
+            <section id="intro" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">1. What is Technical SEO?</h2>
+                <p>
+                    Technical SEO refers to the process of optimizing a website's infrastructure and foundation to help search engines crawl, index, and understand the site effectively. Unlike on-page SEO (which focuses on content) and off-page SEO (which focuses on backlinks), technical SEO ensures that search engines can access and process your website without issues.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Why Technical SEO Matters</h3>
+                <p>
+                    Even with the best content and most authoritative backlinks, your website won't rank if search engines can't properly crawl and index it. Technical SEO forms the foundation upon which all other SEO efforts build.
+                </p>
+
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Crawlability:</strong> Ensures search engines can discover your pages</li>
+                    <li><strong>Indexability:</strong> Allows search engines to add pages to their index</li>
+                    <li><strong>Site Speed:</strong> Direct ranking factor and user experience component</li>
+                    <li><strong>Mobile-Friendliness:</strong> Essential for mobile-first indexing</li>
+                    <li><strong>Site Architecture:</strong> Helps search engines understand site structure</li>
+                    <li><strong>Security:</strong> HTTPS is a ranking signal</li>
+                </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 my-6">
+                    <p class="font-semibold text-blue-900 mb-2">Key Insight:</p>
+                    <p class="text-blue-800">According to <a href="../index.html" class="text-blue-600 underline">WebAI Auditor</a> analysis of 50,000+ websites, 40% of sites have critical technical SEO issues preventing proper indexing. Don't let technical barriers hold back your SEO efforts.</p>
+                </div>
+            </section>
+
+            <section id="crawling" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">2. Website Crawling & Indexing</h2>
+                <p>
+                    Understanding how search engines crawl and index websites is fundamental to technical SEO.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">How Search Engine Crawlers Work</h3>
+                <p>
+                    Search engines use automated programs called crawlers or spiders (Google's is called Googlebot) to:
+                </p>
+                <ol class="list-decimal ml-6 mb-4">
+                    <li>Discover URLs through various means (sitemaps, links, APIs)</li>
+                    <li>Fetch and render web pages</li>
+                    <li>Extract links from pages</li>
+                    <li>Add discovered URLs to the crawl queue</li>
+                    <li>Process and index page content</li>
+                    <li>Update search index with new information</li>
+                </ol>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Crawl Budget Optimization</h3>
+                <p>
+                    Crawl budget is the number of pages Google will crawl on your site within a given timeframe. For larger sites, optimizing crawl budget is crucial.
+                </p>
+
+                <h4 class="text-xl font-semibold mt-6 mb-3">When Crawl Budget Matters</h4>
+                <ul class="list-disc ml-6 mb-4">
+                    <li>Sites with hundreds of thousands of pages</li>
+                    <li>Sites that add/modify content frequently</li>
+                    <li>Sites with many pages with low or no organic traffic</li>
+                    <li>E-commerce sites with faceted navigation</li>
+                </ul>
+
+                <h4 class="text-xl font-semibold mt-6 mb-3">Optimization Strategies</h4>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Block low-value pages:</strong> Use robots.txt to prevent crawling of filtered views, thin content, and admin pages</li>
+                    <li><strong>Fix crawl errors:</strong> Address 4xx and 5xx errors that waste crawl budget</li>
+                    <li><strong>Improve site speed:</strong> Faster sites can be crawled more efficiently</li>
+                    <li><strong>Optimize internal linking:</strong> Ensure important pages are easily accessible</li>
+                    <li><strong>Update sitemaps:</strong> Keep XML sitemaps current with only important pages</li>
+                    <li><strong>Reduce redirect chains:</strong> Eliminate unnecessary redirects</li>
+                </ul>
+            </section>
+
+            <section id="architecture" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">3. Site Architecture & Structure</h2>
+                <p>
+                    A well-organized site architecture helps both users and search engines navigate your website efficiently.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">URL Structure Best Practices</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Keep it simple and logical:</strong> Reflect site hierarchy in URL structure</li>
+                    <li><strong>Use hyphens as separators:</strong> <code>example.com/blog/seo-tips</code> (not underscores)</li>
+                    <li><strong>Use lowercase letters:</strong> Avoid case-sensitivity issues</li>
+                    <li><strong>Avoid unnecessary parameters:</strong> Clean URLs are preferred</li>
+                    <li><strong>Include target keywords:</strong> When natural and relevant</li>
+                    <li><strong>Keep URLs short:</strong> Under 60 characters when possible</li>
+                    <li><strong>Avoid stop words:</strong> Remove a, an, the, in, on, etc.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Site Navigation Structure</h3>
+                <p>
+                    Create a logical hierarchy that's easy to navigate:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Homepage:</strong> Link to all major categories</li>
+                    <li><strong>Category pages:</strong> Link to subcategories and popular items</li>
+                    <li><strong>Product/Content pages:</strong> Link to related items</li>
+                    <li><strong>Breadcrumbs:</strong> Show navigation path on every page</li>
+                    <li><strong>HTML sitemap:</strong> Additional navigation for users and crawlers</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Internal Linking Strategy</h3>
+                <p>
+                    Internal links help distribute page authority and guide crawlers:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Link depth:</strong> Keep important pages within 3-4 clicks from homepage</li>
+                    <li><strong>Anchor text:</strong> Use descriptive, keyword-rich anchor text</li>
+                    <li><strong>Link value:</strong> More links = more importance (but don't overdo it)</li>
+                    <li><strong>Contextual links:</strong> Link within relevant content when natural</li>
+                    <li><strong>Navigational links:</strong> Include in menus, footers, sidebars</li>
+                </ul>
+            </section>
+
+            <section id="sitemaps" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">4. XML Sitemaps</h2>
+                <p>
+                    XML sitemaps tell search engines about pages on your site that are available for crawling.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">XML Sitemap Best Practices</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Include important pages:</strong> All pages you want indexed</li>
+                    <li><strong>Exclude low-value pages:</strong> Filters, duplicates, thin content</li>
+                    <li><strong>Keep it updated:</strong> Update when adding/removing pages</li>
+                    <li><strong>Split large sitemaps:</strong> Max 50,000 URLs per sitemap</li>
+                    <li><strong>Include lastmod:</strong> Last modification date</li>
+                    <li><strong>Set priority:</strong> Indicate relative importance (0.0-1.0)</li>
+                    <li><strong>Submit to GSC:</strong> Submit sitemap to Google Search Console</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">XML Sitemap Example</h3>
+                <pre class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto my-4"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://example.com/&lt;/loc&gt;
+    &lt;lastmod&gt;2024-01-15&lt;/lastmod&gt;
+    &lt;priority&gt;1.0&lt;/priority&gt;
+  &lt;/url&gt;
+&lt;/urlset&gt;</code></pre>
+            </section>
+
+            <section id="robots" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">5. Robots.txt Configuration</h2>
+                <p>
+                    The robots.txt file tells search engine crawlers which pages or sections they should or shouldn't access.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Robots.txt Best Practices</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li>Place robots.txt in root directory: <code>example.com/robots.txt</code></li>
+                    <li>Use for crawl control, not indexing (use noindex for that)</li>
+                    <li>Block admin areas and internal sections</li>
+                    <li>Prevent crawling of duplicate content</li>
+                    <li>Include sitemap location</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Robots.txt Examples</h3>
+                <pre class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto my-4"><code>User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://example.com/sitemap.xml</code></pre>
+            </section>
+
+            <section id="https" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">6. HTTPS & SSL Implementation</h2>
+                <p>
+                    HTTPS is a confirmed ranking signal. All websites should use HTTPS for security and SEO benefits.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Why HTTPS Matters for SEO</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Ranking signal:</strong> Google uses HTTPS as a ranking factor</li>
+                    <li><strong>User trust:</strong> Browser security warnings discourage HTTP sites</li>
+                    <li><strong>Data integrity:</strong> Prevents tampering with data in transit</li>
+                    <li><strong>Referral data:</strong> HTTPS preserves referral data</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">HTTPS Migration Checklist</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li>Obtain SSL certificate</li>
+                    <li>Install certificate on server</li>
+                    <li>Update internal links to HTTPS</li>
+                    <li>Update canonical tags</li>
+                    <li>Implement 301 redirects from HTTP to HTTPS</li>
+                    <li>Update XML sitemaps</li>
+                    <li>Add HTTPS property to Google Search Console</li>
+                </ul>
+            </section>
+
+            <section id="canonical" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">7. Canonical URLs & Duplicate Content</h2>
+                <p>
+                    Duplicate content confuses search engines about which version to index and rank. Canonical tags resolve this issue.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">What Causes Duplicate Content</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>URL parameters:</strong> <code>?sort=price</code>, <code>?filter=color</code></li>
+                    <li><strong>Session IDs:</strong> Tracking parameters in URLs</li>
+                    <li><strong>Print versions:</strong> Printable page versions</li>
+                    <li><strong>HTTP/HTTPS:</strong> Both versions accessible</li>
+                    <li><strong>www/non-www:</strong> Both versions accessible</li>
+                    <li><strong>Trailing slashes:</strong> <code>/page</code> and <code>/page/</code> both work</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Canonical Tag Implementation</h3>
+                <p>Add canonical tags to specify the preferred version:</p>
+                <pre class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto my-4"><code>&lt;link rel="canonical" href="https://example.com/original-page" /&gt;</code></pre>
+            </section>
+
+            <section id="javascript" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">8. JavaScript SEO</h2>
+                <p>
+                    Modern websites often rely heavily on JavaScript. Ensuring search engines can properly crawl and render JS content is crucial.
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">JavaScript SEO Challenges</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Delayed rendering:</strong> Content may not appear immediately</li>
+                    <li><strong>Crawl budget waste:</strong> Rendering requires more resources</li>
+                    <li><strong>Link discovery:</strong> Links added via JS may be missed</li>
+                    <li><strong>Meta tags:</strong> Dynamically set tags may not be seen</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">Best Practices for JavaScript Sites</h3>
+                <ul class="list-disc ml-6 mb-4">
+                    <li><strong>Server-side rendering:</strong> Render initial HTML on the server</li>
+                    <li><strong>Static generation:</strong> Pre-render pages at build time</li>
+                    <li><strong>Progressive enhancement:</strong> Ensure core content without JS</li>
+                    <li><strong>Hybrid rendering:</strong> Combine SSR and client-side rendering</li>
+                    <li><strong>Internal linking:</strong> Use <code>&lt;a&gt;</code> tags, not JS navigation</li>
+                    <li><strong>Meta tags:</strong> Include in initial HTML, not set via JS</li>
+                </ul>
+            </section>
+
+            <section id="errors" class="mb-12">
+                <h2 class="text-3xl font-bold gradient-text mb-6">9. Common Technical SEO Errors</h2>
+                <p>
+                    These are the most common technical SEO issues and how to fix them:
+                </p>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">1. 404 Errors</h3>
+                <p><strong>Solutions:</strong></p>
+                <ul class="list-disc ml-6 mb-4">
+                    <li>Implement 301 redirects to relevant pages</li>
+                    <li>Fix broken internal links</li>
+                    <li>Create custom 404 page with navigation options</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">2. Slow Page Speed</h3>
+                <p><strong>Solutions:</strong></p>
+                <ul class="list-disc ml-6 mb-4">
+                    <li>Optimize and compress images</li>
+                    <li>Minify CSS and JavaScript</li>
+                    <li>Enable compression</li>
+                    <li>Use CDN</li>
+                    <li>Implement caching</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-4">3. Duplicate Content</h3>
+                <p><strong>Solutions:</strong></p>
+                <ul class="list-disc ml-6 mb-4">
+                    <li>Implement canonical tags</li>
+                    <li>Use 301 redirects for duplicates</li>
+                    <li>Parameter handling in GSC</li>
+                    <li>Consistent URL structure</li>
+                </ul>
+
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-purple-500 p-6 my-6">
+                    <h3 class="font-bold text-purple-900 mb-2">Audit Your Technical SEO Today</h3>
+                    <p class="text-purple-800 mb-4">
+                        Don't let technical issues hold back your SEO. Use <a href="../index.html" class="text-blue-600 underline">WebAI Auditor</a> for a comprehensive technical SEO audit—completely free.
+                    </p>
+                    <a href="../index.html" class="inline-flex items-center gradient-bg text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90">
+                        <i class="fas fa-search mr-2"></i> Run Technical SEO Audit
+                    </a>
+                </div>
+            </section>
+
+            <section class="mt-12">
+                <h2 class="text-2xl font-bold mb-6">Continue Learning</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="on-page-seo-checklist.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+                        <span class="text-sm text-blue-600 font-medium">Checklist</span>
+                        <h3 class="font-bold mt-2">On-Page SEO Checklist</h3>
+                        <p class="text-sm text-gray-500 mt-2">50+ essential elements</p>
+                    </a>
+                    <a href="core-web-vitals.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+                        <span class="text-sm text-blue-600 font-medium">Performance</span>
+                        <h3 class="font-bold mt-2">Core Web Vitals Guide</h3>
+                        <p class="text-sm text-gray-500 mt-2">Optimize page experience</p>
+                    </a>
+                    <a href="javascript-seo.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+                        <span class="text-sm text-blue-600 font-medium">Advanced</span>
+                        <h3 class="font-bold mt-2">JavaScript SEO</h3>
+                        <p class="text-sm text-gray-500 mt-2">JS framework optimization</p>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </article>
+
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="../tools.html" class="text-gray-400 hover:text-white">Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

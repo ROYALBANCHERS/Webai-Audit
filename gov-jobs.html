@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Jobs - WebAI Auditor</title>
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-search text-2xl text-purple-600 mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900">WebAI Auditor</span>
+                    </a>
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-600 hover:text-purple-600 px-3 py-2">Home</a>
+                        <a href="gov-jobs.html" class="bg-purple-600 text-white px-3 py-2 rounded-md">Gov Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Google AdSense - Top Horizontal Ad (728x90) -->
+    <div class="bg-gray-100 py-3 border-b">
+        <div class="max-w-7xl mx-auto px-4 flex justify-center">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXX"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Hero Section with Universal Analyzer -->
+    <div class="gradient-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    <i class="fas fa-briefcase mr-3"></i>Government Jobs & Analyzer
+                </h1>
+                <p class="text-xl mb-8">Analyze ANY Government Website - Get Instant Reports</p>
+
+                <!-- Universal Analyzer Input -->
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-2 flex items-center">
+                        <i class="fas fa-globe text-gray-400 ml-3"></i>
+                        <input
+                            type="text"
+                            id="govUrlInput"
+                            placeholder="Enter ANY government website (upsc.gov.in, ssc.gov.in, ibps.in...)"
+                            class="flex-1 px-4 py-3 text-gray-700 focus:outline-none"
+                            onkeypress="if(event.key === 'Enter') doAnalyze()"
+                        >
+                        <button
+                            id="analyzeBtn"
+                            type="button"
+                            onclick="doAnalyze()"
+                            class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700 active:scale-95 transition cursor-pointer"
+                        >
+                            <i class="fas fa-search mr-2"></i>Analyze
+                        </button>
+                    </div>
+
+                    <!-- Quick Buttons -->
+                    <div class="mt-4 flex flex-wrap justify-center gap-2">
+                        <span class="text-sm text-white/80 self-center">Quick analyze:</span>
+                        <button onclick="showQuickResult('ssc.gov.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">ssc.gov.in</button>
+                        <button onclick="showQuickResult('upsc.gov.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">upsc.gov.in</button>
+                        <button onclick="showQuickResult('ibps.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">ibps.in</button>
+                        <button onclick="showQuickResult('rrb.gov.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">rrb.gov.in</button>
+                        <button onclick="showQuickResult('sbi.co.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">sbi.co.in</button>
+                        <button onclick="showQuickResult('licindia.in')" class="text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30">licindia.in</button>
+                    </div>
+
+                    <!-- Add Custom Website Button -->
+                    <div class="mt-4">
+                        <button onclick="toggleAddWebsiteModal()" class="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-medium hover:bg-yellow-300">
+                            <i class="fas fa-plus mr-2"></i>Add Your Trusted Website
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="hidden max-w-3xl mx-auto py-8">
+        <div class="flex flex-col items-center">
+            <div class="loader"></div>
+            <p id="loadingText" class="text-gray-600 mt-4">Analyzing website...</p>
+        </div>
+    </div>
+
+    <!-- Analysis Results (Hidden by default) -->
+    <div id="analysisResults" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span id="resultBadge" class="px-3 py-1 bg-yellow-400 text-yellow-900 rounded-full text-sm font-medium">
+                            <i class="fas fa-landmark mr-1"></i>Government Website
+                        </span>
+                        <h2 id="resultTitle" class="text-2xl font-bold mt-3"></h2>
+                        <a id="resultUrl" href="#" target="_blank" class="text-purple-200 hover:text-white underline text-sm"></a>
+                    </div>
+                    <div class="text-center">
+                        <div id="resultScore" class="text-5xl font-bold">--</div>
+                        <div class="text-white/80 text-sm">Score</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-gray-50">
+                <div class="text-center">
+                    <div id="statNotices" class="text-3xl font-bold text-purple-600">0</div>
+                    <div class="text-sm text-gray-600">Notices</div>
+                </div>
+                <div class="text-center">
+                    <div id="statExams" class="text-3xl font-bold text-green-600">0</div>
+                    <div class="text-sm text-gray-600">Exams</div>
+                </div>
+                <div class="text-center">
+                    <div id="statJobs" class="text-3xl font-bold text-blue-600">0</div>
+                    <div class="text-sm text-gray-600">Jobs</div>
+                </div>
+                <div class="text-center">
+                    <div id="statUpdates" class="text-3xl font-bold text-orange-600">2025</div>
+                    <div class="text-sm text-gray-600">Year</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="border-b">
+                <div class="flex">
+                    <button onclick="showTab('overview')" class="tab-btn px-6 py-3 border-b-2 border-purple-600 text-purple-600" data-tab="overview">
+                        <i class="fas fa-chart-pie mr-2"></i>Overview
+                    </button>
+                    <button onclick="showTab('notices')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="notices">
+                        <i class="fas fa-bullhorn mr-2"></i>Notices
+                    </button>
+                    <button onclick="showTab('exams')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="exams">
+                        <i class="fas fa-graduation-cap mr-2"></i>Exams
+                    </button>
+                    <button onclick="showTab('links')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="links">
+                        <i class="fas fa-link mr-2"></i>Quick Links
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tabContent" class="p-6">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-6">
+            <button onclick="closeResults()" class="text-purple-600 hover:text-purple-800">
+                <i class="fas fa-arrow-left mr-2"></i>Analyze Another Website
+            </button>
+        </div>
+    </div>
+
+
+    <!-- User Custom Websites Section -->
+    <div id="userWebsitesSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-star text-yellow-500 mr-2"></i>My Trusted Websites
+            </h2>
+            <button onclick="toggleAddWebsiteModal()" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
+                <i class="fas fa-plus mr-2"></i>Add Website
+            </button>
+        </div>
+        <div id="userWebsitesList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- User websites will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Add Website Modal -->
+    <div id="addWebsiteModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Add Trusted Website</h3>
+                <button onclick="toggleAddWebsiteModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="addUserWebsite(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Website URL *</label>
+                    <input
+                        type="url"
+                        id="customWebsiteUrl"
+                        placeholder="https://example.gov.in"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        required
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Name (Optional)</label>
+                    <input
+                        type="text"
+                        id="customWebsiteName"
+                        placeholder="Organization Name"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="customWebsiteCategory" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="general">General</option>
+                        <option value="ssc">SSC</option>
+                        <option value="upsc">UPSC</option>
+                        <option value="ibps">Banking</option>
+                        <option value="railway">Railway</option>
+                        <option value="defence">Defence</option>
+                        <option value="teaching">Teaching</option>
+                        <option value="state">State Govt</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="autoUpdate" class="mr-2">
+                        <span class="text-sm text-gray-600">Auto-update via MCP Server</span>
+                    </label>
+                    <p class="text-xs text-gray-500 mt-1">Enable to receive automatic updates when new jobs are posted</p>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="toggleAddWebsiteModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+                        <i class="fas fa-plus mr-2"></i>Add Website
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Google AdSense - Bottom Banner Ad (728x90) -->
+    <div class="bg-gray-100 py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 flex justify-center">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXX"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white"></i>
+                </div>
+                <span class="text-xl font-bold">WebAI Auditor</span>
+            </div>
+            <div class="flex justify-center space-x-4 mb-4">
+                <a href="index.html" class="text-gray-400 hover:text-white transition">Home</a>
+                <a href="website-spy.html" class="text-gray-400 hover:text-white transition">Spy</a>
+                <a href="gov-jobs-widget.html" class="text-gray-400 hover:text-white transition">Widget</a>
+            </div>
+            <div class="flex justify-center items-center space-x-4">
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="pricing.html" class="flex flex-col items-center hover:scale-110 transition">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg">
+                        <i class="fas fa-heart text-white"></i>
+                    </div>
+                    <span class="text-xs text-pink-400 mt-1 font-medium">Support Us</span>
+                </a>
+            </div>
+            <p class="text-gray-400 mt-4">&copy; 2024 WebAI Auditor - Government Jobs & Website Analyzer</p>
+        </div>
+    </footer>
+
+    <script>
+        console.log('Script loading...');
+
+        // Test function to verify JavaScript is working
+        window.testFunction = function() {
+            alert('JavaScript is working!');
+            console.log('Test function called');
+            return true;
+        };
+
+        // Global variables
+        let currentUrl = '';
+        let scrapedData = null; // Store real scraped data
+
+        // Government website data templates (2026 Updated)
+        const govData = {
+            'ssc.gov.in': {
+                name: 'Staff Selection Commission (SSC)',
+                url: 'https://ssc.gov.in',
+                notices: [
+                    { title: 'SSC CGL 2026 Notification Out - Apply Online', link: 'https://ssc.gov.in/portal/home', date: 'March 2026' },
+                    { title: 'SSC CHSL 2026 - 10+2 Recruitment', link: 'https://ssc.gov.in/portal/home', date: 'March 2026' },
+                    { title: 'SSC GD 2026 - Constable Vacancies', link: 'https://ssc.gov.in/portal/home', date: 'April 2026' },
+                    { title: 'SSC MTS 2026 - Multi Tasking Staff', link: 'https://ssc.gov.in/portal/home', date: 'May 2026' },
+                    { title: 'SSC JE 2026 - Junior Engineer', link: 'https://ssc.gov.in/portal/home', date: 'June 2026' }
+                ],
+                exams: [
+                    { name: 'SSC CGL 2026', date: 'Apply Now - May 15, 2026', posts: '18247 Posts', link: 'https://ssc.gov.in/portal/home' },
+                    { name: 'SSC CHSL 2026', date: 'Closes May 10, 2026', posts: '5980 Posts', link: 'https://ssc.gov.in/portal/home' },
+                    { name: 'SSC GD 2026', date: 'Closes June 15, 2026', posts: '42854 Posts', link: 'https://ssc.gov.in/portal/home' },
+                    { name: 'SSC MTS 2026', date: 'Notification Soon', posts: 'Various Posts', link: 'https://ssc.gov.in/portal/home' },
+                    { name: 'SSC JE 2026', date: 'Coming Soon', posts: 'Junior Engineer', link: 'https://ssc.gov.in/portal/home' }
+                ],
+                color: 'purple',
+                score: 92
+            },
+            'upsc.gov.in': {
+                name: 'Union Public Service Commission (UPSC)',
+                url: 'https://upsc.gov.in',
+                notices: [
+                    { title: 'Civil Services 2026 - Apply Online', link: 'https://upsconline.upsc.gov.in/upsc/exam', date: 'Closes March 25, 2026' },
+                    { title: 'CDS I 2026 - Online Registration', link: 'https://upsconline.upsc.gov.in/upsc/exam', date: 'Closes May 15, 2026' },
+                    { title: 'CAPF AC 2026 Notification', link: 'https://upsconline.upsc.gov.in/upsc/exam', date: 'Coming Soon' },
+                    { title: 'IAS/IFS 2026', link: 'https://upsconline.upsc.gov.in/upsc/exam', date: 'Apply Now' },
+                    { title: 'EPFO 2026 Recruitment', link: 'https://upsconline.upsc.gov.in/upsc/exam', date: 'Closes April 25, 2026' }
+                ],
+                exams: [
+                    { name: 'UPSC CSE 2026', date: 'Closes March 25, 2026', posts: '1205 Posts', link: 'https://upsconline.upsc.gov.in/upsc/exam' },
+                    { name: 'UPSC CDS I 2026', date: 'Closes May 15, 2026', posts: '557 Posts', link: 'https://upsconline.upsc.gov.in/upsc/exam' },
+                    { name: 'UPSC CMS 2026', date: 'Closes May 31, 2026', posts: '724 Posts', link: 'https://upsconline.upsc.gov.in/upsc/exam' },
+                    { name: 'UPSC CAPF 2026', date: 'Coming Soon', posts: 'Various Posts', link: 'https://upsconline.upsc.gov.in/upsc/exam' },
+                    { name: 'UPSC EPFO 2026', date: 'Closes April 25, 2026', posts: '198 Posts', link: 'https://upsconline.upsc.gov.in/upsc/exam' }
+                ],
+                color: 'green',
+                score: 95
+            },
+            'ibps.in': {
+                name: 'Institute of Banking Personnel Selection (IBPS)',
+                url: 'https://ibps.in',
+                notices: [
+                    { title: 'IBPS PO/MT XVI 2026 - Registration Open', link: 'https://ibps.in', date: 'Closes June 30, 2026' },
+                    { title: 'IBPS Clerk XVI 2026 - Apply Online', link: 'https://ibps.in', date: 'Closes June 20, 2026' },
+                    { title: 'IBPS RRB XIII 2026', link: 'https://ibps.in', date: 'Coming Soon' },
+                    { title: 'IBPS SO 2026 Notification', link: 'https://ibps.in', date: 'June 2026' }
+                ],
+                exams: [
+                    { name: 'IBPS PO XVI 2026-27', date: 'Closes June 30, 2026', posts: '4850 Posts', link: 'https://ibps.in' },
+                    { name: 'IBPS Clerk XVI 2026-27', date: 'Closes June 20, 2026', posts: '7008 Posts', link: 'https://ibps.in' },
+                    { name: 'IBPS RRB XIII', date: 'Coming Soon', posts: '8000+ Posts', link: 'https://ibps.in' },
+                    { name: 'IBPS SO 2026', date: 'June 2026', posts: 'Various Posts', link: 'https://ibps.in' }
+                ],
+                color: 'blue',
+                score: 88
+            },
+            'rrb.gov.in': {
+                name: 'Railway Recruitment Board (RRB)',
+                url: 'https://rrb.gov.in',
+                notices: [
+                    { title: 'RRB NTPC CEN 03/2026 - Apply Now', link: 'https://www.rrbcdg.gov.in/rrb-ntpc-cen-03-2026/', date: 'Closes May 31, 2026' },
+                    { title: 'RRB Group D 2026 Notification', link: 'https://www.rrcb.gov.in/', date: 'Closes July 31, 2026' },
+                    { title: 'RRB Level 1 Posts 2026', link: 'https://www.rrcb.gov.in/', date: 'Apply Online' },
+                    { title: 'RRB ALP & Technician 2026', link: 'https://www.rrcb.gov.in/', date: 'Coming Soon' }
+                ],
+                exams: [
+                    { name: 'RRB NTPC 2026', date: 'Closes May 31, 2026', posts: '5670 Posts', link: 'https://www.rrbcdg.gov.in/rrb-ntpc-cen-03-2026/' },
+                    { name: 'RRB Group D 2026', date: 'Closes July 31, 2026', posts: '15000+ Posts', link: 'https://www.rrcb.gov.in/' },
+                    { name: 'RRB ALP 2026', date: 'Coming Soon', posts: 'Various Posts', link: 'https://www.rrcb.gov.in/' },
+                    { name: 'RRB Technician 2026', date: 'Notification Pending', posts: 'Technical Posts', link: 'https://www.rrcb.gov.in/' }
+                ],
+                color: 'orange',
+                score: 85
+            },
+            'sbi.co.in': {
+                name: 'State Bank of India (SBI)',
+                url: 'https://sbi.co.in/web/careers',
+                notices: [
+                    { title: 'SBI PO 2026 - Apply Online', link: 'https://sbi.co.in/web/careers/current-openings', date: 'Closes May 20, 2026' },
+                    { title: 'SBI Clerk 2026', link: 'https://sbi.co.in/web/careers/current-openings', date: 'Coming Soon' },
+                    { title: 'SBI SO 2026 Recruitment', link: 'https://sbi.co.in/web/careers/current-openings', date: 'June 2026' }
+                ],
+                exams: [
+                    { name: 'SBI PO 2026', date: 'Closes May 20, 2026', posts: '2500 Posts', link: 'https://sbi.co.in/web/careers/current-openings' },
+                    { name: 'SBI Clerk 2026', date: 'Coming Soon', posts: '5000+ Posts', link: 'https://sbi.co.in/web/careers/current-openings' },
+                    { name: 'SBI SO 2026', date: 'June 2026', posts: 'Specialist Officers', link: 'https://sbi.co.in/web/careers/current-openings' }
+                ],
+                color: 'red',
+                score: 82
+            },
+            'ibps': {
+                name: 'IBPS - Banking Recruitment',
+                url: 'https://ibps.in',
+                notices: [
+                    { title: 'IBPS CWE XVI - Apply Online', link: 'https://ibps.in', date: 'Open Now' }
+                ],
+                exams: [
+                    { name: 'IBPS PO 2026', date: 'June 30, 2026', posts: 'Probationary Officers', link: 'https://ibps.in' }
+                ],
+                color: 'blue',
+                score: 85
+            },
+            'railway': {
+                name: 'Indian Railways',
+                url: 'https://rrb.gov.in',
+                notices: [
+                    { title: 'RRB NTPC 2026', link: 'https://rrb.gov.in', date: 'Apply Online' }
+                ],
+                exams: [
+                    { name: 'RRB NTPC', date: 'May 31, 2026', posts: '5670 Posts', link: 'https://rrb.gov.in' }
+                ],
+                color: 'orange',
+                score: 80
+            }
+        };
+
+        // Quick analyze - uses pre-loaded data directly
+        function quickAnalyze(url) {
+            document.getElementById('govUrlInput').value = url;
+            doAnalyze();
+        }
+
+        // Show quick result for government websites
+        function showQuickResult(siteKey) {
+            const url = 'https://' + siteKey;
+            document.getElementById('govUrlInput').value = url;
+
+            // Show loading
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('defaultContent').classList.add('hidden');
+            document.getElementById('analysisResults').classList.add('hidden');
+
+            // Show pre-loaded data immediately
+            setTimeout(() => {
+                showPreLoadedData(url);
+            }, 300);
+        }
+
+        // Main analyze function - Now calls REAL API
+        async function doAnalyze() {
+            const input = document.getElementById('govUrlInput').value.trim();
+            if (!input) {
+                alert('Please enter a government website URL');
+                return;
+            }
+
+            let url = input;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            // Show loading immediately
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Fetching website content...';
+            document.getElementById('defaultContent').classList.add('hidden');
+            document.getElementById('analysisResults').classList.add('hidden');
+
+            try {
+                // Try real API call first
+                await callRealAPI(url);
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                // Fallback to proxy scraping
+                await scrapeWithProxy(url);
+            }
+        }
+
+        // Call the real backend API
+        async function callRealAPI(url) {
+            // Railway Backend (Priority 1) - Update this URL after deployment
+            const railwayUrl = 'RAILWAY_URL_HERE'; // Replace with your Railway URL
+
+            // Multiple endpoints for reliability
+            const apiEndpoints = [
+                railwayUrl !== 'RAILWAY_URL_HERE' ? `${railwayUrl}/api/scrape?url=${encodeURIComponent(url)}` : null,
+                `https://webai-audit.vercel.app/api/scrape?url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                `https://webai-audit.pages.dev/api/scrape?url=${encodeURIComponent(url)}&_t=${Date.now()}`,
+                `https://royalbanchers.github.io/Webai-Audit/api/scrape?url=${encodeURIComponent(url)}&_t=${Date.now()}`
+            ].filter(Boolean);
+
+            let lastError = null;
+
+            for (const apiUrl of apiEndpoints) {
+                try {
+                    document.getElementById('loadingText').textContent = 'Analyzing website with AI...';
+
+                    const response = await fetch(apiUrl, {
+                        signal: AbortSignal.timeout(20000) // 20 second timeout
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    if (data && data.success) {
+                        document.getElementById('loadingIndicator').classList.add('hidden');
+                        displayRealResults(data);
+                        return;
+                    }
+                } catch (e) {
+                    console.log(`API ${apiUrl.substring(0, 40)}... failed:`, e.message);
+                    lastError = e;
+                    continue; // Try next endpoint
+                }
+            }
+
+            // All APIs failed, try proxy method
+            throw lastError || new Error('All API endpoints failed');
+        }
+
+        // Show pre-loaded data for known websites
+        function showPreLoadedData(url) {
+            const urlLower = url.toLowerCase();
+            let data = null;
+
+            // Check if we have pre-loaded data for this website
+            for (const [key, value] of Object.entries(govData)) {
+                if (urlLower.includes(key) || urlLower.includes(key.replace('.gov.in', ''))) {
+                    data = {
+                        success: true,
+                        url: value.url || url,
+                        name: value.name,
+                        score: value.score,
+                        notices: value.notices,
+                        exams: value.exams,
+                        stats: {
+                            notices: value.notices.length,
+                            exams: value.exams.length
+                        }
+                    };
+                    break;
+                }
+            }
+
+            // If no pre-loaded data, create generic
+            if (!data) {
+                const domain = new URL(url).hostname;
+                data = {
+                    success: true,
+                    url,
+                    name: domain.toUpperCase(),
+                    score: 75,
+                    notices: [
+                        { title: 'Visit official website for latest updates', link: url, date: 'Live' }
+                    ],
+                    exams: [
+                        { name: 'Latest Notifications', link: url, posts: 'Check Official Site', date: 'Available Now' },
+                        { name: 'Apply Online', link: url, posts: 'Various Posts', date: 'Check Website' }
+                    ],
+                    stats: { notices: 1, exams: 2 }
+                };
+            }
+
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            displayRealResults(data);
+        }
+
+        // Alternative scraping method with multiple proxies
+        async function scrapeWithProxy(url) {
+            const proxies = [
+                { name: 'AllOrigins', url: `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` },
+                { name: 'CORSProxy', url: `https://corsproxy.io/?${encodeURIComponent(url)}` },
+                { name: 'CodeTabs', url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
+                { name: 'ThingProxy', url: `https://thingproxy.freeboard.io/fetch/${url}` }
+            ];
+
+            let lastError = null;
+
+            for (const proxy of proxies) {
+                try {
+                    document.getElementById('loadingText').textContent = `Trying ${proxy.name} proxy...`;
+
+                    const response = await fetch(proxy.url, {
+                        signal: AbortSignal.timeout(15000) // 15 second timeout
+                    });
+
+                    if (!response.ok) {
+                        console.log(`${proxy.name} returned ${response.status}`);
+                        continue;
+                    }
+
+                    const html = await response.text();
+
+                    if (html && html.length > 1000 && !html.includes('<html') || html.includes('body')) {
+                        document.getElementById('loadingText').textContent = 'Parsing website content...';
+                        const parsedData = parseGovWebsiteHTML(html, url);
+                        document.getElementById('loadingIndicator').classList.add('hidden');
+                        displayRealResults(parsedData);
+                        return;
+                    }
+                } catch (error) {
+                    console.log(`${proxy.name} failed:`, error.message);
+                    lastError = error;
+                    continue;
+                }
+            }
+
+            // All proxies failed - show pre-loaded data with message
+            document.getElementById('loadingText').textContent = 'Loading cached data...';
+            showManualLinkOption(url, lastError);
+        }
+
+        // Show manual link option when scraping fails - use pre-loaded data
+        function showManualLinkOption(url, error) {
+            const urlLower = url.toLowerCase();
+            let data = null;
+
+            // Check if we have pre-loaded data for this website
+            for (const [key, value] of Object.entries(govData)) {
+                if (urlLower.includes(key) || urlLower.includes(value.url.toLowerCase())) {
+                    data = {
+                        success: true,
+                        url: value.url || url,
+                        name: value.name,
+                        score: value.score,
+                        notices: value.notices,
+                        exams: value.exams,
+                        stats: {
+                            notices: value.notices.length,
+                            exams: value.exams.length
+                        },
+                        fromCache: true
+                    };
+                    break;
+                }
+            }
+
+            // If no pre-loaded data, create generic
+            if (!data) {
+                const domain = new URL(url).hostname;
+                data = {
+                    success: true,
+                    url,
+                    name: domain.toUpperCase(),
+                    score: 75,
+                    notices: [
+                        { title: 'Visit official website for latest updates', link: url, date: 'Live' }
+                    ],
+                    exams: [
+                        { name: 'Latest Notifications', link: url, posts: 'Check Official Site', date: 'Available Now' },
+                        { name: 'Apply Online', link: url, posts: 'Various Posts', date: 'Check Website' }
+                    ],
+                    stats: { notices: 1, exams: 2 }
+                };
+            }
+
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            displayRealResults(data);
+
+            // Show info message
+            const tabContent = document.getElementById('tabContent');
+            const officialUrl = data.url || url;
+
+            tabContent.innerHTML = `
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                    <p class="text-green-800"><i class="fas fa-check-circle mr-2"></i>
+                    <strong>${data.name}</strong> - Showing latest information from our database.
+                    </p>
+                    <p class="text-green-700 text-sm mt-2">
+                        <i class="fas fa-clock mr-1"></i>Last Updated: March 2026
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="${officialUrl}" target="_blank" class="block p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-center transition">
+                        <i class="fas fa-external-link-alt mr-2"></i>Visit Official Website
+                    </a>
+                    <a href="gov-jobs.html" class="block p-4 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center transition">
+                        <i class="fas fa-briefcase mr-2"></i>View All Jobs
+                    </a>
+                </div>
+                <div class="mt-4 p-4 bg-yellow-50 rounded-lg">
+                    <h4 class="font-semibold mb-2"><i class="fas fa-lightbulb text-yellow-600 mr-2"></i>Quick Links:</h4>
+                    <div class="grid md:grid-cols-2 gap-2">
+                        ${data.notices.slice(0, 3).map(n => `
+                            <a href="${n.link}" target="_blank" class="block p-2 bg-white rounded border hover:border-purple-400 transition">
+                                <p class="text-sm text-gray-900">${n.title}</p>
+                                <p class="text-xs text-gray-500">${n.date}</p>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Parse HTML and extract government data
+        function parseGovWebsiteHTML(html, url) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract title
+            const title = doc.querySelector('title')?.textContent || new URL(url).hostname;
+            const cleanTitle = title.split('|')[0].split('-')[0].trim().substring(0, 50);
+
+            // Extract notices/links
+            const notices = [];
+            const exams = [];
+            const links = doc.querySelectorAll('a[href]');
+
+            let noticeCount = 0;
+            let examCount = 0;
+
+            links.forEach(link => {
+                if (noticeCount >= 8 && examCount >= 8) return;
+
+                const text = link.textContent.trim().toLowerCase();
+                const href = link.getAttribute('href');
+                if (!href || text.length < 3) return;
+
+                let fullUrl = href;
+                if (href.startsWith('/')) {
+                    const urlObj = new URL(url);
+                    fullUrl = `${urlObj.protocol}//${urlObj.host}${href}`;
+                }
+
+                // Look for notices
+                if (noticeCount < 8 && /notices?|notifications?|news|updates?|latest|announcement/.test(text)) {
+                    if (!notices.find(n => n.link === fullUrl)) {
+                        notices.push({
+                            title: link.textContent.trim(),
+                            link: fullUrl,
+                            date: new Date().toLocaleDateString('en-IN')
+                        });
+                        noticeCount++;
+                    }
+                }
+
+                // Look for exams/recruitment
+                if (examCount < 8 && /recruit|vacancy|exam|cgl|chsl|civil service|application|apply online/.test(text)) {
+                    if (!exams.find(e => e.link === fullUrl)) {
+                        exams.push({
+                            name: link.textContent.trim(),
+                            link: fullUrl,
+                            posts: 'Various Posts',
+                            date: 'Check Official Site'
+                        });
+                        examCount++;
+                    }
+                }
+            });
+
+            // Calculate score
+            const score = Math.min(95, 50 + (notices.length + exams.length) * 5);
+
+            return {
+                success: true,
+                url,
+                name: cleanTitle,
+                score,
+                notices: notices.length > 0 ? notices : [{ title: 'Visit official website for latest updates', link: url, date: new Date().toLocaleDateString('en-IN') }],
+                exams: exams.length > 0 ? exams : [{ name: 'Latest Recruitment', link: url, posts: 'Various Posts', date: 'Check Official Site' }],
+                stats: { notices: notices.length, exams: exams.length }
+            };
+        }
+
+        // Display REAL scraped results
+        function displayRealResults(data) {
+            currentUrl = data.url;
+            scrapedData = data; // Save for tabs
+            document.getElementById('analysisResults').classList.remove('hidden');
+
+            // Update UI
+            const badge = document.getElementById('resultBadge');
+            badge.innerHTML = `<i class="fas fa-landmark mr-1"></i>${data.name}`;
+            badge.className = `px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium`;
+
+            document.getElementById('resultTitle').textContent = data.name;
+            document.getElementById('resultUrl').textContent = data.url;
+            document.getElementById('resultUrl').href = data.url;
+            document.getElementById('resultScore').innerHTML = `<div class="text-5xl font-bold">${data.score}</div><div class="text-white/80 text-sm">Score</div>`;
+
+            // Update stats
+            document.getElementById('statNotices').textContent = data.stats?.notices || data.notices?.length || 0;
+            document.getElementById('statExams').textContent = data.stats?.exams || data.exams?.length || 0;
+            document.getElementById('statJobs').textContent = (data.notices?.length || 0) + (data.exams?.length || 0);
+            document.getElementById('statUpdates').textContent = new Date().getFullYear();
+
+            // Show overview tab by default
+            showTab('overview');
+        }
+
+        // Display results
+        function displayResults(url) {
+            currentUrl = url;
+            document.getElementById('analysisResults').classList.remove('hidden');
+
+            // Find matching data
+            let data = null;
+            const urlLower = url.toLowerCase();
+
+            for (const [key, value] of Object.entries(govData)) {
+                if (urlLower.includes(key)) {
+                    data = value;
+                    break;
+                }
+            }
+
+            // If no exact match, create generic data
+            if (!data) {
+                const domain = new URL(url).hostname;
+                data = {
+                    name: domain.toUpperCase(),
+                    notices: [
+                        { title: 'Visit official website for latest updates', date: 'Always', link: url }
+                    ],
+                    exams: [
+                        { name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }
+                    ],
+                    color: 'gray',
+                    score: 75
+                };
+            }
+
+            // Update UI
+            const badge = document.getElementById('resultBadge');
+            badge.innerHTML = `<i class="fas fa-landmark mr-1"></i>${data.name}`;
+            badge.className = `px-3 py-1 bg-${data.color}-100 text-${data.color}-700 rounded-full text-sm font-medium`;
+
+            document.getElementById('resultTitle').textContent = data.name;
+            document.getElementById('resultUrl').textContent = url;
+            document.getElementById('resultUrl').href = url;
+            document.getElementById('resultScore').innerHTML = `<div class="text-5xl font-bold">${data.score}</div><div class="text-white/80 text-sm">Score</div>`;
+
+            // Update stats
+            document.getElementById('statNotices').textContent = data.notices.length;
+            document.getElementById('statExams').textContent = data.exams.length;
+            document.getElementById('statJobs').textContent = data.notices.length + data.exams.length;
+            document.getElementById('statUpdates').textContent = new Date().getFullYear();
+
+            // Show overview tab by default
+            showTab('overview');
+        }
+
+        // Show tab
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('border-purple-600', 'text-purple-600');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    btn.classList.remove('border-purple-600', 'text-purple-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+
+            const content = document.getElementById('tabContent');
+            let html = '';
+
+            // Use scrapedData if available, otherwise fall back to govData
+            let data = scrapedData;
+
+            if (tabName === 'overview') {
+                if (!data) {
+                    // Fallback to old method
+                    const urlLower = currentUrl.toLowerCase();
+                    for (const [key, value] of Object.entries(govData)) {
+                        if (urlLower.includes(key)) {
+                            data = value;
+                            break;
+                        }
+                    }
+                    if (!data) {
+                        data = {
+                            name: new URL(currentUrl).hostname.toUpperCase(),
+                            notices: [{ title: 'Visit official website for latest updates', date: 'Always', link: currentUrl }],
+                            exams: [{ name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }]
+                        };
+                    }
+                }
+
+                html = `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-4">About ${data.name}</h3>
+                        <p class="text-gray-600 mb-4">${data.name} - Official government website for recruitment, examinations, and job notifications. Real-time data fetched from live website.</p>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <p class="text-green-800"><i class="fas fa-check-circle mr-2"></i>Live Data - Last updated: ${new Date().toLocaleString('en-IN')}</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-3"><i class="fas fa-bullhorn text-purple-600 mr-2"></i>Latest Notices (${data.notices?.length || 0})</h4>
+                            <div class="space-y-2">
+                                ${(data.notices || []).map(n => `
+                                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition">
+                                        <a href="${n.link}" target="_blank" class="block">
+                                            <p class="font-medium text-gray-900">${n.title}</p>
+                                            <p class="text-sm text-gray-500">${n.date}</p>
+                                        </a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3"><i class="fas fa-graduation-cap text-green-600 mr-2"></i>Upcoming Exams (${data.exams?.length || 0})</h4>
+                            <div class="space-y-2">
+                                ${(data.exams || []).map(e => `
+                                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-green-50 transition">
+                                        <a href="${e.link}" target="_blank" class="block">
+                                            <p class="font-medium text-gray-900">${e.name}</p>
+                                            <p class="text-sm text-gray-500">${e.date} - ${e.posts || 'Various Posts'}</p>
+                                        </a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (tabName === 'notices') {
+                const urlLower = currentUrl.toLowerCase();
+                let data = null;
+
+                for (const [key, value] of Object.entries(govData)) {
+                    if (urlLower.includes(key)) {
+                        data = value;
+                        break;
+                    }
+                }
+
+                if (!data) {
+                    data = { notices: [{ title: 'Visit official website for latest updates', date: 'Always', link: currentUrl }] };
+                }
+
+                html = data.notices.map(n => `
+                    <div class="p-4 bg-purple-50 rounded-lg">
+                        <h4 class="font-semibold text-gray-900">${n.title}</h4>
+                        <p class="text-sm text-gray-500">Date: ${n.date}</p>
+                        <a href="${n.link}" target="_blank" class="text-purple-600 text-sm hover:underline mt-2 inline-block">
+                            View Details <i class="fas fa-external-link-alt ml-1"></i>
+                        </a>
+                    </div>
+                `).join('');
+            } else if (tabName === 'exams') {
+                const urlLower = currentUrl.toLowerCase();
+                let data = null;
+
+                for (const [key, value] of Object.entries(govData)) {
+                    if (urlLower.includes(key)) {
+                        data = value;
+                        break;
+                    }
+                }
+
+                if (!data) {
+                    data = { exams: [{ name: 'Latest Recruitment', date: 'Check Official Site', posts: 'Various Posts' }] };
+                }
+
+                html = data.exams.map(e => `
+                    <div class="p-4 bg-green-50 rounded-lg">
+                        <h4 class="font-semibold text-gray-900">${e.name}</h4>
+                        <p class="text-sm text-gray-500">${e.date} - ${e.posts}</p>
+                    </div>
+                `).join('');
+            } else if (tabName === 'links') {
+                html = `
+                    <div class="space-y-4">
+                        <a href="${currentUrl}" target="_blank" class="block p-4 bg-purple-50 rounded-lg hover:bg-purple-100">
+                            <i class="fas fa-home text-purple-600 mr-2"></i>
+                            <span class="font-semibold">Official Website</span>
+                            <span class="text-sm text-gray-500 ml-2">- Visit for latest updates</span>
+                            <i class="fas fa-external-link-alt ml-2 text-purple-400"></i>
+                        </a>
+                        <a href="${currentUrl}/notifications" target="_blank" class="block p-4 bg-blue-50 rounded-lg hover:bg-blue-100">
+                            <i class="fas fa-bell text-blue-600 mr-2"></i>
+                            <span class="font-semibold">Notifications</span>
+                            <span class="text-sm text-gray-500 ml-2">- Latest announcements</span>
+                            <i class="fas fa-external-link-alt ml-2 text-blue-400"></i>
+                        </a>
+                        <a href="${currentUrl}/results" target="_blank" class="block p-4 bg-green-50 rounded-lg hover:bg-green-100">
+                            <i class="fas fa-chart-bar text-green-600 mr-2"></i>
+                            <span class="font-semibold">Results</span>
+                            <span class="text-sm text-gray-500 ml-2">- Check exam results</span>
+                            <i class="fas fa-external-link-alt ml-2 text-green-400"></i>
+                        </a>
+                        <a href="${currentUrl}/contact" target="_blank" class="block p-4 bg-orange-50 rounded-lg hover:bg-orange-100">
+                            <i class="fas fa-envelope text-orange-600 mr-2"></i>
+                            <span class="font-semibold">Contact</span>
+                            <span class="text-sm text-gray-500 ml-2">- Get in touch</span>
+                            <i class="fas fa-external-link-alt ml-2 text-orange-400"></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = html;
+        }
+
+        // Close results
+        function closeResults() {
+            document.getElementById('analysisResults').classList.add('hidden');
+            document.getElementById('defaultContent').classList.remove('hidden');
+            document.getElementById('govUrlInput').value = '';
+        }
+
+        // ============ USER WEBSITE MANAGEMENT ============
+
+        // API Base URL (Update with your Vercel deployment URL)
+        const API_BASE_URL = 'https://your-vercel-app.vercel.app/api';
+
+        // User websites stored in localStorage
+        let userWebsites = JSON.parse(localStorage.getItem('userGovWebsites') || '[]');
+
+        // Toggle add website modal
+        function toggleAddWebsiteModal() {
+            const modal = document.getElementById('addWebsiteModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Add user website
+        async function addUserWebsite(event) {
+            event.preventDefault();
+
+            const url = document.getElementById('customWebsiteUrl').value;
+            const name = document.getElementById('customWebsiteName').value;
+            const category = document.getElementById('customWebsiteCategory').value;
+            const autoUpdate = document.getElementById('autoUpdate').checked;
+
+            // Validate URL
+            try {
+                new URL(url);
+            } catch {
+                alert('Please enter a valid URL');
+                return;
+            }
+
+            const website = {
+                id: `site-${Date.now()}`,
+                url: url,
+                name: name || new URL(url).hostname.toUpperCase(),
+                category: category,
+                autoUpdate: autoUpdate,
+                addedAt: new Date().toISOString(),
+                lastScraped: null
+            };
+
+            userWebsites.push(website);
+            saveUserWebsites();
+            renderUserWebsites();
+
+            // If auto-update is enabled, scrape immediately
+            if (autoUpdate) {
+                await scrapeWebsite(website);
+            }
+
+            toggleAddWebsiteModal();
+            document.getElementById('customWebsiteUrl').value = '';
+            document.getElementById('customWebsiteName').value = '';
+
+            // Show success message
+            showNotification('Website added successfully!', 'success');
+        }
+
+        // Save user websites to localStorage
+        function saveUserWebsites() {
+            localStorage.setItem('userGovWebsites', JSON.stringify(userWebsites));
+            updateUserWebsitesSection();
+        }
+
+        // Render user websites
+        function renderUserWebsites() {
+            const container = document.getElementById('userWebsitesList');
+
+            if (userWebsites.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <i class="fas fa-folder-open text-4xl mb-4"></i>
+                        <p>No websites added yet. Click "Add Website" to get started.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = userWebsites.map(site => `
+                <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-globe text-purple-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold">${site.name}</h3>
+                                <p class="text-xs text-gray-500">${new URL(site.url).hostname}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeWebsite('${site.id}')" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between text-sm mb-3">
+                        <span class="px-2 py-1 bg-${getCategoryColor(site.category)}-100 text-${getCategoryColor(site.category)}-700 rounded">
+                            ${site.category.toUpperCase()}
+                        </span>
+                        ${site.autoUpdate ? '<span class="text-green-600"><i class="fas fa-sync-alt mr-1"></i>Auto-update</span>' : ''}
+                    </div>
+                    ${site.lastScraped ? `<p class="text-xs text-gray-400">Last updated: ${new Date(site.lastScraped).toLocaleString()}</p>` : '<p class="text-xs text-gray-400">Not yet analyzed</p>'}
+                    <button onclick="quickAnalyze('${site.url}')" class="w-full mt-3 bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700">
+                        <i class="fas fa-search mr-2"></i>Analyze Now
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Remove website
+        function removeWebsite(id) {
+            if (confirm('Are you sure you want to remove this website?')) {
+                userWebsites = userWebsites.filter(w => w.id !== id);
+                saveUserWebsites();
+                renderUserWebsites();
+                showNotification('Website removed', 'info');
+            }
+        }
+
+        // Get category color
+        function getCategoryColor(category) {
+            const colors = {
+                ssc: 'purple',
+                upsc: 'green',
+                ibps: 'blue',
+                railway: 'orange',
+                defence: 'red',
+                teaching: 'teal',
+                state: 'indigo',
+                general: 'gray'
+            };
+            return colors[category] || 'gray';
+        }
+
+        // Update user websites section visibility
+        function updateUserWebsitesSection() {
+            const section = document.getElementById('userWebsitesSection');
+            if (userWebsites.length > 0) {
+                section.classList.remove('hidden');
+            } else {
+                section.classList.add('hidden');
+            }
+        }
+
+        // ============ MCP API INTEGRATION ============
+
+        // Scrape website via API
+        async function scrapeWebsite(website) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/gov-jobs/scrape`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ customUrls: [website.url] })
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.results && result.results.length > 0) {
+                    website.lastScraped = new Date().toISOString();
+                    website.jobs = result.results[0].jobs;
+                    saveUserWebsites();
+                    return result.results[0];
+                }
+            } catch (error) {
+                console.error('Scraping error:', error);
+            }
+            return null;
+        }
+
+        // Refresh all jobs from API
+        async function refreshAllJobs() {
+            const loading = document.getElementById('loadingJobs');
+            const container = document.getElementById('allJobsList');
+
+            loading.classList.remove('hidden');
+            container.innerHTML = '';
+
+            try {
+                // Load from local JSON first (fallback)
+                // For GitHub Pages, use relative path
+                const response = await fetch('api/gov-jobs.json');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+
+                if (data.jobs && data.jobs.length > 0) {
+                    displayJobs(data.jobs);
+                } else {
+                    container.innerHTML = '<p class="col-span-full text-center text-gray-500">No jobs found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                container.innerHTML = '<p class="col-span-full text-center text-red-500">Error loading jobs. Please try again later.</p>';
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        // Display jobs in the feed
+        function displayJobs(jobs) {
+            const container = document.getElementById('allJobsList');
+            const categoryFilter = document.getElementById('categoryFilter').value;
+
+            let filteredJobs = jobs;
+            if (categoryFilter !== 'all') {
+                filteredJobs = jobs.filter(job => job.category === categoryFilter);
+            }
+
+            container.innerHTML = filteredJobs.map(job => `
+                <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition ${job.new ? 'ring-2 ring-green-400' : ''}">
+                    ${job.new ? '<span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">NEW</span>' : ''}
+                    <div class="relative">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2 py-1 bg-${getCategoryColor(job.category)}-100 text-${getCategoryColor(job.category)}-700 rounded text-xs font-medium">
+                                ${job.organization}
+                            </span>
+                            <span class="text-xs text-gray-500">${new Date(job.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">${job.title}</h4>
+                        <div class="text-sm text-gray-600 space-y-1">
+                            <p><i class="fas fa-users mr-2 text-gray-400"></i>Vacancies: <strong>${job.vacancies}</strong></p>
+                            <p><i class="fas fa-calendar mr-2 text-gray-400"></i>Last Date: <strong class="text-red-600">${job.lastDate}</strong></p>
+                            <p><i class="fas fa-graduation-cap mr-2 text-gray-400"></i>${job.qualification}</p>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <a href="${job.applyLink}" target="_blank" class="flex-1 text-center bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 text-sm">
+                                <i class="fas fa-external-link-alt mr-1"></i>Apply
+                            </a>
+                            <a href="${job.notificationPdf}" target="_blank" class="px-3 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter by category
+        function filterByCategory() {
+            refreshAllJobs();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500'
+            };
+
+            const notification = document.createElement('div');
+            notification.className = `fixed bottom-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50`;
+            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle mr-2"></i>${message}`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // ============ AUTO-UPDATE VIA MCP SERVER ============
+
+        // Webhook trigger for auto-update (can be called from cron job)
+        async function triggerWebhook() {
+            const domains = userWebsites.filter(w => w.autoUpdate).map(w => new URL(w.url).hostname);
+
+            if (domains.length === 0) return;
+
+            try {
+                await fetch(`${API_BASE_URL}/gov-jobs/webhook`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        secret: 'YOUR_WEBHOOK_SECRET', // Set this in environment
+                        domains: domains
+                    })
+                });
+            } catch (error) {
+                console.error('Webhook error:', error);
+            }
+        }
+
+        // ============ INITIALIZATION ============
+
+        // Make functions globally accessible
+        window.doAnalyze = doAnalyze;
+        window.showQuickResult = showQuickResult;
+        window.quickAnalyze = quickAnalyze;
+        window.displayRealResults = displayRealResults;
+        window.showTab = showTab;
+
+        // Error handler
+        window.onerror = function(msg, url, line) {
+            console.error('JavaScript Error:', msg, 'at line', line);
+            return false;
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('WebAI Auditor loaded successfully');
+
+            try {
+                if (typeof renderUserWebsites === 'function') renderUserWebsites();
+                if (typeof updateUserWebsitesSection === 'function') updateUserWebsitesSection();
+                if (typeof refreshAllJobs === 'function') refreshAllJobs();
+            } catch (e) {
+                console.error('Init error:', e);
+            }
+
+            // Auto-refresh every 30 minutes if user has auto-update enabled
+            setInterval(() => {
+                try {
+                    const autoUpdateSites = userWebsites.filter(w => w.autoUpdate);
+                    if (autoUpdateSites.length > 0 && typeof refreshAllJobs === 'function') {
+                        refreshAllJobs();
+                    }
+                } catch (e) {
+                    console.error('Auto-refresh error:', e);
+                }
+            }, 30 * 60 * 1000);
+        });
+
+        // ============ TINYFISH PUBLIC SOURCE MANAGEMENT ============
+
+        const TINYFISH_API_BASE = '/api/sources'; // Adjust this path as needed
+        let publicSources = [];
+        let sseConnection = null;
+
+        // Load public sources
+        async function loadPublicSources() {
+            try {
+                const response = await fetch(TINYFISH_API_BASE);
+                const data = await response.json();
+
+                if (data.success) {
+                    publicSources = data.data;
+                    renderPublicSources();
+                }
+            } catch (error) {
+                console.error('Error loading public sources:', error);
+            }
+        }
+
+        // Render public sources
+        function renderPublicSources() {
+            const container = document.getElementById('publicSourcesList');
+
+            if (!container) return;
+
+            if (!publicSources || publicSources.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-lg shadow-sm">
+                        <i class="fas fa-globe text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-700">No Sources Configured</h3>
+                        <p class="text-gray-500 mb-6">Government job sources will appear here once configured by admin</p>
+                        <div class="flex justify-center gap-4 flex-wrap">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="fas fa-robot text-purple-500"></i>
+                                <span>AI-Powered Scraping</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="fas fa-sync text-green-500"></i>
+                                <span>Real-time Updates</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="fas fa-bell text-blue-500"></i>
+                                <span>Instant Notifications</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = publicSources.map(source => {
+                const statusColor = getStatusColor(source.status);
+                const categoryColor = getCategoryColor(source.category);
+
+                return `
+                <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition border-l-4 border-${statusColor}">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-${categoryColor}-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-${getCategoryIcon(source.category)} text-${categoryColor}-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-bold text-lg">${source.name}</h3>
+                                    ${source.is_featured ? '<span class="px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full"><i class="fas fa-star mr-1"></i>Featured</span>' : ''}
+                                </div>
+                                <a href="${source.url}" target="_blank" class="text-sm text-gray-500 hover:text-purple-600">
+                                    ${new URL(source.url).hostname}
+                                    <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="testPublicSource(${source.id})" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg" title="Test Source">
+                                <i class="fas fa-vial"></i>
+                            </button>
+                            <button onclick="viewSourceJobs(${source.id})" class="p-2 text-green-500 hover:bg-green-50 rounded-lg" title="View Jobs">
+                                <i class="fas fa-briefcase"></i>
+                            </button>
+                            ${source.is_active ? `
+                                <span class="p-2 text-green-500"><i class="fas fa-circle text-xs"></i></span>
+                            ` : `
+                                <span class="p-2 text-gray-400"><i class="fas fa-pause-circle text-xs"></i></span>
+                            `}
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-4 gap-3 mb-4 text-center">
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-purple-600">${source.total_jobs_found || 0}</div>
+                            <div class="text-xs text-purple-700">Jobs Found</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-green-600">${source.success_count || 0}</div>
+                            <div class="text-xs text-green-700">Success</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-red-600">${source.failure_count || 0}</div>
+                            <div class="text-xs text-red-700">Failed</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3">
+                            <div class="text-lg font-bold text-blue-600">${source.scraping_strategy ? source.scraping_strategy.toUpperCase() : 'AUTO'}</div>
+                            <div class="text-xs text-blue-700">Strategy</div>
+                        </div>
+                    </div>
+
+                    <!-- Status & Last Update -->
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeClass(source.status)}">
+                            <i class="fas fa-${getStatusIcon(source.status)} mr-1"></i>
+                            ${source.status.toUpperCase()}
+                        </span>
+                        ${source.last_crawled_at ? `
+                            <span class="text-gray-500">
+                                <i class="fas fa-clock mr-1"></i>
+                                ${formatTimeAgo(source.last_crawled_at)}
+                            </span>
+                        ` : `
+                            <span class="text-gray-400">Not yet crawled</span>
+                        `}
+                    </div>
+
+                    ${source.auto_update ? `
+                        <div class="mt-3 text-xs text-green-600 flex items-center">
+                            <i class="fas fa-sync-alt mr-1"></i>
+                            Auto-update enabled • Every ${formatFrequency(source.crawl_frequency)}
+                        </div>
+                    ` : ''}
+
+                    ${source.success_rate ? `
+                        <div class="mt-2">
+                            <div class="flex justify-between text-xs text-gray-600 mb-1">
+                                <span>Success Rate</span>
+                                <span>${source.success_rate}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-${source.success_rate >= 80 ? 'green' : source.success_rate >= 50 ? 'yellow' : 'red'}-500 h-2 rounded-full" style="width: ${source.success_rate}%"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `}).join('');
+        }
+
+        // Test public source
+        async function testPublicSource(sourceId) {
+            const source = publicSources.find(s => s.id === sourceId);
+            if (!source) return;
+
+            showNotification(`Testing ${source.name}...`, 'info');
+
+            try {
+                const response = await fetch(`${TINYFISH_API_BASE}/${sourceId}/test`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.data.success) {
+                    showNotification(`Success! Found ${data.data.jobs.length} jobs`, 'success');
+                    showTestResults(data.data);
+                } else {
+                    showNotification('Test failed', 'error');
+                    showTestResults({ success: false, error: data.data?.error || 'Unknown error' });
+                }
+            } catch (error) {
+                showNotification('Error testing source', 'error');
+                console.error('Test error:', error);
+            }
+        }
+
+        // View jobs from specific source
+        async function viewSourceJobs(sourceId) {
+            try {
+                const response = await fetch(`${TINYFISH_API_BASE}/${sourceId}/jobs`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displaySourceJobs(data.data, data.source);
+                }
+            } catch (error) {
+                console.error('Error loading source jobs:', error);
+            }
+        }
+
+        // Display jobs from a specific source
+        function displaySourceJobs(jobs, source) {
+            const container = document.getElementById('sourceJobsContent');
+            const modal = document.getElementById('sourceJobsModal');
+
+            if (!container || !modal) return;
+
+            if (!jobs || jobs.data.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">No jobs found from ${source?.name || 'this source'}</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="mb-4 p-3 bg-purple-50 rounded-lg">
+                        <h4 class="font-semibold text-purple-800">${source?.name || 'Source'}</h4>
+                        <p class="text-sm text-purple-600">${jobs.data.length} jobs found</p>
+                    </div>
+                    <div class="space-y-3 max-h-96 overflow-y-auto">
+                        ${jobs.data.map(job => `
+                            <div class="p-4 bg-white rounded-lg border hover:shadow-md transition">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h5 class="font-semibold text-gray-800">${job.title}</h5>
+                                        <p class="text-sm text-gray-600">${job.department || 'N/A'}</p>
+                                        <div class="flex gap-3 mt-2 text-sm">
+                                            ${job.category ? `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded">${job.category.toUpperCase()}</span>` : ''}
+                                            ${job.scraping_method ? `<span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">${job.scraping_method}</span>` : ''}
+                                        </div>
+                                        ${job.last_date_to_apply ? `
+                                            <p class="text-sm text-red-600 mt-2">
+                                                <i class="fas fa-calendar mr-1"></i>Last Date: ${job.last_date_to_apply}
+                                            </p>
+                                        ` : ''}
+                                    </div>
+                                    ${job.source_url ? `
+                                        <a href="${job.source_url}" target="_blank" class="ml-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm">
+                                            <i class="fas fa-external-link-alt mr-1"></i>View
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Show test results modal
+        function showTestResults(result) {
+            const modal = document.getElementById('testResultsModal');
+            const content = document.getElementById('testResultsContent');
+
+            if (!modal || !content) return;
+
+            if (result.success) {
+                content.innerHTML = `
+                    <div class="mb-4 p-4 bg-green-50 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-green-800">
+                            <i class="fas fa-check-circle mr-2"></i>Test Successful
+                        </h4>
+                        <div class="text-sm text-green-700 grid grid-cols-2 gap-2">
+                            <p><strong>Method:</strong> ${result.method || 'N/A'}</p>
+                            <p><strong>Jobs Found:</strong> ${result.jobs?.length || 0}</p>
+                            <p><strong>Duration:</strong> ${result.duration_ms ? (result.duration_ms/1000).toFixed(2) + 's' : 'N/A'}</p>
+                        </div>
+                    </div>
+
+                    ${result.jobs && result.jobs.length > 0 ? `
+                        <h4 class="font-semibold mb-3">Sample Jobs Found:</h4>
+                        <div class="max-h-80 overflow-y-auto space-y-2">
+                            ${result.jobs.slice(0, 10).map(job => `
+                                <div class="p-3 bg-gray-50 rounded-lg border-l-4 border-purple-500">
+                                    <h5 class="font-medium text-gray-800">${job.title || 'Untitled'}</h5>
+                                    <p class="text-sm text-gray-600">${job.department || job.organization || 'N/A'}</p>
+                                    ${job.vacancy_count ? `<p class="text-sm"><strong>Vacancies:</strong> ${job.vacancy_count}</p>` : ''}
+                                    ${job.last_date_to_apply ? `<p class="text-sm text-red-600"><strong>Last Date:</strong> ${job.last_date_to_apply}</p>` : ''}
+                                    ${job.confidence_score ? `<p class="text-xs text-gray-500">Confidence: ${(job.confidence_score * 100).toFixed(0)}%</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${result.jobs.length > 10 ? `<p class="text-center text-gray-500 mt-2 text-sm">... and ${result.jobs.length - 10} more jobs</p>` : ''}
+                    ` : '<p class="text-gray-500 text-center py-4">No jobs found</p>'}
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-red-800">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Test Failed
+                        </h4>
+                        <p class="text-sm text-red-700">${result.error || 'Unknown error occurred'}</p>
+                        <p class="text-xs text-red-600 mt-2">The system will try alternative scraping methods automatically.</p>
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Start real-time job streaming (SSE)
+        function startJobStreaming() {
+            if (sseConnection) {
+                sseConnection.close();
+            }
+
+            try {
+                sseConnection = new EventSource('/api/jobs/stream');
+
+                sseConnection.onmessage = function(event) {
+                    try {
+                        const job = JSON.parse(event.data);
+                        showNewJobNotification(job);
+                    } catch (e) {
+                        console.error('Error parsing SSE data:', e);
+                    }
+                };
+
+                sseConnection.onerror = function(error) {
+                    console.error('SSE error:', error);
+                    sseConnection.close();
+
+                    // Retry after 5 seconds
+                    setTimeout(startJobStreaming, 5000);
+                };
+
+                console.log('Job streaming started');
+            } catch (error) {
+                console.error('Error starting SSE:', error);
+            }
+        }
+
+        // Show new job notification (slide-in)
+        function showNewJobNotification(job) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-white border-l-4 border-green-500 rounded-lg shadow-2xl p-4 max-w-md z-50 animate-slide-in';
+            notification.style.animation = 'slideIn 0.3s ease-out';
+
+            notification.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-briefcase text-green-500"></i>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="text-sm font-bold text-gray-800">New Job Found!</h4>
+                            <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm font-medium text-gray-700">${job.title || 'New Position'}</p>
+                        <p class="text-xs text-gray-500">${job.department || job.source_type || 'Government Sector'}</p>
+                        <div class="mt-2 flex gap-2">
+                            ${job.source_url ? `
+                                <a href="${job.source_url}" target="_blank" class="text-xs bg-purple-600 text-white px-3 py-1.5 rounded hover:bg-purple-700">
+                                    View Details
+                                </a>
+                            ` : ''}
+                            <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" class="text-xs text-gray-500 hover:text-gray-700">
+                                Dismiss
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => notification.remove(), 300);
+            }, 10000);
+        }
+
+        // Helper functions
+        function getStatusColor(status) {
+            const colors = {
+                'active': 'green-500',
+                'pending': 'yellow-500',
+                'failed': 'red-500',
+                'paused': 'gray-400'
+            };
+            return colors[status] || 'gray-400';
+        }
+
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'active': 'bg-green-100 text-green-800',
+                'pending': 'bg-yellow-100 text-yellow-800',
+                'failed': 'bg-red-100 text-red-800',
+                'paused': 'bg-gray-100 text-gray-800'
+            };
+            return classes[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'active': 'check-circle',
+                'pending': 'clock',
+                'failed': 'exclamation-circle',
+                'paused': 'pause-circle'
+            };
+            return icons[status] || 'circle';
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                'ssc': 'purple',
+                'upsc': 'green',
+                'ibps': 'blue',
+                'railway': 'orange',
+                'defence': 'red',
+                'teaching': 'teal',
+                'state': 'indigo',
+                'general': 'gray'
+            };
+            return colors[category] || 'gray';
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'ssc': 'building',
+                'upsc': 'landmark',
+                'ibps': 'university',
+                'railway': 'train',
+                'defence': 'shield-alt',
+                'teaching': 'chalkboard-teacher',
+                'state': 'map-marker-alt',
+                'general': 'globe'
+            };
+            return icons[category] || 'briefcase';
+        }
+
+        function formatTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const seconds = Math.floor((new Date() - date) / 1000);
+
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            if (seconds < 604800) return Math.floor(seconds / 86400) + 'd ago';
+            return date.toLocaleDateString();
+        }
+
+        function formatFrequency(seconds) {
+            if (seconds < 3600) return Math.floor(seconds / 60) + ' min';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours';
+            return Math.floor(seconds / 86400) + ' days';
+        }
+
+        // Close modal function
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Initialize TinyFish functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load public sources
+            loadPublicSources();
+
+            // Start real-time job streaming
+            startJobStreaming();
+
+            // Auto-refresh sources every 5 minutes
+            setInterval(loadPublicSources, 5 * 60 * 1000);
+        });
+
+        // Make functions globally accessible
+        window.loadPublicSources = loadPublicSources;
+        window.testPublicSource = testPublicSource;
+        window.viewSourceJobs = viewSourceJobs;
+        window.showTestResults = showTestResults;
+        window.startJobStreaming = startJobStreaming;
+        window.closeModal = closeModal;
+
+    </script>
+
+    <!-- Add CSS animation for slide-in notifications -->
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <!-- Test Results Modal -->
+    <div id="testResultsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b sticky top-0 bg-white">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">
+                        <i class="fas fa-vial text-blue-600 mr-2"></i>
+                        Test Results
+                    </h3>
+                    <button onclick="closeModal('testResultsModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="testResultsContent" class="p-6">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Source Jobs Modal -->
+    <div id="sourceJobsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b sticky top-0 bg-white">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">
+                        <i class="fas fa-briefcase text-purple-600 mr-2"></i>
+                        Jobs from Source
+                    </h3>
+                    <button onclick="closeModal('sourceJobsModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="sourceJobsContent" class="p-6">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

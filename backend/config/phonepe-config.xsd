@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="PhonePeConfig">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="merchant">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="merchantId" type="xs:string"/>
+                            <xs:element name="merchantName" type="xs:string"/>
+                            <xs:element name="merchantCategoryCode" type="xs:string"/>
+                            <xs:element name="displayName" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="api">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="production">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="baseUrl" type="xs:string"/>
+                                        <xs:element name="payPageUrl" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="test">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="baseUrl" type="xs:string"/>
+                                        <xs:element name="payPageUrl" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="environment" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="security">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="saltKey" type="xs:string"/>
+                            <xs:element name="saltIndex" type="xs:string"/>
+                            <xs:element name="apiKey" type="xs:string"/>
+                            <xs:element name="enableChecksum" type="xs:boolean"/>
+                            <xs:element name="allowedIps">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="ip" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="redirectUrls">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="baseUrl" type="xs:string"/>
+                            <xs:element name="successUrl" type="xs:string"/>
+                            <xs:element name="failureUrl" type="xs:string"/>
+                            <xs:element name="callbackUrl" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="payment">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="minAmount" type="xs:integer"/>
+                            <xs:element name="maxAmount" type="xs:integer"/>
+                            <xs:element name="supportedInstruments">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="instrument" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="expiryMinutes" type="xs:integer"/>
+                            <xs:element name="enableRecurring" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="donationTiers">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="tier" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="name" type="xs:string"/>
+                                        <xs:element name="amount" type="xs:integer"/>
+                                        <xs:element name="currency" type="xs:string"/>
+                                        <xs:element name="description" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="webhook">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="enabled" type="xs:boolean"/>
+                            <xs:element name="secret" type="xs:string"/>
+                            <xs:element name="retryAttempts" type="xs:integer"/>
+                            <xs:element name="retryDelay" type="xs:integer"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="logging">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="enabled" type="xs:boolean"/>
+                            <xs:element name="level" type="xs:string"/>
+                            <xs:element name="file" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="features">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="saveTransactions" type="xs:boolean"/>
+                            <xs:element name="sendEmailReceipt" type="xs:boolean"/>
+                            <xs:element name="analyticsTracking" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

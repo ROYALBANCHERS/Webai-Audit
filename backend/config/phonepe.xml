@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PhonePeConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="phonepe-config.xsd">
+    <!--
+        PhonePe Payment Gateway Configuration
+        WebAI Auditor - Payment Integration
+    -->
+
+    <!-- Merchant Configuration -->
+    <merchant>
+        <merchantId>YOUR_MERCHANT_ID</merchantId>
+        <merchantName>WebAI Auditor</merchantName>
+        <merchantCategoryCode>7399</merchantCategoryCode>
+        <displayName>WebAI Auditor</displayName>
+    </merchant>
+
+    <!-- API Configuration -->
+    <api>
+        <!-- Production URLs -->
+        <production>
+            <baseUrl>https://api.phonepe.com/apis/hermes</baseUrl>
+            <payPageUrl>https://phonepe-rtu-webPg.kntl009lf.adc-razorpay-in.com/pay</payPageUrl>
+        </production>
+
+        <!-- Test/UAT URLs -->
+        <test>
+            <baseUrl>https://api-preprod.phonepe.com/apis/hermes</baseUrl>
+            <payPageUrl>https://phonepe-rtu-webPg.kntl009lf.adc-razorpay-in.com/pay</payPageUrl>
+        </test>
+
+        <!-- Current Environment: test | production -->
+        <environment>test</environment>
+    </api>
+
+    <!-- Security Configuration -->
+    <security>
+        <!-- Salt Key for checksum generation -->
+        <saltKey>YOUR_SALT_KEY</saltKey>
+        <saltIndex>1</saltIndex>
+
+        <!-- API Key (if applicable) -->
+        <apiKey>YOUR_API_KEY</apiKey>
+
+        <!-- Enable checksum validation -->
+        <enableChecksum>true</enableChecksum>
+
+        <!-- Allowed IP addresses (optional) -->
+        <allowedIps>
+            <ip>127.0.0.1</ip>
+            <ip>::1</ip>
+        </allowedIps>
+    </security>
+
+    <!-- Redirect URLs -->
+    <redirectUrls>
+        <baseUrl>http://localhost:8000</baseUrl>
+        <successUrl>/payment/success</successUrl>
+        <failureUrl>/payment/failure</failureUrl>
+        <callbackUrl>/api/phonepe/callback</callbackUrl>
+    </redirectUrls>
+
+    <!-- Payment Configuration -->
+    <payment>
+        <!-- Minimum amount in paise (₹1 = 100 paise) -->
+        <minAmount>1000</minAmount>
+
+        <!-- Maximum amount in paise -->
+        <maxAmount>100000</maxAmount>
+
+        <!-- Supported payment instruments -->
+        <supportedInstruments>
+            <instrument>UPI</instrument>
+            <instrument>CARD</instrument>
+            <instrument>NETBANKING</instrument>
+            <instrument>WALLET</instrument>
+        </supportedInstruments>
+
+        <!-- Transaction expiry in minutes -->
+        <expiryMinutes>15</expiryMinutes>
+
+        <!-- Enable recurring payments -->
+        <enableRecurring>false</enableRecurring>
+    </payment>
+
+    <!-- Donation Tiers -->
+    <donationTiers>
+        <tier>
+            <name>Small Support</name>
+            <amount>5000</amount>
+            <currency>INR</currency>
+            <description>One-time contribution</description>
+        </tier>
+        <tier>
+            <name>Popular Choice</name>
+            <amount>10000</amount>
+            <currency>INR</currency>
+            <description>Help us grow</description>
+        </tier>
+        <tier>
+            <name>Major Support</name>
+            <amount>50000</amount>
+            <currency>INR</currency>
+            <description>Power our development</description>
+        </tier>
+    </donationTiers>
+
+    <!-- Webhook Configuration -->
+    <webhook>
+        <enabled>true</enabled>
+        <secret>YOUR_WEBHOOK_SECRET</secret>
+        <retryAttempts>3</retryAttempts>
+        <retryDelay>60</retryDelay>
+    </webhook>
+
+    <!-- Logging Configuration -->
+    <logging>
+        <enabled>true</enabled>
+        <level>INFO</level>
+        <file>storage/logs/phonepe.log</file>
+    </logging>
+
+    <!-- Feature Flags -->
+    <features>
+        <saveTransactions>true</saveTransactions>
+        <sendEmailReceipt>true</sendEmailReceipt>
+        <analyticsTracking>true</analyticsTracking>
+    </features>
+
+</PhonePeConfig>

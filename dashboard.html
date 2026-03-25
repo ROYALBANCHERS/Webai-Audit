@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>body{font-family:'Inter',sans-serif}.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.gradient-bg{background:linear-gradient(135deg,#3b82f6,#8b5cf6)}.card-hover:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.1)}</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-900 font-semibold">Dashboard</a>
+                    <a href="tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="my-tools.html" class="text-gray-600 hover:text-gray-900">My Tools</a>
+                    <a href="create-tool.html" class="px-4 py-2 gradient-bg text-white rounded-lg hover:opacity-90">
+                        <i class="fas fa-plus mr-2"></i>Create Tool
+                    </a>
+                    <div class="relative">
+                        <button id="userMenu" class="flex items-center space-x-2">
+                            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-gray-600"></i>
+                            </div>
+                        </button>
+                        <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border">
+                            <a href="profile.html" class="block px-4 py-2 hover:bg-gray-50"><i class="fas fa-user mr-2"></i>Profile</a>
+                            <a href="settings.html" class="block px-4 py-2 hover:bg-gray-50"><i class="fas fa-cog mr-2"></i>Settings</a>
+                            <a href="billing.html" class="block px-4 py-2 hover:bg-gray-50"><i class="fas fa-credit-card mr-2"></i>Billing</a>
+                            <hr class="my-1">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-50 text-red-600"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Banner -->
+        <div class="gradient-bg rounded-2xl p-8 text-white mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">Welcome back! <span id="userName">User</span></h1>
+                    <p class="text-blue-100">You have <span id="credits" class="font-bold">15</span> credits remaining this month.</p>
+                </div>
+                <a href="pricing.html" class="px-6 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50">
+                    Upgrade Plan
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Audits</p>
+                        <p class="text-3xl font-bold text-gray-900" id="totalAudits">24</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Pages Analyzed</p>
+                        <p class="text-3xl font-bold text-gray-900" id="pagesAnalyzed">1,247</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Issues Found</p>
+                        <p class="text-3xl font-bold text-gray-900" id="issuesFound">342</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-orange-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Tools Created</p>
+                        <p class="text-3xl font-bold text-gray-900" id="toolsCreated">5</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-tools text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Quick Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Recent Audits -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="p-6 border-b border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-bold">Recent Audits</h2>
+                            <a href="audits.html" class="text-blue-600 hover:text-blue-700">View All</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4" id="recentAudits">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">example.com</p>
+                                        <p class="text-sm text-gray-500">15 pages analyzed</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-green-600">Score: 87/100</p>
+                                    <p class="text-xs text-gray-400">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-exclamation text-yellow-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">mystore.com</p>
+                                        <p class="text-sm text-gray-500">8 pages analyzed</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-yellow-600">Score: 62/100</p>
+                                    <p class="text-xs text-gray-400">1 day ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">blog.techsite.io</p>
+                                        <p class="text-sm text-gray-500">22 pages analyzed</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-green-600">Score: 91/100</p>
+                                    <p class="text-xs text-gray-400">3 days ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="p-6 border-b border-gray-100">
+                        <h2 class="text-xl font-bold">Quick Actions</h2>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <a href="index.html" class="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                            <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-search text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">New Audit</p>
+                                <p class="text-sm text-gray-500">Analyze a website</p>
+                            </div>
+                        </a>
+                        <a href="competitor-analysis.html" class="flex items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+                            <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-chart-bar text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Competitor Analysis</p>
+                                <p class="text-sm text-gray-500">Compare with competitors</p>
+                            </div>
+                        </a>
+                        <a href="create-tool.html" class="flex items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
+                            <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-plus text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Create Tool</p>
+                                <p class="text-sm text-gray-500">Build custom tool</p>
+                            </div>
+                        </a>
+                        <a href="tools.html" class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
+                            <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-store text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Tool Marketplace</p>
+                                <p class="text-sm text-gray-500">Browse tools</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Tools Preview -->
+        <div class="mt-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold">My Tools</h2>
+                <a href="my-tools.html" class="text-blue-600 hover:text-blue-700">Manage Tools</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="myToolsPreview">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Active</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Meta Tag Analyzer</h3>
+                    <p class="text-gray-500 text-sm mb-4">Analyzes meta tags for SEO optimization</p>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-400"><i class="fas fa-eye mr-1"></i>234 uses</span>
+                        <span class="text-gray-400"><i class="fas fa-star mr-1"></i>4.8</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-image text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Active</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Image Optimizer</h3>
+                    <p class="text-gray-500 text-sm mb-4">Optimize images for better performance</p>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-400"><i class="fas fa-eye mr-1"></i>189 uses</span>
+                        <span class="text-gray-400"><i class="fas fa-star mr-1"></i>4.6</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-link text-orange-600 text-xl"></i>
+                        </div>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">Draft</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Link Checker</h3>
+                    <p class="text-gray-500 text-sm mb-4">Find broken links on your website</p>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-400"><i class="fas fa-eye mr-1"></i>0 uses</span>
+                        <span class="text-gray-400"><i class="fas fa-edit mr-1"></i>Edit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="tools.html" class="text-gray-400 hover:text-white">Tool Marketplace</a></li>
+                        <li><a href="audit-results.html" class="text-gray-400 hover:text-white">Sample Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li>
+                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white">Tech Detection</a></li>
+                        <li><a href="blog/competitor-analysis.html" class="text-gray-400 hover:text-white">Competitor Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // User dropdown toggle
+        document.getElementById('userMenu').addEventListener('click', function() {
+            document.getElementById('userDropdown').classList.toggle('hidden');
+        });
+
+        // Load user data from API
+        async function loadDashboard() {
+            try {
+                const response = await fetch('http://localhost:8000/api/user/dashboard');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('userName').textContent = data.name || 'User';
+                    document.getElementById('credits').textContent = data.credits || 15;
+                    document.getElementById('totalAudits').textContent = data.totalAudits || 24;
+                    document.getElementById('pagesAnalyzed').textContent = data.pagesAnalyzed || 1247;
+                    document.getElementById('issuesFound').textContent = data.issuesFound || 342;
+                    document.getElementById('toolsCreated').textContent = data.toolsCreated || 5;
+                }
+            } catch (error) {
+                console.log('Using default data');
+            }
+        }
+        loadDashboard();
+    </script>
+</body>
+</html>

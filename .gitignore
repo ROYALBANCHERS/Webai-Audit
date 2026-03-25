@@ -1,0 +1,45 @@
+# Laravel
+/backend/vendor/
+/backend/node_modules/
+/backend/.env
+/backend/storage/*.key
+/backend/storage/app/*
+!/backend/storage/app/.gitignore
+/backend/storage/framework/cache/*
+!/backend/storage/framework/cache/.gitignore
+/backend/storage/framework/sessions/*
+!/backend/storage/framework/sessions/.gitignore
+/backend/storage/framework/views/*
+!/backend/storage/framework/views/.gitignore
+/backend/storage/logs/*
+!/backend/storage/logs/.gitignore
+/backend/bootstrap/cache/*
+!/backend/bootstrap/cache/.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Screenshots and exports (keep directory structure)
+/storage/screenshots/*
+/storage/exports/*
+!/storage/screenshots/.gitignore
+!/storage/exports/.gitignore
+
+# Logs
+*.log
+
+# Composer
+/vendor/
+composer.phar
+firebase-monitoring/service-account-key.json
+
+# Environment variables (keep private)
+.env
+*.key

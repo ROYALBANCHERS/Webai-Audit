@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Monitor - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .pulse-dot { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .change-new { border-left: 4px solid #22c55e; }
+        .change-updated { border-left: 4px solid #f59e0b; }
+        .change-deleted { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="website-monitor.html" class="text-gray-900 font-semibold">Website Monitor</a>
+                    <a href="gov-jobs.html" class="text-gray-600 hover:text-gray-900">Gov Jobs</a>
+                    <a href="create-tool.html" class="px-4 py-2 gradient-bg text-white rounded-lg hover:opacity-90">
+                        <i class="fas fa-plus mr-2"></i>Create Tool
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                    <i class="fas fa-radar text-blue-600 mr-3"></i>Website Monitor
+                </h1>
+                <p class="text-gray-600">Track website changes, blogs, and updates in real-time</p>
+            </div>
+            <button onclick="openAddModal()" class="px-6 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                <i class="fas fa-plus mr-2"></i>Add Website
+            </button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Monitored Websites</p>
+                        <p class="text-3xl font-bold text-gray-900" id="totalWebsites">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Pages</p>
+                        <p class="text-3xl font-bold text-gray-900" id="totalPages">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Blogs Found</p>
+                        <p class="text-3xl font-bold text-gray-900" id="totalBlogs">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-newspaper text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 card-hover transition-all">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Recent Changes</p>
+                        <p class="text-3xl font-bold text-gray-900" id="recentChanges">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-bell text-orange-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Updates Indicator -->
+        <div id="liveIndicator" class="hidden bg-green-50 border border-green-200 rounded-lg p-3 mb-6 flex items-center justify-between">
+            <div class="flex items-center">
+                <span class="pulse-dot w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                <span class="text-green-800 font-medium">Live monitoring active - checking for updates...</span>
+            </div>
+            <button onclick="stopLiveMonitoring()" class="text-green-700 hover:text-green-900">
+                <i class="fas fa-stop"></i> Stop
+            </button>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Websites List -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="font-bold text-lg">Monitored Websites</h2>
+                        <button onclick="checkAllWebsites()" class="text-blue-600 hover:text-blue-800 text-sm">
+                            <i class="fas fa-sync-alt mr-1"></i>Check All
+                        </button>
+                    </div>
+                    <div id="websitesList" class="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
+                        <!-- Websites will be loaded here -->
+                        <div class="p-8 text-center text-gray-500">
+                            <i class="fas fa-globe text-4xl mb-3 text-gray-300"></i>
+                            <p>No websites monitored yet</p>
+                            <p class="text-sm">Click "Add Website" to get started</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Panel -->
+            <div class="lg:col-span-2">
+                <!-- Tabs -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="border-b border-gray-100">
+                        <nav class="flex space-x-8 px-4" id="detailTabs">
+                            <button onclick="switchTab('changes')" class="tab-btn py-4 px-2 border-b-2 border-blue-600 text-blue-600 font-medium" data-tab="changes">
+                                <i class="fas fa-bell mr-2"></i>Recent Changes
+                            </button>
+                            <button onclick="switchTab('blogs')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="blogs">
+                                <i class="fas fa-newspaper mr-2"></i>Blogs
+                            </button>
+                            <button onclick="switchTab('pages')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="pages">
+                                <i class="fas fa-file-alt mr-2"></i>Pages
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Changes Tab -->
+                    <div id="changesTab" class="tab-content">
+                        <div id="changesList" class="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+                            <div class="p-8 text-center text-gray-500">
+                                <i class="fas fa-bell text-4xl mb-3 text-gray-300"></i>
+                                <p>Select a website to view changes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blogs Tab -->
+                    <div id="blogsTab" class="tab-content hidden">
+                        <div id="blogsList" class="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+                            <div class="p-8 text-center text-gray-500">
+                                <i class="fas fa-newspaper text-4xl mb-3 text-gray-300"></i>
+                                <p>Select a website to view blogs</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pages Tab -->
+                    <div id="pagesTab" class="tab-content hidden">
+                        <div id="pagesList" class="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+                            <div class="p-8 text-center text-gray-500">
+                                <i class="fas fa-file-alt text-4xl mb-3 text-gray-300"></i>
+                                <p>Select a website to view pages</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Website Modal -->
+    <div id="addModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold">Add Website to Monitor</h3>
+                    <button onclick="closeAddModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <form id="addWebsiteForm" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
+                    <input type="url" id="websiteUrl" required placeholder="https://example.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Name (Optional)</label>
+                    <input type="text" id="websiteName" placeholder="My Website" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Check Interval</label>
+                        <select id="checkInterval" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="3600">Every 1 hour</option>
+                            <option value="7200">Every 2 hours</option>
+                            <option value="14400">Every 4 hours</option>
+                            <option value="28800">Every 8 hours</option>
+                            <option value="86400">Every 24 hours</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Crawl Depth</label>
+                        <select id="crawlDepth" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="1">1 page</option>
+                            <option value="2">2 levels</option>
+                            <option value="3" selected>3 levels</option>
+                            <option value="5">5 levels</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Monitor</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="monitorBlogs" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                            <span class="ml-2">Blog posts & articles</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="monitorPages" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                            <span class="ml-2">All pages</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="monitorChanges" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                            <span class="ml-2">Content changes</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="button" onclick="closeAddModal()" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="flex-1 px-4 py-3 gradient-bg text-white rounded-lg font-medium hover:opacity-90">Add Website</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        let selectedWebsiteId = null;
+        let eventSource = null;
+        let currentTab = 'changes';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadWebsites();
+            loadStats();
+        });
+
+        // Load monitored websites
+        async function loadWebsites() {
+            try {
+                const response = await fetch(`${API_BASE}/monitor`);
+                const data = await response.json();
+
+                if (data.success && data.websites.length > 0) {
+                    renderWebsites(data.websites);
+                    if (!selectedWebsiteId && data.websites.length > 0) {
+                        selectWebsite(data.websites[0].id);
+                    }
+                } else {
+                    document.getElementById('websitesList').innerHTML = `
+                        <div class="p-8 text-center text-gray-500">
+                            <i class="fas fa-globe text-4xl mb-3 text-gray-300"></i>
+                            <p>No websites monitored yet</p>
+                            <p class="text-sm">Click "Add Website" to get started</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Failed to load websites:', error);
+            }
+        }
+
+        // Render websites list
+        function renderWebsites(websites) {
+            const container = document.getElementById('websitesList');
+            container.innerHTML = websites.map(site => `
+                <div class="website-item p-4 hover:bg-gray-50 cursor-pointer ${selectedWebsiteId === site.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''}"
+                     onclick="selectWebsite(${site.id})">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center mr-3 ${site.is_active ? 'bg-green-100' : 'bg-gray-100'}">
+                                <i class="fas fa-globe ${site.is_active ? 'text-green-600' : 'text-gray-400'}"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900">${site.name}</h3>
+                                <p class="text-xs text-gray-500 truncate max-w-[150px]">${site.url}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${site.is_active ? '<span class="w-2 h-2 bg-green-500 rounded-full"></span>' : '<span class="w-2 h-2 bg-gray-300 rounded-full"></span>'}
+                            <button onclick="event.stopPropagation(); toggleWebsite(${site.id}, ${!site.is_active})" class="text-gray-400 hover:text-gray-600 p-1">
+                                <i class="fas ${site.is_active ? 'fa-pause' : 'fa-play'} text-xs"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); checkWebsite(${site.id})" class="text-blue-500 hover:text-blue-700 p-1">
+                                <i class="fas fa-sync-alt text-xs"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteWebsite(${site.id})" class="text-red-400 hover:text-red-600 p-1">
+                                <i class="fas fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-xs text-gray-500 space-x-4">
+                        <span><i class="fas fa-file-alt mr-1"></i>${site.page_count || 0} pages</span>
+                        <span><i class="fas fa-newspaper mr-1"></i>${site.blog_count || 0} blogs</span>
+                        ${site.last_checked ? `<span><i class="fas fa-clock mr-1"></i>${timeAgo(site.last_checked)}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Select website
+        async function selectWebsite(websiteId) {
+            selectedWebsiteId = websiteId;
+            loadWebsites(); // Refresh to update selection highlight
+            loadWebsiteDetails(websiteId);
+            loadCurrentTab(websiteId);
+        }
+
+        // Load website details
+        async function loadWebsiteDetails(websiteId) {
+            try {
+                const response = await fetch(`${API_BASE}/monitor/${websiteId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('changesList').innerHTML = renderChanges(data.changes);
+                    document.getElementById('blogsList').innerHTML = renderBlogs(data.blogs);
+                    document.getElementById('pagesList').innerHTML = renderPages(data.pages);
+                }
+            } catch (error) {
+                console.error('Failed to load website details:', error);
+            }
+        }
+
+        // Render changes
+        function renderChanges(changes) {
+            if (!changes || changes.length === 0) {
+                return `
+                    <div class="p-8 text-center text-gray-500">
+                        <i class="fas fa-check-circle text-4xl mb-3 text-green-300"></i>
+                        <p>No changes detected yet</p>
+                    </div>
+                `;
+            }
+
+            return changes.map(change => {
+                const iconClass = {
+                    'new_page': 'fa-file-plus text-green-600',
+                    'page_changed': 'fa-file-alt text-orange-600',
+                    'new_blog': 'fa-newspaper text-green-600',
+                    'blog_updated': 'fa-edit text-blue-600',
+                }[change.change_type] || 'fa-bell text-gray-600';
+
+                const borderClass = {
+                    'new_page': 'change-new',
+                    'page_changed': 'change-updated',
+                    'new_blog': 'change-new',
+                    'blog_updated': 'change-updated',
+                }[change.change_type] || '';
+
+                return `
+                    <div class="p-4 hover:bg-gray-50 ${borderClass}">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas ${iconClass}"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-gray-900">${change.description || change.change_type.replace('_', ' ')}</p>
+                                <p class="text-sm text-gray-500 truncate">${change.url}</p>
+                                <p class="text-xs text-gray-400 mt-1">${timeAgo(change.detected_at)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render blogs
+        function renderBlogs(blogs) {
+            if (!blogs || blogs.length === 0) {
+                return `
+                    <div class="p-8 text-center text-gray-500">
+                        <i class="fas fa-newspaper text-4xl mb-3 text-gray-300"></i>
+                        <p>No blogs found</p>
+                    </div>
+                `;
+            }
+
+            return blogs.map(blog => `
+                <div class="p-4 hover:bg-gray-50">
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-newspaper text-purple-600"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <a href="${blog.url}" target="_blank" class="font-medium text-gray-900 hover:text-blue-600">${blog.title}</a>
+                            <p class="text-xs text-gray-400 mt-1">
+                                <i class="fas fa-clock mr-1"></i>${timeAgo(blog.discovered_at)}
+                                ${blog.publish_date ? `<span class="ml-3"><i class="fas fa-calendar mr-1"></i>${new Date(blog.publish_date).toLocaleDateString()}</span>` : ''}
+                            </p>
+                        </div>
+                        <a href="${blog.url}" target="_blank" class="text-blue-500 hover:text-blue-700 ml-2">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render pages
+        function renderPages(pages) {
+            if (!pages || pages.length === 0) {
+                return `
+                    <div class="p-8 text-center text-gray-500">
+                        <i class="fas fa-file-alt text-4xl mb-3 text-gray-300"></i>
+                        <p>No pages found</p>
+                    </div>
+                `;
+            }
+
+            return pages.map(page => `
+                <div class="p-4 hover:bg-gray-50">
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-file-alt text-blue-600"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <a href="${page.url}" target="_blank" class="font-medium text-gray-900 hover:text-blue-600 truncate block">${page.title || page.url}</a>
+                            <p class="text-sm text-gray-500 truncate">${page.url}</p>
+                            <p class="text-xs text-gray-400 mt-1">
+                                <i class="fas fa-clock mr-1"></i>Seen: ${timeAgo(page.last_seen)}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/monitor/stats`);
+                const data = await response.json();
+
+                if (data.success && data.stats) {
+                    document.getElementById('totalWebsites').textContent = data.stats.total_websites || 0;
+                    document.getElementById('totalPages').textContent = data.stats.total_pages || 0;
+                    document.getElementById('totalBlogs').textContent = data.stats.total_blogs || 0;
+                    document.getElementById('recentChanges').textContent = data.stats.recent_changes || 0;
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            currentTab = tab;
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tab) {
+                    btn.classList.add('border-blue-600', 'text-blue-600');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    btn.classList.remove('border-blue-600', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+
+            // Show/hide tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`${tab}Tab`).classList.remove('hidden');
+
+            if (selectedWebsiteId) {
+                loadCurrentTab(selectedWebsiteId);
+            }
+        }
+
+        // Load current tab content
+        function loadCurrentTab(websiteId) {
+            // Content already loaded in loadWebsiteDetails
+        }
+
+        // Add website modal
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+            document.getElementById('addWebsiteForm').reset();
+        }
+
+        // Add website form submit
+        document.getElementById('addWebsiteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                url: document.getElementById('websiteUrl').value,
+                name: document.getElementById('websiteName').value,
+                interval: parseInt(document.getElementById('checkInterval').value),
+                depth: parseInt(document.getElementById('crawlDepth').value),
+                monitor_blogs: document.getElementById('monitorBlogs').checked,
+                monitor_pages: document.getElementById('monitorPages').checked,
+                monitor_changes: document.getElementById('monitorChanges').checked,
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/monitor`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    closeAddModal();
+                    loadWebsites();
+                    loadStats();
+                    // Auto-select the new website
+                    if (result.website_id) {
+                        selectWebsite(result.website_id);
+                    }
+                } else {
+                    alert(result.message || 'Failed to add website');
+                }
+            } catch (error) {
+                console.error('Failed to add website:', error);
+                alert('Failed to add website');
+            }
+        });
+
+        // Check website for changes
+        async function checkWebsite(websiteId) {
+            try {
+                const response = await fetch(`${API_BASE}/monitor/${websiteId}/check`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    if (result.changes && result.changes.length > 0) {
+                        alert(`Found ${result.changes.length} new changes!`);
+                    } else {
+                        alert('No new changes detected.');
+                    }
+                    loadWebsites();
+                    if (selectedWebsiteId === websiteId) {
+                        loadWebsiteDetails(websiteId);
+                    }
+                    loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to check website:', error);
+            }
+        }
+
+        // Check all websites
+        async function checkAllWebsites() {
+            if (!confirm('Check all monitored websites for changes?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/monitor/check-all`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`Checked all websites. Found ${result.total_changes} new changes!`);
+                    loadWebsites();
+                    loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to check all websites:', error);
+            }
+        }
+
+        // Toggle website monitoring
+        async function toggleWebsite(websiteId, active) {
+            try {
+                const response = await fetch(`${API_BASE}/monitor/${websiteId}/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ active })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    loadWebsites();
+                }
+            } catch (error) {
+                console.error('Failed to toggle website:', error);
+            }
+        }
+
+        // Delete website
+        async function deleteWebsite(websiteId) {
+            if (!confirm('Are you sure you want to stop monitoring this website?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/monitor/${websiteId}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    if (selectedWebsiteId === websiteId) {
+                        selectedWebsiteId = null;
+                        document.getElementById('changesList').innerHTML = `
+                            <div class="p-8 text-center text-gray-500">
+                                <i class="fas fa-bell text-4xl mb-3 text-gray-300"></i>
+                                <p>Select a website to view changes</p>
+                            </div>
+                        `;
+                    }
+                    loadWebsites();
+                    loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to delete website:', error);
+            }
+        }
+
+        // Start live monitoring
+        function startLiveMonitoring() {
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            document.getElementById('liveIndicator').classList.remove('hidden');
+
+            eventSource = new EventSource(`${API_BASE}/monitor/stream`);
+
+            eventSource.onmessage = (event) => {
+                if (event.data.startsWith(':')) return; // heartbeat
+
+                try {
+                    const data = JSON.parse(event.data.substring(6)); // Remove "data: " prefix
+
+                    if (data.type === 'changes' && data.data && data.data.length > 0) {
+                        // Show notification
+                        data.data.forEach(change => {
+                            showNotification(change.website_name, change.description);
+                        });
+
+                        // Refresh data
+                        if (selectedWebsiteId) {
+                            loadWebsiteDetails(selectedWebsiteId);
+                        }
+                        loadStats();
+                    }
+                } catch (e) {
+                    // Ignore parse errors for heartbeats
+                }
+            };
+
+            eventSource.onerror = () => {
+                eventSource.close();
+                document.getElementById('liveIndicator').classList.add('hidden');
+            };
+        }
+
+        // Stop live monitoring
+        function stopLiveMonitoring() {
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+            document.getElementById('liveIndicator').classList.add('hidden');
+        }
+
+        // Show notification
+        function showNotification(title, message) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, { body: message });
+            }
+        }
+
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Time ago helper
+        function timeAgo(dateString) {
+            const seconds = Math.floor((new Date() - new Date(dateString)) / 1000);
+
+            const intervals = {
+                year: 31536000,
+                month: 2592000,
+                week: 604800,
+                day: 86400,
+                hour: 3600,
+                minute: 60,
+            };
+
+            for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+                const interval = Math.floor(seconds / secondsInUnit);
+                if (interval >= 1) {
+                    return `${interval} ${unit}${interval > 1 ? 's' : ''} ago`;
+                }
+            }
+
+            return 'Just now';
+        }
+    </script>
+</body>
+</html>

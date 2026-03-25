@@ -1,0 +1,6 @@
+# Cloudflare Pages Configuration
+# WebAI Auditor - Government Jobs & Website Monitor
+
+name = "webai-auditor"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "."

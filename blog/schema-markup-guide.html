@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Schema Markup Guide for SEO 2024 | WebAI Auditor</title>
+    <meta name="description" content="Learn how to implement Schema.org structured data for rich snippets. Complete guide to JSON-LD, Microdata, and RDFa syntax.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { transition: all 0.2s; }
+        .toc-link:hover { color: #3b82f6; padding-left: 8px; }
+        .schema-card { transition: all 0.3s ease; }
+        .schema-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); }
+        .code-block { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px; overflow-x: auto; }
+        html { scroll-behavior: smooth; }
+        .rich-snippet-preview { background: white; border: 1px solid #dfe1e5; border-radius: 8px; padding: 16px; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-indigo-50 to-purple-50 py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold">Technical SEO</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-6 mb-4">
+                <span class="gradient-text">Complete Schema Markup Guide for SEO</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">Master structured data and unlock rich snippets in search results</p>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <span><i class="far fa-clock mr-2"></i>40 min read</span>
+                <span><i class="far fa-calendar mr-2"></i>Updated Dec 15, 2024</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Introduction -->
+        <section class="mb-12">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Let's talk about schema markup—it's like giving search engines a cheat sheet for understanding your content. When you add this structured data to your pages, you're essentially saying, "Hey Google, here's exactly what this page is about." The payoff? Your listings can show up with star ratings, images, prices, and other eye-catching elements that make people way more likely to click. In this guide, I'll walk you through everything you need to know to get started.
+            </p>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6"><i class="fas fa-list text-blue-600 mr-3"></i>Table of Contents</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="#what-is-schema" class="toc-link text-gray-700 block py-1">What is Schema Markup?</a>
+                <a href="#why-important" class="toc-link text-gray-700 block py-1">Why Schema Matters for SEO</a>
+                <a href="#syntax-types" class="toc-link text-gray-700 block py-1">Schema Syntax Types</a>
+                <a href="#json-ld" class="toc-link text-gray-700 block py-1">JSON-LD Implementation</a>
+                <a href="#common-types" class="toc-link text-gray-700 block py-1">Common Schema Types</a>
+                <a href="#articles" class="toc-link text-gray-700 block py-1">Article & Blog Schema</a>
+                <a href="#products" class="toc-link text-gray-700 block py-1">Product Schema</a>
+                <a href="#reviews" class="toc-link text-gray-700 block py-1">Review Schema</a>
+                <a href="#local-business" class="toc-link text-gray-700 block py-1">Local Business Schema</a>
+                <a href="#faq" class="toc-link text-gray-700 block py-1">FAQ Schema</a>
+                <a href="#videos" class="toc-link text-gray-700 block py-1">Video Schema</a>
+                <a href="#testing" class="toc-link text-gray-700 block py-1">Testing & Validation</a>
+                <a href="#best-practices" class="toc-link text-gray-700 block py-1">Best Practices</a>
+            </div>
+        </section>
+
+        <!-- What is Schema -->
+        <section id="what-is-schema" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">What is Schema Markup?</h2>
+            <p class="text-gray-700 mb-8">
+                Think of schema markup as a universal language that speaks directly to search engines. You add this special code to your website, and suddenly Google, Bing, and the rest understand your content on a whole new level. It was actually created by all the major search engines working together—pretty rare to see them all agree on something, right? That should tell you how important it is.
+            </p>
+
+            <div class="bg-indigo-50 rounded-xl p-6 border-l-4 border-indigo-500 mb-8">
+                <h4 class="font-bold text-indigo-800 mb-3">Key Benefits</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-star text-yellow-500 mt-1 mr-3"></i>
+                        <div>
+                            <p class="font-semibold">Rich Snippets</p>
+                            <p class="text-sm text-gray-600">Enhanced search results with stars, images, prices</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-chart-line text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <p class="font-semibold">Higher CTR</p>
+                            <p class="text-sm text-gray-600">Stand out in SERPs with eye-catching results</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-robot text-blue-500 mt-1 mr-3"></i>
+                        <div>
+                            <p class="font-semibold">Better Understanding</p>
+                            <p class="text-sm text-gray-600">Helps search engines understand content context</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-microphone text-purple-500 mt-1 mr-3"></i>
+                        <div>
+                            <p class="font-semibold">Voice Search</p>
+                            <p class="text-sm text-gray-600">Optimizes content for voice assistant queries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Syntax Types -->
+        <section id="syntax-types" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Schema Syntax Types</h2>
+            <p class="text-gray-700 mb-8">So here's the deal—schema markup comes in three flavors, and they're not all created equal. Let me break them down for you:</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="schema-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-code text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-center mb-3">JSON-LD</h4>
+                    <p class="text-center text-sm text-gray-600 mb-4">Recommended by Google. Easy to implement and maintain.</p>
+                    <span class="block text-center text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">Recommended</span>
+                </div>
+
+                <div class="schema-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-file-code text-blue-600 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-center mb-3">Microdata</h4>
+                    <p class="text-center text-sm text-gray-600 mb-4">Embedded within HTML. Can clutter code.</p>
+                    <span class="block text-center text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Supported</span>
+                </div>
+
+                <div class="schema-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-at text-purple-600 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-center mb-3">RDFa</h4>
+                    <p class="text-center text-sm text-gray-600 mb-4">HTML5 attribute extension. Complex syntax.</p>
+                    <span class="block text-center text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Supported</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- JSON-LD Implementation -->
+        <section id="json-ld" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">JSON-LD Implementation</h2>
+            <p class="text-gray-700 mb-8">Alright, let's talk about JSON-LD—Google's absolute favorite way to do schema. Why? Because it's clean, easy to work with, and doesn't clutter up your HTML. Here's how it looks in practice:</p>
+
+            <div class="code-block text-sm mb-6">
+                <code class="text-green-400">&lt;!-- Basic JSON-LD Structure --&gt;</code><br>
+                <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                <code class="text-gray-300">{</code><br>
+                <code class="text-gray-300">  "@context": "https://schema.org",</code><br>
+                <code class="text-gray-300">  "@type": "Organization",</code><br>
+                <code class="text-gray-300">  "name": "WebAI Auditor",</code><br>
+                <code class="text-gray-300">  "url": "https://webaiauditor.com",</code><br>
+                <code class="text-gray-300">  "logo": "https://webaiauditor.com/logo.png"</code><br>
+                <code class="text-gray-300">}</code><br>
+                <code class="text-gray-300">&lt;/script&gt;</code>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                <p class="text-yellow-800"><i class="fas fa-lightbulb mr-2"></i><strong>Pro Tip:</strong> Place JSON-LD in the <code class="bg-yellow-100 px-2 py-1 rounded">&lt;head&gt;</code> section or after the opening <code class="bg-yellow-100 px-2 py-1 rounded">&lt;body&gt;</code> tag for best results.</p>
+            </div>
+        </section>
+
+        <!-- Common Schema Types -->
+        <section id="common-types" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Most Common Schema Types</h2>
+            <p class="text-gray-700 mb-8">So which schema types should you actually care about? These are the ones that tend to deliver the most bang for your buck—the ones that actually generate those fancy rich snippets everyone's after:</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-4 border border-gray-200 text-center hover:shadow-md transition">
+                    <i class="fas fa-newspaper text-blue-500 text-2xl mb-2"></i>
+                    <p class="font-semibold">Article</p>
+                    <p class="text-xs text-gray-500">Blog posts, news articles</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200 text-center hover:shadow-md transition">
+                    <i class="fas fa-shopping-cart text-green-500 text-2xl mb-2"></i>
+                    <p class="font-semibold">Product</p>
+                    <p class="text-xs text-gray-500">E-commerce products</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200 text-center hover:shadow-md transition">
+                    <i class="fas fa-store text-orange-500 text-2xl mb-2"></i>
+                    <p class="font-semibold">LocalBusiness</p>
+                    <p class="text-xs text-gray-500">Local business listings</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200 text-center hover:shadow-md transition">
+                    <i class="fas fa-star text-yellow-500 text-2xl mb-2"></i>
+                    <p class="font-semibold">Review</p>
+                    <p class="text-xs text-gray-500">Customer reviews</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200 text-center hover:shadow-md transition">
+                    <i class="fas fa-question-circle text-purple-500 text-2xl mb-2"></i>
+                    <p class="font-semibold">FAQPage</p>
+                    <p class="text-xs text-gray-500">FAQ accordion in SERPs</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-gray-200 text-center hover:shadow-md transition">
+                    <i class="fas fa-play-circle text-red-500 text-2xl mb-2"></i>
+                    <p class="font-semibold">VideoObject</p>
+                    <p class="text-xs text-gray-500">Video thumbnails</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Article Schema -->
+        <section id="articles" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Article & Blog Schema</h2>
+            <p class="text-gray-700 mb-8">Article schema helps your content appear with headline, author, date, and image in search results:</p>
+
+            <div class="code-block text-sm mb-6">
+                <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                <code class="text-gray-300">{</code><br>
+                <code class="text-gray-300">  "@context": "https://schema.org",</code><br>
+                <code class="text-gray-300">  "@type": "Article",</code><br>
+                <code class="text-gray-300">  "headline": "Complete SEO Guide for 2024",</code><br>
+                <code class="text-gray-300">  "image": "https://example.com/seo-guide.jpg",</code><br>
+                <code class="text-gray-300">  "author": {</code><br>
+                <code class="text-gray-300">    "@type": "Person",</code><br>
+                <code class="text-gray-300">    "name": "John Doe"</code><br>
+                <code class="text-gray-300">  },</code><br>
+                <code class="text-gray-300">  "publisher": {</code><br>
+                <code class="text-gray-300">    "@type": "Organization",</code><br>
+                <code class="text-gray-300">    "name": "WebAI Auditor",</code><br>
+                <code class="text-gray-300">    "logo": {</code><br>
+                <code class="text-gray-300">      "@type": "ImageObject",</code><br>
+                <code class="text-gray-300">      "url": "https://example.com/logo.png"</code><br>
+                <code class="text-gray-300">    }</code><br>
+                <code class="text-gray-300">  },</code><br>
+                <code class="text-gray-300">  "datePublished": "2024-12-15",</code><br>
+                <code class="text-gray-300">  "dateModified": "2024-12-15"</code><br>
+                <code class="text-gray-300">}</code><br>
+                <code class="text-gray-300">&lt;/script&gt;</code>
+            </div>
+        </section>
+
+        <!-- Product Schema -->
+        <section id="products" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Product Schema</h2>
+            <p class="text-gray-700 mb-8">Product schema displays price, availability, and review ratings in search results:</p>
+
+            <div class="code-block text-sm mb-6">
+                <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                <code class="text-gray-300">{</code><br>
+                <code class="text-gray-300">  "@context": "https://schema.org/",</code><br>
+                <code class="text-gray-300">  "@type": "Product",</code><br>
+                <code class="text-gray-300">  "name": "Running Shoes Pro",</code><br>
+                <code class="text-gray-300">  "image": "https://example.com/shoes.jpg",</code><br>
+                <code class="text-gray-300">  "description": "Professional running shoes...",</code><br>
+                <code class="text-gray-300">  "brand": {</code><br>
+                <code class="text-gray-300">    "@type": "Brand",</code><br>
+                <code class="text-gray-300">    "name": "SportBrand"</code><br>
+                <code class="text-gray-300">  },</code><br>
+                <code class="text-gray-300">  "offers": {</code><br>
+                <code class="text-gray-300">    "@type": "Offer",</code><br>
+                <code class="text-gray-300">    "url": "https://example.com/shoes",</code><br>
+                <code class="text-gray-300">    "priceCurrency": "USD",</code><br>
+                <code class="text-gray-300">    "price": "129.99",</code><br>
+                <code class="text-gray-300">    "priceValidUntil": "2025-12-31",</code><br>
+                <code class="text-gray-300">    "availability": "https://schema.org/InStock"</code><br>
+                <code class="text-gray-300">  },</code><br>
+                <code class="text-gray-300">  "aggregateRating": {</code><br>
+                <code class="text-gray-300">    "@type": "AggregateRating",</code><br>
+                <code class="text-gray-300">    "ratingValue": "4.8",</code><br>
+                <code class="text-gray-300">    "reviewCount": "125"</code><br>
+                <code class="text-gray-300">  }</code><br>
+                <code class="text-gray-300">}</code><br>
+                <code class="text-gray-300">&lt;/script&gt;</code>
+            </div>
+
+            <div class="rich-snippet-preview">
+                <p class="text-xs text-gray-500 mb-2">Rich Snippet Preview:</p>
+                <div class="flex items-start">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23ddd' width='80' height='80'/%3E%3C/svg%3E" alt="" class="mr-4">
+                    <div>
+                        <p class="text-blue-600 text-sm font-medium">SportBrand</p>
+                        <p class="text-lg text-gray-800">Running Shoes Pro</p>
+                        <div class="flex items-center">
+                            <span class="text-yellow-500">★★★★☆</span>
+                            <span class="text-sm text-gray-600 ml-2">(125)</span>
+                        </div>
+                        <p class="text-green-600 font-bold">$129.99</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Review Schema -->
+        <section id="reviews" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Review Schema</h2>
+            <p class="text-gray-700 mb-8">Display star ratings and review counts in search results:</p>
+
+            <div class="code-block text-sm mb-6">
+                <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                <code class="text-gray-300">{</code><br>
+                <code class="text-gray-300">  "@context": "https://schema.org/",</code><br>
+                <code class="text-gray-300">  "@type": "Product",</code><br>
+                <code class="text-gray-300">  "name": "Your Product",</code><br>
+                <code class="text-gray-300">  "review": {</code><br>
+                <code class="text-gray-300">    "@type": "Review",</code><br>
+                <code class="text-gray-300">    "reviewRating": {</code><br>
+                <code class="text-gray-300">      "@type": "Rating",</code><br>
+                <code class="text-gray-300">      "ratingValue": "5",</code><br>
+                <code class="text-gray-300">      "bestRating": "5"</code><br>
+                <code class="text-gray-300">    },</code><br>
+                <code class="text-gray-300">    "author": {</code><br>
+                <code class="text-gray-300">      "@type": "Person",</code><br>
+                <code class="text-gray-300">      "name": "Jane Smith"</code><br>
+                <code class="text-gray-300">    }</code><br>
+                <code class="text-gray-300">  }</code><br>
+                <code class="text-gray-300">}</code><br>
+                <code class="text-gray-300">&lt;/script&gt;</code>
+            </div>
+        </section>
+
+        <!-- Local Business Schema -->
+        <section id="local-business" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Local Business Schema</h2>
+            <p class="text-gray-700 mb-8">Essential for local SEO. Display business info, hours, and location:</p>
+
+            <div class="code-block text-sm mb-6">
+                <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                <code class="text-gray-300">{</code><br>
+                <code class="text-gray-300">  "@context": "https://schema.org",</code><br>
+                <code class="text-gray-300">  "@type": "LocalBusiness",</code><br>
+                <code class="text-gray-300">  "name": "Joe's Pizza",</code><br>
+                <code class="text-gray-300">  "image": "https://example.com/pizza.jpg",</code><br>
+                <code class="text-gray-300">  "telephone": "+1-555-123-4567",</code><br>
+                <code class="text-gray-300">  "address": {</code><br>
+                <code class="text-gray-300">    "@type": "PostalAddress",</code><br>
+                <code class="text-gray-300">    "streetAddress": "123 Main Street",</code><br>
+                <code class="text-gray-300">    "addressLocality": "New York",</code><br>
+                <code class="text-gray-300">    "addressRegion": "NY",</code><br>
+                <code class="text-gray-300">    "postalCode": "10001",</code><br>
+                <code class="text-gray-300">    "addressCountry": "US"</code><br>
+                <code class="text-gray-300">  },</code><br>
+                <code class="text-gray-300">  "openingHoursSpecification": {</code><br>
+                <code class="text-gray-300">    "@type": "OpeningHoursSpecification",</code><br>
+                <code class="text-gray-300">    "dayOfWeek": ["Monday", "Tuesday"],</code><br>
+                <code class="text-gray-300">    "opens": "11:00",</code><br>
+                <code class="text-gray-300">    "closes": "22:00"</code><br>
+                <code class="text-gray-300">  },</code><br>
+                <code class="text-gray-300">  "priceRange": "$$"</code><br>
+                <code class="text-gray-300">}</code><br>
+                <code class="text-gray-300">&lt;/script&gt;</code>
+            </div>
+        </section>
+
+        <!-- FAQ Schema -->
+        <section id="faq" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">FAQ Schema</h2>
+            <p class="text-gray-700 mb-8">FAQ schema creates an expandable accordion in search results:</p>
+
+            <div class="code-block text-sm mb-6">
+                <code class="text-gray-300">&lt;script type="application/ld+json"&gt;</code><br>
+                <code class="text-gray-300">{</code><br>
+                <code class="text-gray-300">  "@context": "https://schema.org",</code><br>
+                <code class="text-gray-300">  "@type": "FAQPage",</code><br>
+                <code class="text-gray-300">  "mainEntity": [{</code><br>
+                <code class="text-gray-300">    "@type": "Question",</code><br>
+                <code class="text-gray-300">    "name": "What is SEO?",</code><br>
+                <code class="text-gray-300">    "acceptedAnswer": {</code><br>
+                <code class="text-gray-300">      "@type": "Answer",</code><br>
+                <code class="text-gray-300">      "text": "SEO stands for Search Engine Optimization..."</code><br>
+                <code class="text-gray-300">    }</code><br>
+                <code class="text-gray-300">  },{</code><br>
+                <code class="text-gray-300">    "@type": "Question",</code><br>
+                <code class="text-gray-300">    "name": "How long does SEO take?",</code><br>
+                <code class="text-gray-300">    "acceptedAnswer": {</code><br>
+                <code class="text-gray-300">      "@type": "Answer",</code><br>
+                <code class="text-gray-300">      "text": "SEO typically takes 3-6 months..."</code><br>
+                <code class="text-gray-300">    }</code><br>
+                <code class="text-gray-300">  }]</code><br>
+                <code class="text-gray-300">}</code><br>
+                <code class="text-gray-300">&lt;/script&gt;</code>
+            </div>
+        </section>
+
+        <!-- Testing & Validation -->
+        <section id="testing" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Testing & Validation Tools</h2>
+            <p class="text-gray-700 mb-8">Always validate your schema markup before deploying:</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="schema-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fab fa-google text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Rich Results Test</h4>
+                            <p class="text-sm text-gray-500">Google's official tool</p>
+                        </div>
+                    </div>
+                    <a href="https://search.google.com/test/rich-results" target="_blank" class="text-blue-600 text-sm hover:underline">search.google.com/test/rich-results</a>
+                </div>
+
+                <div class="schema-card bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-code text-green-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Schema Validator</h4>
+                            <p class="text-sm text-gray-500">Official Schema.org tool</p>
+                        </div>
+                    </div>
+                    <a href="https://validator.schema.org/" target="_blank" class="text-blue-600 text-sm hover:underline">validator.schema.org</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section id="best-practices" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Schema Best Practices</h2>
+
+            <div class="space-y-4">
+                <div class="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-2"><i class="fas fa-check mr-2"></i>Do's</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>Stick with JSON-LD whenever you can—it's Google's favorite</li>
+                        <li>Include all the required fields for your schema type</li>
+                        <li>Make sure your schema matches what's actually on the page</li>
+                        <li>Test everything before and after you deploy</li>
+                        <li>Use the most specific schema type that fits your content</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 rounded-lg p-5 border-l-4 border-red-500">
+                    <h4 class="font-bold text-red-800 mb-2"><i class="fas fa-times mr-2"></i>Don'ts</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li>Don't fake reviews or ratings—Google will catch on</li>
+                        <li>Don't markup stuff that users can't actually see</li>
+                        <li>Don't use schema to spam or mislead people</li>
+                        <li>Don't copy-paste competitor's schema without making it your own</li>
+                        <li>Don't set it and forget it—update when your content changes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-8 text-white text-center">
+            <h3 class="text-2xl font-bold mb-4">Audit Your Schema Markup</h3>
+            <p class="mb-6 opacity-90">Check if your website has proper structured data with WebAI Auditor</p>
+            <a href="../index.html" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                Free Audit <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Professional website analysis tool for SEO, performance, and tech stack detection.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="seo-guide.html" class="text-gray-400 hover:text-white transition">SEO Guide</a></li>
+                        <li><a href="technical-seo.html" class="text-gray-400 hover:text-white transition">Technical SEO</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

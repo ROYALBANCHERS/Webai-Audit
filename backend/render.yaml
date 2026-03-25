@@ -1,0 +1,51 @@
+services:
+  # Web Service
+  - type: web
+    name: webai-auditor-backend
+    env: php
+    region: oregon
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      chmod +x setup.sh
+      ./setup.sh
+    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://webai-auditor-backend.onrender.com
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: errorlog
+      - key: LOG_LEVEL
+        value: error
+      # Using SQLite for free tier (no external database needed)
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/task/storage/database.sqlite
+      # CORS
+      - key: CORS_ALLOWED_ORIGINS
+        value: ["https://royalbanchers.github.io","https://webaiauditor.com"]
+    disk:
+      name: data
+      mountPath: /var/task/storage
+      sizeGB: 1
+
+  # PostgreSQL Database (Optional - if needed later)
+  # - type: pserv
+  #   name: webai-auditor-db
+  #   region: oregon
+  #   plan: free
+  #   databaseName: webai_auditor
+  #   user: webai_user

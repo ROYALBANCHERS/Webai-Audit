@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - WebAI Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="features.html" class="text-gray-600 hover:text-gray-900">Features</a>
+                    <a href="tools.html" class="text-gray-600 hover:text-gray-900">Tools</a>
+                    <a href="pricing.html" class="text-gray-600 hover:text-gray-900">Support Us</a>
+                    <a href="blog.html" class="text-gray-600 hover:text-gray-900">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Success Content -->
+    <main class="py-20">
+        <div class="max-w-2xl mx-auto px-4">
+            <!-- Success Card -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center relative overflow-hidden">
+                <!-- Confetti -->
+                <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
+
+                <!-- Checkmark -->
+                <div class="checkmark gradient-bg">
+                    <i class="fas fa-check text-white text-5xl"></i>
+                </div>
+
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                    <span class="gradient-text">Payment Successful!</span>
+                </h1>
+
+                <p class="text-gray-600 mb-8">
+                    Thank you for your generous support. Your contribution helps us keep WebAI Auditor free for everyone.
+                </p>
+
+                <!-- Transaction Details -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8 text-left" id="transactionDetails">
+                    <h3 class="font-semibold text-gray-800 mb-4">Transaction Details</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Transaction ID</span>
+                            <span class="font-medium" id="txnId">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Amount</span>
+                            <span class="font-medium" id="amount">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Status</span>
+                            <span class="font-medium text-green-600">Completed</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Date</span>
+                            <span class="font-medium" id="txnDate">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thank You Message -->
+                <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                    <p class="text-blue-800 text-sm">
+                        <i class="fas fa-heart text-red-500 mr-2"></i>
+                        Your support means the world to us. We'll continue improving and adding new features to make WebAI Auditor even better!
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="index.html" class="gradient-bg text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 inline-flex items-center justify-center">
+                        <i class="fas fa-home mr-2"></i> Back to Home
+                    </a>
+                    <button onclick="downloadReceipt()" class="border-2 border-blue-500 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 inline-flex items-center justify-center">
+                        <i class="fas fa-download mr-2"></i> Download Receipt
+                    </button>
+                </div>
+            </div>
+
+            <!-- What's Next -->
+            <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-xl font-bold mb-6 text-center">What's Next?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="index.html" class="text-center p-4 rounded-xl hover:bg-gray-50 transition">
+                        <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-search text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1">Run an Audit</h3>
+                        <p class="text-sm text-gray-500">Analyze any website</p>
+                    </a>
+                    <a href="tools.html" class="text-center p-4 rounded-xl hover:bg-gray-50 transition">
+                        <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-tools text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1">Browse Tools</h3>
+                        <p class="text-sm text-gray-500">Explore community tools</p>
+                    </a>
+                    <a href="create-tool.html" class="text-center p-4 rounded-xl hover:bg-gray-50 transition">
+                        <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-plus text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1">Create Tool</h3>
+                        <p class="text-sm text-gray-500">Build your own tool</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Product</h4>
+                    <ul class="space-y-4">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="tools.html" class="text-gray-400 hover:text-white">Tool Marketplace</a></li>
+                        <li><a href="create-tool.html" class="text-gray-400 hover:text-white">Create Tool</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="blog/seo-guide.html" class="text-gray-400 hover:text-white">SEO Guide</a></li>
+                        <li><a href="blog/tech-stack.html" class="text-gray-400 hover:text-white">Tech Detection</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const txnId = urlParams.get('txnId');
+        const amount = urlParams.get('amount');
+
+        // Update transaction details
+        if (txnId) {
+            document.getElementById('txnId').textContent = txnId;
+        }
+        if (amount) {
+            document.getElementById('amount').textContent = '₹' + amount;
+        }
+        document.getElementById('txnDate').textContent = new Date().toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(confetti);
+            }
+        }
+        createConfetti();
+
+        // Download receipt
+        function downloadReceipt() {
+            const receiptContent = `
+====================================
+       PAYMENT RECEIPT
+====================================
+
+Transaction ID: ${txnId || 'N/A'}
+Amount: ₹${amount || 'N/A'}
+Status: Completed
+Date: ${new Date().toLocaleString()}
+
+Thank you for your support!
+
+====================================
+WebAI Auditor - https://webaiauditor.com
+====================================
+            `;
+
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `receipt_${txnId || Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

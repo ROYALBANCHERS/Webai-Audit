@@ -1,0 +1,29 @@
+services:
+  - type: worker
+    name: webai-auditor-backend
+    env: php
+    region: was
+    plan: free
+    build_command: |
+      composer install --no-dev --optimize-autoloader
+      chmod +x setup.sh
+      ./setup.sh
+    run_command: php artisan serve --host 0.0.0.0 --port 8000
+    env:
+      - name: APP_ENV
+        value: production
+      - name: APP_DEBUG
+        value: "false"
+      - name: DB_CONNECTION
+        value: sqlite
+      - name: DB_DATABASE
+        value: /var/task/storage/database.sqlite
+      - name: CACHE_DRIVER
+        value: file
+      - name: SESSION_DRIVER
+        value: file
+      - name: LOG_CHANNEL
+        value: errorlog
+    ports:
+      - port: 8000
+        protocol: http

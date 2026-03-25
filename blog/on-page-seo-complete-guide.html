@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On-Page SEO Complete Guide 2024 | WebAI Auditor</title>
+    <meta name="description" content="Master on-page SEO optimization. Complete guide to optimizing individual pages for higher rankings.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+        .toc-link { transition: all 0.2s; }
+        .toc-link:hover { color: #3b82f6; padding-left: 8px; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">WebAI Auditor</span>
+                </a>
+                <a href="../blog.html" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-cyan-50 to-blue-50 py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-full text-sm font-semibold">On-Page SEO</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-6 mb-4">
+                <span class="gradient-text">On-Page SEO Complete Guide</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">Optimize every page for maximum search visibility</p>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <span><i class="far fa-clock mr-2"></i>60 min read</span>
+                <span><i class="far fa-calendar mr-2"></i>Updated Jan 20, 2025</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Introduction -->
+        <section class="mb-12">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Let's talk about on-page SEO—the stuff you actually control on your own website. You know, unlike those mysterious backlinks everyone's always chasing? On-page SEO (sometimes called on-site SEO) is all about optimizing each individual page so Google actually understands what it's about and decides it's worth showing to people. While off-page SEO is all about external signals you can't really control, on-page SEO is where you get to fine-tune both your content and the actual HTML code. Pretty empowering when you think about it. In this guide, I'm going to walk you through everything you need to know to nail your on-page optimization game.
+            </p>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6"><i class="fas fa-list text-blue-600 mr-3"></i>What We'll Cover</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="#title-tags" class="toc-link text-gray-700 block py-1">Title Tag Optimization</a>
+                <a href="#meta-descriptions" class="toc-link text-gray-700 block py-1">Meta Descriptions</a>
+                <a href="#headings" class="toc-link text-gray-700 block py-1">Heading Structure (H1-H6)</a>
+                <a href="#content-optimization" class="toc-link text-gray-700 block py-1">Content Optimization</a>
+                <a href="#keyword-placement" class="toc-link text-gray-700 block py-1">Strategic Keyword Placement</a>
+                <a href="#image-seo" class="toc-link text-gray-700 block py-1">Image Optimization</a>
+                <a href="#url-optimization" class="toc-link text-gray-700 block py-1">URL Optimization</a>
+                <a href="#internal-linking" class="toc-link text-gray-700 block py-1">Internal Linking</a>
+                <a href="#external-linking" class="toc-link text-gray-700 block py-1">External Linking</a>
+                <a href="#page-speed" class="toc-link text-gray-700 block py-1">Page Speed & Core Web Vitals</a>
+                <a href="#mobile-optimization" class="toc-link text-gray-700 block py-1">Mobile Optimization</a>
+                <a href="#user-experience" class="toc-link text-gray-700 block py-1">User Experience Signals</a>
+            </div>
+        </section>
+
+        <!-- Title Tags -->
+        <section id="title-tags" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Title Tags: Your First Impression</h2>
+            <p class="text-gray-700 mb-8">Here's the thing about title tags—they're hands down the most important on-page SEO element you've got. Think about it: this is what shows up in search results, browser tabs, and when people share your stuff on social media. No pressure, right? But seriously, getting this right can make a huge difference in whether people click through to your site or keep scrolling.</p>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">Title Tag Best Practices</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Keep It Concise</p>
+                        <p class="text-xs text-gray-600">50-60 characters is the sweet spot (about 600 pixels)</p>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Front-Load Keywords</p>
+                        <p class="text-xs text-gray-600">Put your main keyword near the beginning</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Add Your Brand</p>
+                        <p class="text-xs text-gray-600">Stick your brand name at the end</p>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-4">
+                        <p class="font-medium text-sm mb-2">Make It Unique</p>
+                        <p class="text-xs text-gray-600">Every page deserves its own distinct title</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-green-50 rounded-xl p-5 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-3"><i class="fas fa-check mr-2"></i>Nailed It</h4>
+                    <code class="text-sm text-gray-800">Best Running Shoes for Flat Feet | Nike Official</code>
+                    <p class="text-xs text-gray-600 mt-2">Clear, descriptive, keyword-rich, and branded</p>
+                </div>
+
+                <div class="bg-red-50 rounded-xl p-5 border-l-4 border-red-500">
+                    <h4 class="font-bold text-red-800 mb-3"><i class="fas fa-times mr-2"></i>Don't Do This</h4>
+                    <code class="text-sm text-gray-800">Running Shoes Walking Shoes Tennis Shoes Sneakers Athletics Sports Fitness Jogging</code>
+                    <p class="text-xs text-gray-600 mt-2">Classic keyword stuffing, way too long</p>
+                </div>
+            </div>
+
+            <div class="bg-cyan-50 rounded-xl p-6">
+                <h4 class="font-bold text-cyan-800 mb-4"><i class="fas fa-lightbulb mr-2"></i>Pro Title Tag Formula</h4>
+                <p class="text-gray-700 mb-3">Follow this structure and you can't go wrong:</p>
+                <div class="bg-white rounded-lg p-4 text-center">
+                    <code class="text-lg">[Primary Keyword] + [Secondary Keyword] | [Brand Name]</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meta Descriptions -->
+        <section id="meta-descriptions" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Meta Descriptions: Your Elevator Pitch</h2>
+            <p class="text-gray-700 mb-8">Alright, here's something that might surprise you: meta descriptions aren't actually a direct ranking factor anymore. But don't go ignoring them! They still matter—a lot. Why? Because they're your pitch to searchers. A great meta description can dramatically boost your click-through rates, which indirectly helps your rankings. Think of it as your two-second chance to convince someone your page is worth their time.</p>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">Meta Description Checklist</h4>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Keep it around 150-160 characters</span>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Include your keyword naturally</span>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Write something actually compelling</span>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Include a clear call-to-action</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Match what the searcher's looking for</span>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Highlight what makes you different</span>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" checked class="mr-3">
+                            <span class="text-sm">Use active voice (not passive)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-green-50 rounded-xl p-5">
+                    <h4 class="font-bold text-green-800 mb-3"><i class="fas fa-check mr-2"></i>This Works</h4>
+                    <p class="text-sm text-gray-800 mb-2">"Discover the best running shoes for flat feet. Our expert reviews feature top picks with superior arch support. Shop now and enjoy free shipping on orders over $100."</p>
+                    <p class="text-xs text-gray-600">Compelling, keyword-rich, and has a clear CTA</p>
+                </div>
+
+                <div class="bg-red-50 rounded-xl p-5">
+                    <h4 class="font-bold text-red-800 mb-3"><i class="fas fa-times mr-2"></i>This Doesn't</h4>
+                    <p class="text-sm text-gray-800 mb-2">"Welcome to our website. We have many products for you to look at. Click on the links to see more information about our running shoes and other items."</p>
+                    <p class="text-xs text-gray-600">Generic, boring, no keywords, no reason to click</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Headings -->
+        <section id="headings" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Headings: Your Content's Skeleton</h2>
+            <p class="text-gray-700 mb-8">Look, proper heading structure isn't just about making things look pretty. It helps both your human readers AND search engines understand how your content is organized. Think of headings as the outline of your page—they tell everyone what matters and how everything fits together. Get this wrong, and you're making it harder for Google to figure out what your content is actually about.</p>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">The Heading Hierarchy (Get This Right)</h4>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <span class="w-16 py-2 bg-blue-500 text-white text-center rounded mr-4 font-bold">H1</span>
+                        <div class="flex-1">
+                            <p class="font-medium">Your Main Page Title</p>
+                            <p class="text-sm text-gray-600">One per page, includes your primary keyword</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-16 py-2 bg-green-500 text-white text-center rounded mr-4 font-bold">H2</span>
+                        <div class="flex-1">
+                            <p class="font-medium">Main Section Headers</p>
+                            <p class="text-sm text-gray-600">Your major topics and secondary keywords</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-16 py-2 bg-purple-500 text-white text-center rounded mr-4 font-bold">H3</span>
+                        <div class="flex-1">
+                            <p class="font-medium">Subsection Headers</p>
+                            <p class="text-sm text-gray-600">Supporting points that fall under your H2s</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-16 py-2 bg-orange-500 text-white text-center rounded mr-4 font-bold">H4-H6</span>
+                        <div class="flex-1">
+                            <p class="font-medium">Deeper Nested Sections</p>
+                            <p class="text-sm text-gray-600">Use these only if you really need that much organization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-yellow-50 rounded-xl p-6 border border-yellow-200">
+                <h4 class="font-bold text-yellow-800 mb-3"><i class="fas fa-exclamation-triangle mr-2"></i>Heading Mistakes I See All the Time</h4>
+                <ul class="text-sm text-gray-700 space-y-2">
+                    <li><i class="fas fa-times text-red-500 mr-2"></i>Skippping heading levels (going straight from H1 to H3)</li>
+                    <li><i class="fas fa-times text-red-500 mr-2"></i>Using multiple H1 tags on a single page</li>
+                    <li><i class="fas fa-times text-red-500 mr-2"></i>Choosing style over actual hierarchy</li>
+                    <li><i class="fas fa-times text-red-500 mr-2"></i>Forgetting to include keywords in your headings</li>
+                    <li><i class="fas fa-times text-red-500 mr-2"></i>Writing headings that don't actually describe the content</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Content Optimization -->
+        <section id="content-optimization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Content: Where the Magic Happens</h2>
+            <p class="text-gray-700 mb-8">Can we be honest for a second? Quality content is the foundation of everything in SEO. You can optimize your title tags and headings all day long, but if your content isn't actually valuable, you're not going to rank long-term. Google's gotten way too smart for that. Here's how to create content that actually ranks—and keeps people coming back.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">What Makes Content "Quality"?</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Original stuff, not copied from somewhere else</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Covers the topic thoroughly and completely</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Accurate info that's actually up-to-date</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Easy to read and well-structured</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Brings something unique vs. competitors</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Scannable with helpful subheadings</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">How Long Should Content Be?</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Blog Posts</span>
+                            <span class="text-sm font-bold text-blue-600">1,000-2,500 words</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Pillar Pages</span>
+                            <span class="text-sm font-bold text-green-600">3,000-5,000 words</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Product Descriptions</span>
+                            <span class="text-sm font-bold text-purple-600">300-500 words</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Category Pages</span>
+                            <span class="text-sm font-bold text-orange-600">300+ words</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Making Your Content Actually Readable</h4>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-blue-50 rounded-lg p-4 text-center">
+                        <p class="font-bold text-sm mb-1">Paragraph Length</p>
+                        <p class="text-xs text-gray-600">Keep 'em short: 2-3 sentences max</p>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <p class="font-bold text-sm mb-1">Sentence Length</p>
+                        <p class="text-xs text-gray-600">Under 20 words keeps people reading</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-4 text-center">
+                        <p class="font-bold text-sm mb-1">Font Size</p>
+                        <p class="text-xs text-gray-600">At least 16px for body text</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keyword Placement -->
+        <section id="keyword-placement" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Keyword Placement: Where It Actually Matters</h2>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+                <h4 class="font-bold mb-4">Where to Put Your Keywords (In Order of Importance)</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center mr-3 font-bold text-sm">1</div>
+                        <div class="flex-1">
+                            <p class="font-medium">Title Tag (Near the Beginning)</p>
+                            <p class="text-xs text-gray-600">This is your highest-priority spot, hands down</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center mr-3 font-bold text-sm">2</div>
+                        <div class="flex-1">
+                            <p class="font-medium">First 100 Words of Your Content</p>
+                            <p class="text-xs text-gray-600">Early placement tells Google you're relevant</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-3 font-bold text-sm">3</div>
+                        <div class="flex-1">
+                            <p class="font-medium">Your H1 Header</p>
+                            <p class="text-xs text-gray-600">The main heading of your page</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-3 font-bold text-sm">4</div>
+                        <div class="flex-1">
+                            <p class="font-medium">Your H2 Subheaders</p>
+                            <p class="text-xs text-gray-600">Great spots for secondary keywords</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center mr-3 font-bold text-sm">5</div>
+                        <div class="flex-1">
+                            <p class="font-medium">Image Alt Text</p>
+                            <p class="text-xs text-gray-600">Make 'em descriptive and keyword-rich</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center mr-3 font-bold text-sm">6</div>
+                        <div class="flex-1">
+                            <p class="font-medium">Meta Description</p>
+                            <p class="text-xs text-gray-600">More for click-throughs than rankings</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center mr-3 font-bold text-sm">7</div>
+                        <div class="flex-1">
+                            <p class="font-medium">Your URL Slug</p>
+                            <p class="text-xs text-gray-600">Keep URLs short and descriptive</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-red-50 rounded-xl p-6 border border-red-200">
+                <h4 class="font-bold text-red-800 mb-3"><i class="fas fa-exclamation-triangle mr-2"></i>Whatever You Do, Don't Stuff Keywords</h4>
+                <p class="text-sm text-gray-700 mb-3">Look, natural keyword use is absolutely essential. Overdo it and you can actually hurt your rankings:</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-medium text-sm mb-2">Aim for This Density</p>
+                        <p class="text-xs text-gray-600">1-2% scattered naturally throughout</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-sm mb-2">Mix It Up</p>
+                        <p class="text-xs text-gray-600">Use LSI keywords and synonyms</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image SEO -->
+        <section id="image-seo" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Image Optimization: The Often-Missed Opportunity</h2>
+            <p class="text-gray-700 mb-8">Here's something a lot of people overlook: images can drive a ton of traffic through Google Images and make your overall page quality way better. Plus, well-optimized images keep your page loading fast. Let's make sure you're getting this right.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Alt Text That Actually Works</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Describe what's actually in the image</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Include keywords where they fit naturally</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Keep it under 125 characters</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>For decorative images, use alt=""</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Be specific: "red running shoes on track"</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">File Optimization Best Practices</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Name files descriptively (not IMG_1234.jpg)</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Compress images (WebP is your friend)</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Implement lazy loading</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use srcset for responsive images</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Add an image sitemap for Google</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">What Responsive Images Look Like</h4>
+                <div class="bg-gray-800 rounded-lg p-4 text-sm">
+                    <code class="text-green-400">&lt;img src="image-800.jpg"</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;&nbsp;&nbsp;srcset="image-400.jpg 400w,</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image-800.jpg 800w,</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image-1200.jpg 1200w"</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;&nbsp;&nbsp;sizes="(max-width: 600px) 100vw, 50vw"</code><br>
+                    <code class="text-green-400">&nbsp;&nbsp;&nbsp;&nbsp;alt="Descriptive alt text"&gt;</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- URL Optimization -->
+        <section id="url-optimization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">URLs: Keep 'em Clean and Simple</h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-green-50 rounded-xl p-5 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-800 mb-3"><i class="fas fa-check mr-2"></i>These URLs Work</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>example.com/running-shoes-men</li>
+                        <li>example.com/blog/seo-tips-2024</li>
+                        <li>example.com/products/blue-coffee-mug</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 rounded-xl p-5 border-l-4 border-red-500">
+                    <h4 class="font-bold text-red-800 mb-3"><i class="fas fa-times mr-2"></i>These URLs Don't</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>example.com/page?id=12345</li>
+                        <li>example.com/PROD_001_BLUE_MUG_XL</li>
+                        <li>example.com/blog/post-title-with-way-too-many-words-in-it-2024</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">URL Best Practices That Actually Work</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Stick to lowercase letters</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Separate words with hyphens, not underscores</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Keep URLs short (under 60 characters)</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Include your target keywords</li>
+                    </ul>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Avoid special characters altogether</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Drop unnecessary stop words</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Match your page title pretty closely</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Always use HTTPS protocol</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Internal Linking -->
+        <section id="internal-linking" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Internal Linking: Connect Your Content</h2>
+            <p class="text-gray-700 mb-8">Here's the thing about internal links: they help spread page authority around your site AND help people actually find your content. It's like building a roadmap through your website. Get this right, and both Google and your visitors will thank you.</p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-random text-blue-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Contextual Links</h4>
+                    <p class="text-gray-600 text-sm">Links within your content to related pages</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-sitemap text-green-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Navigation Links</h4>
+                    <p class="text-gray-600 text-sm">Menu and footer links to important pages</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-center">
+                    <i class="fas fa-th-list text-purple-500 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Breadcrumbs</h4>
+                    <p class="text-gray-600 text-sm">That handy hierarchical navigation trail</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Internal Linking Done Right</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use descriptive, helpful anchor text</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Only link to actually relevant content</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Vary your anchor text naturally</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Link from your high-authority pages</li>
+                    </ul>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Fix broken internal links ASAP</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Don't go crazy with links per page</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Build content hubs and clusters</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use dofollow for internal links</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- External Linking -->
+        <section id="external-linking" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">External Linking: It's Okay to Link Out</h2>
+            <p class="text-gray-700 mb-8">I know there's this fear that linking externally might send people away or leak your "link juice." But here's the truth: linking to authoritative sources actually boosts your credibility and can help your SEO. Google's pretty clear about this.</p>
+
+            <div class="bg-green-50 rounded-xl p-6 mb-6 border border-green-200">
+                <h4 class="font-bold text-green-800 mb-4"><i class="fas fa-check mr-2"></i>Why External Links Actually Help</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Shows you've done your homework</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Can build relationships with other sites</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Gives readers extra value</li>
+                    </ul>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Google uses it for context (E-E-A-T)</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Might lead to reciprocal links</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Signals quality content</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Smart External Linking Practices</h4>
+                <ul class="text-sm text-gray-700 space-y-2">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Link to sources that are actually authoritative</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Use anchor text that feels natural</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Open external links in new tabs (target="_blank")</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Add rel="nofollow" for paid or untrusted links</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Keep it reasonable: 2-5 per 1,000 words</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Check regularly for broken external links</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Page Speed -->
+        <section id="page-speed" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Page Speed & Core Web Vitals</h2>
+            <p class="text-gray-700 mb-8">Look, nobody likes waiting for slow websites. Neither does Google. Core Web Vitals are now officially a ranking factor, which means your page speed directly affects your rankings. Here's what you need to aim for.</p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-bold">LCP</h4>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">Loading</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-2">Largest Contentful Paint</p>
+                    <p class="text-sm"><strong>Shoot for:</strong> Under 2.5 seconds</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-bold">FID</h4>
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">Interactivity</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-2">First Input Delay</p>
+                    <p class="text-sm"><strong>Shoot for:</strong> Under 100ms</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-bold">CLS</h4>
+                        <span class="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs">Stability</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-2">Cumulative Layout Shift</p>
+                    <p class="text-sm"><strong>Shoot for:</strong> Under 0.1</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h4 class="font-bold mb-4">Speed Optimization Tips That Work</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Compress and optimize your images</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Minify your CSS and JavaScript</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Enable browser caching</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use a CDN for your assets</li>
+                    </ul>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Defer non-critical JavaScript</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Implement lazy loading</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Reduce your server response time</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Minimize HTTP requests</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile Optimization -->
+        <section id="mobile-optimization" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Mobile Optimization: No Longer Optional</h2>
+            <p class="text-gray-700 mb-8">Here's a reality check: more people browse on mobile than desktop now. Google knows this, which is why they use mobile-first indexing. That means Google primarily looks at your mobile version when deciding how to rank you. If your mobile experience sucks, your rankings will too.</p>
+
+            <div class="bg-purple-50 rounded-xl p-6 mb-6 border border-purple-200">
+                <h4 class="font-bold text-purple-800 mb-4"><i class="fas fa-mobile-alt mr-2"></i>Mobile-First Indexing: The New Normal</h4>
+                <p class="text-gray-700 mb-3">Google mainly uses your mobile version for indexing and ranking these days. Here's what that means for you:</p>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Make sure mobile content matches desktop content</li>
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Use responsive design (it's what Google recommends)</li>
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Make touch targets at least 44x44 pixels</li>
+                    <li><i class="fas fa-check text-purple-500 mr-2"></i>Text should be readable without zooming</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- User Experience -->
+        <section id="user-experience" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">User Experience Signals</h2>
+            <p class="text-gray-700 mb-8">Here's something a lot of people forget: SEO isn't just about pleasing Google—it's about pleasing actual humans. Google tracks how people interact with your site, and those engagement signals absolutely affect your rankings. If people bounce immediately or don't stick around, Google takes notice.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">Metrics That Actually Matter</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-clock text-blue-500 mr-2"></i>Dwell time (how long people stay)</li>
+                        <li><i class="fas fa-redo text-green-500 mr-2"></i>Bounce rate (who leaves immediately)</li>
+                        <li><i class="fas fa-list-ol text-purple-500 mr-2"></i>Pages per session</li>
+                        <li><i class="fas fa-mouse-pointer text-orange-500 mr-2"></i>Click-through rate from search</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-bold mb-4">UX Best Practices</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Clear, intuitive navigation</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Fast loading speeds</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Readable fonts and proper sizing</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Helpful internal linking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl p-8 text-white text-center">
+            <h3 class="text-2xl font-bold mb-4">Ready to Audit Your On-Page SEO?</h3>
+            <p class="mb-6 opacity-90">Find out exactly what's working (and what's not) with WebAI Auditor</p>
+            <a href="../index.html" class="inline-block bg-white text-cyan-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                Get Your Free Audit <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WebAI Auditor</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="../blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="on-page-seo-checklist.html" class="text-gray-400 hover:text-white transition">On-Page SEO</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 WebAI Auditor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
